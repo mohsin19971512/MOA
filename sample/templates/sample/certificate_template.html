@@ -1,0 +1,197 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="UTF-8">
+    <style>
+        @font-face {
+            font-family: 'Noto Kufi Arabic';
+            src: url('/static/fonts/NotoKufiArabic_VariableFont_wght.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'Roboto';
+            src: url('/static/fonts/Roboto-Regular.ttf');
+        }
+
+        @font-face {
+            font-family: 'Roboto';
+            src: url('/static/fonts/Roboto-Bold.ttf');
+            font-weight: bold;
+        }
+
+        @font-face {
+            font-family: 'Cairo';
+            src: url('/static/fonts/Cairo-VariableFont_slnt,wght.ttf');
+            font-weight: bold;
+        }
+
+        body {
+            font-family: "Cairo", sans-serif;
+            font-size: 10pt;
+            direction: rtl;
+            text-align: right;
+            margin: 20px;
+        }
+
+        table {
+            font-family: "Cairo", sans-serif;
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .header {
+            text-align: center;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-weight: bold;
+            background-color: #f9e5ff;
+            padding: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .logo {
+            width: 100px;
+            height: auto;
+        }
+
+        .info-table {
+            width: 100%;
+            margin-bottom: 20px;
+            font-size: 10pt;
+        }
+
+        .results-table {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .notes {
+            font-size: 10pt;
+            margin-top: 10px;
+        }
+
+        .signature {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 10pt;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <img src="{% static 'images/moa.jpg' %}" alt="Logo" class="logo">
+        <h4>جمهورية العراق</h4>
+        <h4>وزارة الزراعة</h4>
+        <h4>قسم فحص وتصديق البذور</h4>
+        <h5>Code NO: IQDL0100 - ISO 17025:2017</h5>
+    </div>
+
+    <!-- Info Table -->
+    <table class="info-table">
+        <tr>
+            <th>الموقع</th>
+            <td>بغداد</td>
+            <th>اسم المتقدم</th>
+            <td>أحمد علي</td>
+        </tr>
+        <tr>
+            <th>رقم العينة</th>
+            <td>12345</td>
+            <th>نوع العينة</th>
+            <td>قمح</td>
+        </tr>
+        <tr>
+            <th>تاريخ الفحص</th>
+            <td>15/08/2024</td>
+            <th>تاريخ الاستلام</th>
+            <td>12/08/2024</td>
+        </tr>
+        <tr>
+            <th>الوزن</th>
+            <td>50 طن</td>
+            <th>رقم الإرسالية</th>
+            <td>56789</td>
+        </tr>
+        <tr>
+            <th>المحصول والصنف</th>
+            <td>الحنطة - صنف ممتاز</td>
+            <th>نوعية الحبوب</th>
+            <td>قمح صلب</td>
+        </tr>
+    </table>
+
+    <!-- Results Section -->
+    <h4 class="section-title">نتائج الفحص</h4>
+    <table class="results-table">
+        <tr>
+            <th>النقاوة</th>
+            <td>98%</td>
+            <th>الرطوبة</th>
+            <td>12%</td>
+            <th>الإنبات</th>
+            <td>95%</td>
+        </tr>
+        <tr>
+            <th>عدد بذور الحشائش</th>
+            <td>2</td>
+            <th>عدد بذور المحاصيل الأخرى</th>
+            <td>3</td>
+        </tr>
+        <tr>
+            <th>فحص النيماتودا</th>
+            <td>سلبي</td>
+            <th>فحص الفطريات</th>
+            <td>سلبي</td>
+            <th>فحص الحشرات</th>
+            <td>سلبي</td>
+        </tr>
+    </table>
+
+    <!-- Notes Section -->
+    <div class="notes">
+        <p>التوصيات: البذور صالحة للزراعة لموسم زراعي واحد</p>
+        <p><strong>* فحص صحة البذور غير داخل بالاعتماد</strong></p>
+    </div>
+
+    <!-- Signature Section -->
+    <div class="signature">
+        <p>مدير المختبرات: سالم طعمة كاصد</p>
+        <p>التوقيع:</p>
+        <p>سالم طعمة كاصد</p>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>بغداد، ساحة ابو جعفر المنصور</p>
+        <p>15/08/2024</p>
+        <p>E-mail: sbstc@moagr.org</p>
+    </footer>
+
+</body>
+</html>

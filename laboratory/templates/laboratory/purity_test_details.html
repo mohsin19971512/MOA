@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+
+{% block title %}مختبر النقاوة{% endblock %}
+{% block header %}مختبر النقاوة{% endblock %}
+
+{% block content %}
+<!-- <h1 class="text-2xl font-bold mt-2 text-center text-gray-800">تفاصيل اختبار النقاوة</h1> -->
+
+<div class="container mx-auto mt-4 p-6 bg-white shadow-lg rounded-lg">
+
+    <div class="container px-4 py-6">
+        <div class="bg-white shadow-xl w-full rounded-lg p-4 mb-6">
+            <h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">تفاصيل العينة</h2>
+            <div class="input-grid-read mb-6">
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">رقم العينة</label>
+                    <input type="text" value="{{ sample.sample_id }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">اسم المحصول</label>
+                    <input type="text" value="{{ sample.crop_name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">نوع المحصول</label>
+                    <input type="text" value="{{ sample.crop_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">الصنف</label>
+                    <input type="text" value="{{ sample.variety }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">نوع العينة</label>
+                    <input type="text" value="{{ sample.sample_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">العلامات المميزة</label>
+                    <input type="text" value="{{ sample.distinguishing_marks }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">الجهة المرسلة</label>
+                    <input type="text" value="{{ sample.sender_name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">تاريخ الاستلام</label>
+                    <input type="text" value="{{ sample.received_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <dive  class=" bg-white shadow-md  container space-y-6">
+        <h1 class="text-2xl font-bold mt-2 text-center text-gray-800"> اختبار النقاوة</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+            <!-- Column 1: Incoming Sample Weight -->
+            <div class="col-span-1 p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm space-y-4">
+                <label class="block text-lg font-semibold text-gray-700 mb-8">وزن العينة الوارد</label>
+
+                <input type="text" value="{{ purity_test.Incoming_sample_weight }}" class="w-full border read-only-input border-gray-300 rounded-md p-2" >
+            </div>
+
+            <!-- Column 2: PurityTest Weights (A and B) -->
+            <div class="col-span-1 p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm space-y-4">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">الأوزان</h2>
+                <div>
+                    <label for="weight_a" class="block text-lg font-medium text-gray-700 mb-2">وزن أ</label>
+                    <input type="text" name="weight_a" id="weight_a" value="{{ sample_weight.weight_a }}" class="w-full border read-only-input border-gray-300 rounded-md p-2" step="any">
+                </div>
+                <div>
+                    <label for="weight_b" class="block text-lg font-medium text-gray-700 mb-2">وزن ب</label>
+                    <input type="text" name="weight_b" id="weight_b" value="{{ sample_weight.weight_b }}" class="w-full border read-only-input border-gray-300 rounded-md p-2" step="any">
+                </div>
+            </div>
+
+            <!-- Column 3: Pure Seeds -->
+            <div class="col-span-1 p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm space-y-4">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">البذور النقية</h2>
+                <div>
+                    <label for="pure_seeds_weight_a" class="block text-lg font-medium text-gray-700 mb-2">وزن أ للبذور النقية</label>
+                    <input type="فثءف" name="pure_seeds_weight_a" id="pure_seeds_weight_a" value="{{ pure_seeds_component.weight.weight_a }}" class="w-full border read-only-input border-gray-300 rounded-md p-2" step="any">
+                </div>
+                <div>
+                    <label for="pure_seeds_weight_b" class="block text-lg font-medium text-gray-700 mb-2">وزن ب للبذور النقية</label>
+                    <input type="text" name="pure_seeds_weight_b" id="pure_seeds_weight_b" value="{{ pure_seeds_component.weight.weight_b }}" class="w-full border read-only-input border-gray-300 rounded-md p-2" step="any">
+                </div>
+                <div>
+                    <label for="purity_percentage" class="block text-lg font-medium text-gray-700 mb-2">نسبة النقاوة</label>
+                    <input type="text" name="purity_percentage" id="purity_percentage" value="{{ purity_test.purity_percentage }}" class="w-full border read-only-input border-gray-300 rounded-md p-2" step="any">
+                </div>
+            </div>
+
+            <!-- Column 4: Inert Materials -->
+            <div class="col-span-1 p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm space-y-4">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">المواد غير الحية</h2>
+                <div>
+                    <label for="inert_materials_weight_a" class="block text-lg font-medium text-gray-700 mb-2">وزن أ للمواد غير الحية</label>
+                    <input type="text" name="inert_materials_weight_a" id="inert_materials_weight_a" value="{{ inert_materials_component.weight.weight_a }}" class="w-full border read-only-input border-gray-300 rounded-md p-2" step="any">
+                </div>
+                <div>
+                    <label for="inert_materials_weight_b" class="block text-lg font-medium text-gray-700 mb-2">وزن ب للمواد غير الحية</label>
+                    <input type="text" name="inert_materials_weight_b" id="inert_materials_weight_b" value="{{ inert_materials_component.weight.weight_b }}" class="w-full border read-only-input border-gray-300 rounded-md p-2" step="any">
+                </div>
+                <div>
+                    <label for="inert_materials_percentage" class="block text-lg font-medium text-gray-700 mb-2">نسبة المواد غير الحية</label>
+                    <input type="text" name="inert_materials_percentage" id="inert_materials_percentage" step="any" value="{{ purity_test.inert_materials_percentage }}" class="w-full border read-only-input border-gray-300 rounded-md p-2">
+                </div>
+            </div>
+
+            <!-- Column 5: Other Seeds -->
+            <div class="col-span-1 p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm space-y-4">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">البذور الأخرى</h2>
+                <div>
+                    <label for="other_seeds_weight_a" class="block text-lg font-medium text-gray-700 mb-2">وزن أ للبذور الأخرى</label>
+                    <input type="text" name="other_seeds_weight_a" id="other_seeds_weight_a" step="any" value="{{  other_seeds_component.weight.weight_a  }}" class="w-full border read-only-input border-gray-300 rounded-md p-2">
+                </div>
+                <div>
+                    <label for="other_seeds_weight_b" class="block text-lg font-medium text-gray-700 mb-2">وزن ب للبذور الأخرى</label>
+                    <input type="text" name="other_seeds_weight_b" id="other_seeds_weight_b" step="any" value="{{ other_seeds_component.weight.weight_b }}" class="w-full border read-only-input border-gray-300 rounded-md p-2">
+                </div>
+                <div>
+                    <label for="other_seeds_percentage" class="block text-lg font-medium text-gray-700 mb-2">نسبة البذور الأخرى</label>
+                    <input type="text" name="other_seeds_percentage" id="other_seeds_percentage" step="any" value="{{ purity_test.other_seeds_percentage }}" class="w-full border read-only-input border-gray-300 rounded-md p-2">
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="grid grid-cols-2 gap-8">
+            <!-- Crop Types Column -->
+            <div class="col-span-1 bg-gray-50 border border-gray-200 rounded-lg shadow-sm p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-6">المحاصيل</h2>
+                
+                <!-- Title for Crop Types List -->
+                <div class="mb-4">
+                </div>
+    
+                {% for field in crop_types %}
+                    <div class="flex items-center mb-4">
+                        <!-- Label for Each Crop Type -->
+                        <label 
+                            for="{{ field.id_for_label }}" 
+                            class="block text-md font-medium read-only-input text-gray-700 cursor-pointer p-2 border border-gray-300 hover:border-gray-400 transition-all select-label w-1/3 mr-4">
+                            {{ field.crop_type.name }}
+                        </label>
+                        <div class="flex-grow">
+                            <!-- Input Field -->
+                            <input 
+                                type="text" 
+                               
+                                value="{{ field.count }}" 
+                                class="w-2/3 border border-gray-300 p-2 read-only-input" 
+                                >
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        
+            <!-- Jungles Column -->
+            <div class="col-span-1 bg-gray-50 border border-gray-200 rounded-lg shadow-sm p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-6">الأدغال</h2>
+                
+                <!-- Title for Jungles List -->
+                <div class="mb-4">
+                </div>
+    
+                {% for field in jungles %}
+                    <div class="flex items-center mb-4">
+                        <!-- Label for Each Crop Type -->
+                        <label 
+                            for="{{ field.id_for_label }}" 
+                            class="block text-md font-medium text-gray-700 read-only-input cursor-pointer p-2 border border-gray-300 hover:border-gray-400 transition-all select-label w-1/3 mr-4">
+                            {{ field.jungle.name }}
+                        </label>
+                        <div class="flex-grow">
+                            <!-- Input Field -->
+                            <input 
+                                type="text" 
+                               
+                                value="{{ field.count }}" 
+                                class="w-2/3 border border-gray-300 p-2 read-only-input" 
+                                >
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}مختبر صحة البذور  {% endblock %}
+{% block header %}مختبر صحة البذور {% endblock %}
+
+{% block content %}
+
+<div class="container mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-md">
+    <div class="container   px-4 py-0 ">
+        <div class="bg-white shadow-md w-full rounded-lg p-10 mb-6 ">
+            <h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">تفاصيل العينة</h2>
+            <div class="input-grid-read ">
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">رقم العينة</label>
+                    <input type="text" value="{{ sample.sample_id }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">اسم المحصول</label>
+                    <input type="text" value="{{ sample.crop_name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+
+                <div class="input-container-read mt-3 ">
+                    <label class="text-gray-600 text-lg ">نوع المحصول</label>
+                    <input type="text" value="{{ sample.crop_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">الصنف</label>
+                    <input type="text" value="{{ sample.variety }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">نوع العينة</label>
+                    <input type="text" value="{{ sample.sample_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+
+
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">العلامات المميزة</label>
+                    <input type="text" value="{{ sample.distinguishing_marks }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">الجهة المرسلة</label>
+                    <input type="text" value="{{ sample.sender_name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+
+
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">تاريخ الاستلام</label>
+                    <input type="text" value="{{ sample.received_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <form method="POST" action="" class="space-y-6">
+        {% csrf_token %}
+        <h1 class="text-2xl font-bold mt-6 text-center text-gray-800"> أداء أختبار النقاوة</h1>
+
+        <div class="flex flex-wrap -mx-2 p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm ">
+
+        <!-- Health Test Form -->
+        <div class="flex flex-wrap -mx-2">
+            <div class="w-1/4 px-2 mb-4">
+                {{ health_test_form.pest_infestation_percentage.label_tag }}
+                {{ health_test_form.pest_infestation_percentage }}
+            </div>
+
+            <div class="w-1/4 px-2 mb-4">
+                {{ health_test_form.bacterial_infestation_percentage.label_tag }}
+                {{ health_test_form.bacterial_infestation_percentage }}
+            </div>
+            <div class="w-1/4 px-2 mb-4">
+                {{ health_test_form.viral_infestation_percentage.label_tag }}
+                {{ health_test_form.viral_infestation_percentage }}
+            </div>
+            <div class="w-1/4 px-2 mb-4">
+                {{ health_test_form.damage_percentage.label_tag }}
+                {{ health_test_form.damage_percentage }}
+            </div>
+        </div>
+    
+        <!-- Fungal Examination Form -->
+        <div class="fungal-examination-container p-4 border border-gray-300 rounded-md">
+            <h3 class="text-lg font-semibold mb-4"> فحص الفطريات</h3>
+            <div class="flex flex-wrap -mx-2">
+                <div class="w-1/4 px-2 mb-4">
+                    {{ fungal_exam_form.common_scabies.label_tag }}
+                    {{ fungal_exam_form.common_scabies }}
+                </div>
+                <div class="w-1/4 px-2 mb-4">
+                    {{ fungal_exam_form.silver_scabies.label_tag }}
+                    {{ fungal_exam_form.silver_scabies }}
+                </div>
+                <div class="w-1/4 px-2 mb-4">
+                    {{ fungal_exam_form.fusarium.label_tag }}
+                    {{ fungal_exam_form.fusarium }}
+                </div>
+                <div class="w-1/4 px-2 mb-4">
+                    {{ fungal_exam_form.rhizoctonia.label_tag }}
+                    {{ fungal_exam_form.rhizoctonia }}
+                </div>
+            </div>
+        </div>
+    
+        <div class="flex items-center justify-center mt-8">
+            <button type="submit" class="px-6 py-3 bg-[#2a9d8f] text-white font-semibold text-lg rounded-md shadow-sm hover:bg-[#257d73] flex items-center">
+                <i class="fas fa-save ml-2"></i>
+                حفظ
+            </button>
+        </div>
+        </div>
+    </form>
+    
+    
+    
+</div>
+
+{% endblock %}

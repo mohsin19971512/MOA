@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% block title %} العينات{% endblock %}
+{% block header %} {{ user.profile.name }} {% endblock %}
+
+{% block content %}
+
+<!-- <h1 class="text-xl font-bold mb-6 text-gray-600"> العينات</h1> -->
+
+<div class="container mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-md">
+    {% if user.is_authenticated %}
+    {% endif %}
+    <h1 class="text-2xl font-bold mb-8 text-gray-800 text-center"> سجل العينات </h1>
+    <br>
+
+    <!-- Search Fields -->
+    <form method="GET" action="{% url 'sample:all_samples' %}"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+        <!-- Existing fields -->
+        <div>
+            <label for="sample_id" class="block text-lg font-medium text-gray-700">رقم العينة</label>
+            <input type="text" name="sample_id" id="sample_id" value="{{ request.GET.sample_id }}"
+                class="mt-1 p-2 border border-gray-300 rounded-md w-full">
+        </div>
+        <div>
+            <label for="crop_name" class="block text-lg font-medium text-gray-700">اسم المحصول</label>
+            <input type="text" name="crop_name" id="crop_name" value="{{ request.GET.crop_name }}"
+                class="mt-1 p-2 border border-gray-300 rounded-md w-full">
+        </div>
+        <div>
+            <label for="variety" class="block text-lg font-medium text-gray-700">الصنف</label>
+            <input type="text" name="variety" id="variety" value="{{ request.GET.variety }}"
+                class="mt-1 p-2 border border-gray-300 rounded-md w-full">
+        </div>
+        <div>
+            <label for="sample_type" class="block text-lg font-medium text-gray-700">نوع العينة</label>
+            <input type="text" name="sample_type" id="sample_type" value="{{ request.GET.sample_type }}"
+                class="mt-1 p-2 border border-gray-300 rounded-md w-full">
+        </div>
+        <div>
+            <label for="test_date" class="block text-lg font-medium text-gray-700">تاريخ الفحص</label>
+            <input type="date" name="test_date" id="test_date" value="{{ request.GET.test_date }}"
+                class="mt-1 p-2 border border-gray-300 rounded-md w-full">
+        </div>
+
+        <!-- New fields -->
+
+        <div>
+            <label for="completed" class="block text-lg font-medium text-gray-700">حالة الأختبار</label>
+            <select name="completed" id="completed" class="form-input border border-gray-300 mt-2 rounded-md px-4 py-2 shadow-sm w-full">
+                <option value=""></option>
+                <option value="yes" {% if request.GET.completed == "yes" %}selected{% endif %}>نعم</option>
+                <option value="no" {% if request.GET.completed == "no" %}selected{% endif %}>لا</option>
+            </select>
+        </div>
+       
+
+        <div>
+            <label for="assigned_date" class="block text-lg mt-1 font-medium text-gray-700">تاريخ التعيين</label>
+            <input type="date" name="assigned_date" id="assigned_date" value="{{ request.GET.assigned_date }}"
+                class="mt-1 p-2 border border-gray-300 rounded-md w-full">
+        </div>
+
+        <!-- Submit button -->
+        <div class="flex items-end">
+            <button type="submit"
+                class="px-4 py-2 bg-[#4361ee] text-white font-semibold rounded-md shadow-sm hover:bg-blue-600">
+                بحث
+            </button>
+        </div>
+    </form>
+
+
+    {% if user.profile.user_role in " Applicant" %}
+
+    <a href="{% url 'sample:add_sample' %}"
+        class="inline-flex items-center px-4 py-2 bg-[#2a9d8f] text-white font-semibold text-lg rounded-md shadow-sm hover:bg-[#006d77]">
+        إضافة عينة جديدة
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 text-white" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+        </svg>
+    </a>
+    {% endif %}
+
+
+
+
+    <!-- Samples Table -->
+    <div class="overflow-x-auto mt-6">
+        <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+            <thead>
+                <tr class="bg-gray-100 text-gray-600 border-b border-gray-300">
+                    <th class="px-6 py-3 text-right text-lg font-semibold">رقم العينة</th>
+                    <th class="px-6 py-3 text-right text-lg font-semibold">المحصول</th>
+                    <th class="px-6 py-3 text-right text-lg font-semibold">الصنف</th>
+                    <th class="px-6 py-3 text-right text-lg font-semibold">نوع العينة</th>
+                    <!-- <th class="px-6 py-3 text-right text-lg font-semibold">وزن الأرسالية </th> -->
+                    <th class="px-6 py-3 text-right text-lg font-semibold">تاريخ الاستلام </th>
+                    <th class="px-6 py-3 text-right text-lg font-semibold">حالة الفحص</th>
+                    <th class="px-6 py-3 text-right text-lg font-semibold">الإجراء</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sample in samples %}
+                <tr class="hover:bg-gray-400 hover:bg-opacity-25 transition duration-300 ease-in-out">
+                    <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.sample_id }}</td>
+                    <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.crop_name }}</td>
+                    <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.variety }}</td>
+                    <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.sample_type }}</td>
+                    <!-- <td class="px-6 py-4 text-lg border-b border-gray-200">{{ sample.shipment_weight }}</td> -->
+
+                    <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.received_date|date:"Y-m-d" }}</td>
+                    <td class="px-6 py-4 text-md border-b border-gray-200">
+                        {% if sample.lab_status == 'منجزة' %}
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800 shadow-sm w-24">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-green-800" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                            {{ sample.lab_status }}
+                        </span>
+                        {% else %}
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800 shadow-sm w-24">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-red-800" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                            {{ sample.lab_status }}
+                        </span>
+                        {% endif %}
+                    </td>
+
+
+
+                    <td class="px-6 py-4 text-lg border-b border-gray-200">
+                        <div class="inline-flex items-center space-x-4">
+                            {% if user.profile.user_role in " Applicant" %}
+                            <a href=""
+                                class="text-[#E8B86D]  hover:text-[#b28845] flex items-center space-x-2 ml-1 transition-colors duration-200 ease-in-out">
+                                <i class="fas fa-edit text-md ml-2"></i>
+                                <span class="text-[#E8B86D] hover:text-[#b28845]">تعديل</span>
+                            </a>
+                            <a href=""
+                                class="text-red-500 hover:text-red-600 flex items-center space-x-1 transition-colors duration-200 ease-in-out">
+                                <i class="fas fa-trash-alt text-md ml-2"></i>
+                                <span class="text-red-500 hover:text-red-600">حذف</span>
+                            </a>
+                            {% endif %}
+                            <a href="{% url 'sample:sample_detail' sample.id %}"
+                                class="text-[#2a9d8f] hover:text-[#247d73] flex items-center space-x-1 transition-colors duration-200 ease-in-out">
+                                <i class="fas fa-eye text-lg ml-1"></i>
+                                <span class="text-[#2a9d8f] hover:text-[#247d73]">عرض</span>
+                            </a>
+                        </div>
+                    </td>
+
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

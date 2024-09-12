@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+
+{% block title %}اختبار الرطوبة{% endblock %}
+{% block header %}اختبار الرطوبة{% endblock %}
+
+{% block content %}
+<div class="container mx-auto mt-2 p-6 bg-white shadow-lg rounded-lg">
+    <div class="container px-4 py-6">
+        <div class="bg-gray-50  border border-gray-200 rounded-lg w-full p-4 mb-6">
+            <h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">تفاصيل العينة</h2>
+            <div class="input-grid-read mb-6">
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">رقم العينة</label>
+                    <input type="text" value="{{ sample.sample_id }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">اسم المحصول</label>
+                    <input type="text" value="{{ sample.crop_name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">نوع المحصول</label>
+                    <input type="text" value="{{ sample.crop_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">الصنف</label>
+                    <input type="text" value="{{ sample.variety }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">نوع العينة</label>
+                    <input type="text" value="{{ sample.sample_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">العلامات المميزة</label>
+                    <input type="text" value="{{ sample.distinguishing_marks }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">الجهة المرسلة</label>
+                    <input type="text" value="{{ sample.sender_name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">تاريخ الاستلام</label>
+                    <input type="text" value="{{ sample.received_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form method="post" class="space-y-6">
+        {% csrf_token %}
+        <h1 class="text-2xl font-bold mt-2 text-center text-gray-800">أداء اختبار الرطوبة</h1>
+
+        <!-- Additional Fields Container -->
+        <div class="bg-gray-50 border border-gray-200 rounded-lg  p-4 mb-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">تفاصيل الاختبار</h2>
+            <div class="space-y-4 grid grid-cols-1 md:grid-cols-4 gap-6" >
+                <div>
+                    <label for="Category" class="block text-lg font-medium text-gray-700 mb-2 mt-4">اسم المحصول </label>
+                    <input type="text" name="Category" id="Category" value="{{ moisture_test.Category }}" class="w-full border read-only-input border-gray-300 rounded-md p-2" step="any">
+                </div>
+                <div>
+                    <label for="examination_method" class="block text-lg font-medium text-gray-700 mb-2">طريقة الفحص</label>
+                    <input type="text" name="examination_method" id="examination_method" value="{{ moisture_test.examination_method }}" class="w-full  read-only-input border border-gray-300 rounded-md p-2" step="any">
+
+                </div>
+                <div>
+                    <label for="oven_temperature" class="block text-lg font-medium text-gray-700 mb-2">درجة حرارة الفرن</label>
+                    <input type="text" name="oven_temperature" id="oven_temperature" value="{{ moisture_test.oven_temperature }}" class="w-full border read-only-input border-gray-300 rounded-md p-2" step="any">
+                </div>
+                <div>
+                    <label for="number_of_drying_hours" class="block text-lg font-medium text-gray-700 mb-2">عدد ساعات التجفيف</label>
+                    <input type="text" name="number_of_drying_hours" id="number_of_drying_hours" value="{{ moisture_test.number_of_drying_hours }}" class="w-full border read-only-input border-gray-300 rounded-md p-2" step="any">
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm space-y-4 flex justify-center">
+                <div>
+                    <label for="initial_weight" class="block text-lg font-bold text-gray-700 mb-2 text-center ">الوزن الأولي</label>
+                    <input type="text" name="initial_weight" id="initial_weight" value="{{ moisture_test.initial_weight }}" class="w-full read-only-input border border-gray-300 rounded-md p-2" step="any">
+                </div>
+        </div>
+            <!-- Sample A Fields -->
+            <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm space-y-4">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">عينة أ</h2>
+                <div>
+                    <label for="sample_a_empty_box_weight" class="block text-lg font-medium text-gray-700 mb-2">وزن العلبة الفارغة لعينة أ</label>
+                    <input type="text" name="sample_a_empty_box_weight" id="sample_a_empty_box_weight" value="{{ sample_a.empty_box_weight }}" class="w-full read-only-input border border-gray-500 rounded-md p-2" step="any">
+                </div>
+                <div>
+                    <label for="sample_a_sample_weight_before_drying" class="block text-lg font-medium text-gray-700 mb-2">وزن العينة قبل التجفيف لعينة أ</label>
+                    <input type="text" name="sample_a_sample_weight_before_drying" id="sample_a_sample_weight_before_drying" value="{{ sample_a.sample_weight_before_drying }}" class="w-full border read-only-input border-gray-500 rounded-md p-2" step="any">
+                </div>
+                <div>
+                    <label for="sample_a_sample_weight_after_drying" class="block text-lg font-medium text-gray-700 mb-2">وزن العينة بعد التجفيف لعينة أ</label>
+                    <input type="text" name="sample_a_sample_weight_after_drying" id="sample_a_sample_weight_after_drying" value="{{ sample_a.sample_weight_after_drying }}" class="w-full border read-only-input border-gray-500 rounded-md p-2" step="any">
+                </div>
+                <div>
+                    <label for="sample_a_result" class="block text-lg font-medium text-gray-700 mb-2">ناتج عينة أ</label>
+                    <input type="text" name="result_a" id="result_a" value="{{ sample_a.result }}" class="w-full border read-only-input border-gray-500 rounded-md p-2" step="any">
+                </div>
+            </div>
+
+            <!-- Sample B Fields -->
+            <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm space-y-4">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">عينة ب</h2>
+                <div>
+                    <label for="sample_b_empty_box_weight" class="block text-lg font-medium text-gray-700 mb-2">وزن العلبة الفارغة لعينة ب</label>
+                    <input type="text" name="sample_b_empty_box_weight" id="sample_b_empty_box_weight" value="{{ sample_b.empty_box_weight }}" class="w-full read-only-input border border-gray-500 rounded-md p-2" step="any">
+                </div>
+                <div>
+                    <label for="sample_b_sample_weight_before_drying" class="block text-lg font-medium text-gray-700 mb-2">وزن العينة قبل التجفيف لعينة ب</label>
+                    <input type="text" name="sample_b_sample_weight_before_drying" id="sample_b_sample_weight_before_drying" value="{{ sample_b.sample_weight_before_drying }}" class="w-full border read-only-input border-gray-500 rounded-md p-2" step="any">
+                </div>
+                <div>
+                    <label for="sample_b_sample_weight_after_drying" class="block text-lg font-medium text-gray-700 mb-2">وزن العينة بعد التجفيف لعينة ب</label>
+                    <input type="text" name="sample_b_sample_weight_after_drying" id="sample_b_sample_weight_after_drying" value="{{ sample_b.sample_weight_after_drying }}" class="w-full border read-only-input border-gray-500 rounded-md p-2" step="any">
+                </div>
+                <div>
+                    <label for="sample_b_result" class="block text-lg font-medium text-gray-700 mb-2">ناتج عينة ب</label>
+                    <input type="text" name="result_b" id="result_b" value="{{ sample_b.result}}" class="w-full border read-only-input border-gray-500 rounded-md p-2" step="any">
+                </div>
+            </div>
+        </div>
+<div class="p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm space-y-4 flex justify-center">
+                <div>
+                    <label for="humidity" class="block text-lg font-bold text-gray-700 mb-2 text-center">نتيجة الفحص</label>
+                    <input type="text" name="humidity" id="humidity" value="{{ moisture_test.humidity }}" class="w-full border read-only-input border-gray-300 rounded-md p-2" step="any">
+                </div>
+        </div>
+
+
+    </form>
+</div>
+
+
+
+{% endblock %}

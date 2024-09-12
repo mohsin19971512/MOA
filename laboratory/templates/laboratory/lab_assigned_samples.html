@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ user.profile.name }}{% endblock %}
+{% block header %}{{ user.profile.name }} {% endblock %}
+
+{% block content %}
+
+<div class="container mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-md">
+    <h1 class="text-2xl font-bold mb-8 text-gray-800 text-center">العينات المخصصة للمختبر</h1>
+
+    <form method="get" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+            <div class="col-span-1">
+                <label for="sample_id" class="text-lg font-medium text-gray-700">رقم العينة</label>
+                <input type="text" name="sample_id" id="sample_id" class="form-input border border-gray-300 mt-2 rounded-md px-4 py-2 shadow-sm w-full" value="{{ request.GET.sample_id }}">
+            </div>
+            <div class="col-span-1">
+                <label for="crop_name" class="text-lg font-medium text-gray-700">أسم المحصول</label>
+                <input type="text" name="crop_name" id="crop_name" class="form-input border border-gray-300 mt-2 rounded-md px-4 py-2 shadow-sm w-full" value="{{ request.GET.crop_name }}">
+            </div>
+            <div class="col-span-1">
+                <label for="variety" class="text-lg font-medium text-gray-700">الصنف</label>
+                <input type="text" name="variety" id="variety" class="form-input border border-gray-300 mt-2 rounded-md px-4 py-2 shadow-sm w-full" value="{{ request.GET.variety }}">
+            </div>
+            <div class="col-span-1">
+                <label for="sample_type" class="text-lg font-medium text-gray-700">نوع العينة</label>
+                <input type="text" name="sample_type" id="sample_type" class="form-input border border-gray-300 mt-2 rounded-md px-4 py-2 shadow-sm w-full" value="{{ request.GET.sample_type }}">
+            </div>
+            <div class="col-span-1">
+                <label for="received_date" class="text-lg font-medium text-gray-700">تاريخ الاستلام</label>
+                <input type="date" name="received_date" id="received_date" class="form-input border border-gray-300 mt-2 rounded-md px-4 py-2 shadow-sm w-full" value="{{ request.GET.received_date }}">
+            </div>
+
+            <div>
+                <label for="completed" class="block text-lg font-medium text-gray-700">حالة الأختبار</label>
+                <select name="completed" id="completed" class="form-input border border-gray-300 mt-2 rounded-md px-4 py-2 shadow-sm w-full">
+                    <option value=""></option>
+                    <option value="yes" {% if request.GET.completed == "yes" %}selected{% endif %}>منجزة</option>
+                    <option value="no" {% if request.GET.completed == "no" %}selected{% endif %}>غير منجزة</option>
+                </select>
+            </div>
+            
+            
+            
+            
+            
+            <div class="col-span-1 flex items-end">
+                <button type="submit" class="px-4 py-2 bg-[#4361ee] text-white font-semibold rounded-md shadow-sm hover:bg-blue-600">
+                    بحث</button>
+            </div>
+    </form>
+
+    <!-- Results Table -->
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+            <thead>
+                <tr class="bg-gray-100 text-gray-600 border-b border-gray-300">
+                    <th class="px-6 py-3 text-right text-lg font-semibold">رقم العينة</th>
+                    <th class="px-6 py-3 text-right text-lg font-semibold">أسم المحصول</th>
+                    <th class="px-6 py-3 text-right text-lg font-semibold">الصنف</th>
+                    <th class="px-6 py-3 text-right text-lg font-semibold">نوع العينة</th>
+                    <th class="px-6 py-3 text-right text-lg font-semibold">تاريخ الأستلام</th>
+                    <th class="px-6 py-3 text-right text-lg font-semibold">حالة الفحص</th>
+                    <th class="px-6 py-3  text-lg font-semibold text-center">الإجراء</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for assignment in assignments %}
+                    <tr class="hover:bg-gray-400 hover:bg-opacity-25 transition duration-300 ease-in-out">
+                        <td class="px-6 py-4 text-lg border-b border-gray-200">{{ assignment.sample.sample_id }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200">{{ assignment.sample.crop_name }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200">{{ assignment.sample.variety }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200">{{ assignment.sample.sample_type }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200">{{ assignment.sample.received_date|date:"Y-m-d" }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200">
+                            {% if assignment.completed == True %}
+                            <span
+                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800 shadow-sm w-24">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-green-800" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                                 منجزة
+                            </span>
+                            {% else %}
+                            <span
+                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800 shadow-sm w-24">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-red-800" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                                غير منجزة
+                            </span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 text-lg border-b text-ce border-gray-200">
+                        <div class="inline-flex items-center mr-3 space-x-4">
+                            {% if assignment.completed == True and assignment.lab.lab_type.lab_type == "PurityTest"  %}
+
+                                <a href="{% url 'laboratory:purity_test_detail' assignment.id %}"
+                                    class="text-[#125B9A] hover:text-[#315d83] flex  items-center text-center  transition-colors duration-200 ease-in-out">
+                                    <i class="fas fa-eye text-md mr-2 ml-1"></i>
+                                    <span class="text-[#125B9A] ml-3 hover:text-[#315d83]">عرض </span>
+                                </a>
+                                <a href="{% url 'laboratory:update_purity_test' assignment.id %}"
+                                    class="text-[#E8B86D] hover:text-[#b28845] flex items-center space-x-2 transition-colors duration-200 ease-in-out">
+                                    <i class="fas fa-edit text-md ml-2  mr-2"></i>
+                                    <span class="text-[#E8B86D] hover:text-[#b28845]">تعديل</span>
+                                </a>
+
+
+                            {% elif assignment.completed == True and assignment.lab.lab_type.lab_type == "MoistureTest" %}
+                                <a href="{% url 'laboratory:moisture_test_detail' assignment.id %}"
+                                    class="text-[#125B9A] hover:text-[#315d83] flex  items-center text-center  transition-colors duration-200 ease-in-out">
+                                    <i class="fas fa-eye text-md mr-2 ml-1"></i>
+                                    <span class="text-[#125B9A] ml-3 hover:text-[#315d83]">عرض </span>
+                                </a>
+                                <a href="{% url 'laboratory:update_moisture_test' assignment.id %}"
+                                    class="text-[#E8B86D] hover:text-[#b28845] flex items-center space-x-2 transition-colors duration-200 ease-in-out">
+                                    <i class="fas fa-edit text-md ml-2  mr-2"></i>
+                                    <span class="text-[#E8B86D] hover:text-[#b28845]">تعديل</span>
+                                </a>
+                            
+                            {% elif assignment.lab.lab_type.lab_type == "HealthTest" and assignment.completed == False %}
+                                <a href="{% url 'laboratory:create_health_test' assignment.id %}" class="flex items-center text-[#0D7C66] ">
+                                    <i class="fas fa-vial w-4 h-4 mr-2 ml-2"></i>
+                                    <span>أداء اختبار الصحة</span>
+                                </a>
+
+                            {% elif assignment.completed == True and assignment.lab.lab_type.lab_type == "HealthTest" %}
+
+                                <a href="{% url 'laboratory:moisture_test_detail' assignment.id %}"
+                                    class="text-[#125B9A] hover:text-[#315d83] flex  items-center text-center  transition-colors duration-200 ease-in-out">
+                                    <i class="fas fa-eye text-md mr-2 ml-1"></i>
+                                    <span class="text-[#125B9A] ml-3 hover:text-[#315d83]">عرض </span>
+                                </a>
+                                <a href="{% url 'laboratory:update_moisture_test' assignment.id %}"
+                                    class="text-[#E8B86D] hover:text-[#b28845] flex items-center space-x-2 transition-colors duration-200 ease-in-out">
+                                    <i class="fas fa-edit text-md ml-2  mr-2"></i>
+                                    <span class="text-[#E8B86D] hover:text-[#b28845]">تعديل</span>
+                                </a>
+                            {% elif assignment.lab.lab_type.lab_type == "PurityTest" %}
+                                <a href="{% url 'laboratory:create_purity_test' assignment.id %}" class="flex items-center text-[#0D7C66] ">
+                                    <i class="fas fa-vial w-4 h-4 mr-2 ml-2"></i>
+                                    <span>أداء اختبار النقاوة</span>
+                                </a>
+                            {% elif assignment.lab.lab_type.lab_type == "MoistureTest" %}
+                                <a href="{% url 'laboratory:create_moisture_test' assignment.id %}" class="flex items-center text-[#0D7C66] hover:underline">
+                                    <i class="fas fa-vial w-4 h-4 mr-2 ml-2"></i>
+                                    <span>أداء اختبار الرطوبة</span>
+                                </a>
+                            {% elif assignment.lab.lab_type.lab_type == "PlantTest" %}
+                                <a href="{% url 'laboratory:create_plant_test' assignment.id %}" class="flex items-center text-[#0D7C66] hover:text-[#62b6a5]">
+                                    <i class="fas fa-seedling w-4 h-4 ml-2"></i>
+                                    <span>أداء اختبار النبات</span>
+                                </a>
+                            {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}
