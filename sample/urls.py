@@ -9,8 +9,7 @@ urlpatterns = [
     path('sample/add/', views.add_sample, name='add_sample'),
     path('samall/sample/', views.all_samples, name='all_samples'),
     path('sample/<int:pk>/', SampleDetailView.as_view(), name='sample_detail'),
-    path('generate-certificate/', views.generate_certificate, name='generate_certificate'),
-
-
+    path('generate-certificate/<int:sample_id>/', views.generate_certificate, name='generate_certificate'),
+    path('update_sample/<int:sample_id>/', views.update_sample, name='update_sample'),
 
 ]

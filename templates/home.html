@@ -1,13 +1,81 @@
 {% extends "base.html" %}
-{% block header %}{{ user.profile.name }}  {% endblock %}
+{% load tailwind_tags %}
+{% block header %}{{ user.profile.name }}{% endblock %}
 
 {% block content %}
+<h1 class="mt-4 text-3xl text-gray-900 mb-6">الصفحة الرئيسية</h1>
+<h2 class="mt-4 text-3xl text-gray-700 mb-4">مرحباً بك في نظام فحص وتصديق البذور</h2>
 
+{% if user.profile.user_role == 'Lab' %}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+        <!-- Card 1: عدد العينات الغير منجزة -->
+        <div class="bg-red-100 shadow-md rounded-lg p-6 flex items-center">
+            <div class="flex-shrink-0 bg-red-300 p-4 rounded-full">
+                <i class="fas fa-circle-notch fa-spin text-red-600 fa-2x"></i>
+            </div>
+            <div class="ml-4">
+                <h3 class="text-lg font-semibold text-gray-800">عدد العينات الغير منجزة بعد</h3>
+                <p class="text-2xl font-bold text-gray-900 mt-2">{{ uncompleted_assignments }}</p>
+            </div>
+        </div>
 
-<h1 class="mt-4 text-3xl text-gray-900 mb-2">   الصفحة الرئيسية </h1>
-<h2 class="mt-4 text-3xl text-gray-700 mb-2">   مرحباً بك في نظام فحص وتصديق البذور  </h2>
+        <!-- Card 2: عدد العينات المنجزة التي تم اجراء الاختبارات عليها -->
+        <div class="bg-green-100 shadow-md rounded-lg p-6 flex items-center">
+            <div class="flex-shrink-0 bg-green-300 p-4 rounded-full">
+                <i class="fas fa-check-circle text-green-600 fa-2x icon-scale"></i>
+            </div>
+            <div class="ml-4">
+                <h3 class="text-lg font-semibold text-gray-800">عدد العينات المنجز أختبارها   </h3>
+                <p class="text-2xl font-bold text-gray-900 mt-2">{{ completed_assignments }}</p>
+            </div>
+        </div>
 
+        <!-- Card 3: العدد الكلي للعينات الواردة للمختبر -->
+        <div class="bg-blue-100 shadow-md rounded-lg p-6 flex items-center">
+            <div class="flex-shrink-0 bg-blue-300 p-4 rounded-full">
+                <i class="fas fa-boxes text-blue-600 fa-2x"></i>
+            </div>
+            <div class="ml-4">
+                <h3 class="text-lg font-semibold text-gray-800">العدد الكلي للعينات الواردة للمختبر</h3>
+                <p class="text-2xl font-bold text-gray-900 mt-2">{{ total_assignments }}</p>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+        <!-- Card 1: عدد العينات المنجزة -->
+        <div class="bg-green-100 shadow-md rounded-lg p-6 flex items-center">
+            <div class="flex-shrink-0 bg-green-300 p-4 rounded-full">
+                <i class="fas fa-check-circle text-green-600 fa-2x icon-scale"></i>
+            </div>
+            <div class="ml-4">
+                <h3 class="text-lg font-semibold text-gray-800">عدد العينات المنجزة</h3>
+                <p class="text-2xl font-bold text-gray-900 mt-2">{{ completed_samples }}</p>
+            </div>
+        </div>
 
+        <!-- Card 2: عدد العينات غير المنجزة -->
+        <div class="bg-red-100 shadow-md rounded-lg p-6 flex items-center">
+            <div class="flex-shrink-0 bg-red-300 p-4 rounded-full">
+                <i class="fas fa-circle-notch fa-spin text-red-600 fa-2x"></i>
+            </div>
+            <div class="ml-4">
+                <h3 class="text-lg font-semibold text-gray-800">عدد العينات غير المنجزة</h3>
+                <p class="text-2xl font-bold text-gray-900 mt-2">{{ uncompleted_samples }}</p>
+            </div>
+        </div>
 
+        <!-- Card 3: العدد الكلي للعينات -->
+        <div class="bg-blue-100 shadow-md rounded-lg p-6 flex items-center">
+            <div class="flex-shrink-0 bg-blue-300 p-4 rounded-full">
+                <i class="fas fa-boxes text-blue-600 fa-2x"></i>
+            </div>
+            <div class="ml-4">
+                <h3 class="text-lg font-semibold text-gray-800">العدد الكلي للعينات</h3>
+                <p class="text-2xl font-bold text-gray-900 mt-2">{{ total_samples }}</p>
+            </div>
+        </div>
+    </div>
+{% endif %}
 
 {% endblock %}

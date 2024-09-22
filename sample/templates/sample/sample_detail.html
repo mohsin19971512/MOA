@@ -6,11 +6,28 @@
 
         <div class="container   px-4 py-6 ">
             <div class="bg-white shadow-md w-full rounded-lg p-10 mb-6 ">
+            <div class="text-center mb-4">
+                   <a href="{% url 'sample:generate_certificate' sample.id %}"
+               class="inline-flex items-center text-white text-center bg-[#2a9d8f] hover:bg-[#247d73] px-4 py-2 rounded transition-colors duration-200 ease-in-out">
+                <i class="fas fa-certificate text-lg ml-2"></i>
+                <span>عرض الشهادة</span>
+            </a>
+            </div>
+
+
                 <h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">تفاصيل العينة</h2>
                 <div class="input-grid-read ">
+                    <div class="input-container-read mt-3">
+                        <label class="text-gray-900 text-lg">رقم العينة</label>
+                        <input type="text" value="{{ sample.sample_id }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    </div>
                     <div class="input-container-read mt-3 ">
                         <label class="text-gray-900 text-lg ">نوع المحصول</label>
                         <input type="text" value="{{ sample.crop_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    </div>
+                    <div class="input-container-read mt-3">
+                        <label class="text-gray-900 text-lg">اسم المحصول</label>
+                        <input type="text" value="{{ sample.crop_name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                     </div>
                     <div class="input-container-read mt-3">
                         <label class="text-gray-900 text-lg">الصنف</label>
@@ -28,58 +45,60 @@
                         <label class="text-gray-900 text-lg">نوع الفحص</label>
                         <input type="text" value="{{ sample.test_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                     </div>
+
                     <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">اسم المحصول</label>
-                        <input type="text" value="{{ sample.crop_name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                    </div>
-                    <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">العلامات المميزة</label>
+                        <label class="text-gray-900 text-lg">رقم الأرسالية  </label>
                         <input type="text" value="{{ sample.distinguishing_marks }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                     </div>
                     <div class="input-container-read mt-3">
                         <label class="text-gray-900 text-lg">الجهة المرسلة</label>
                         <input type="text" value="{{ sample.sender_name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                     </div>
+
                     <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">معمل التنقية</label>
-                        <input type="text" value="{{ sample.purification_lab }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                        <label class="text-gray-900 text-lg">نوع المعاملة</label>
+                        <input type="text" value="{{ sample.treatment_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                     </div>
-                    <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">تاريخ سحب العينات</label>
-                        <input type="text" value="{{ sample.sample_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                    </div>
-                    <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">تاريخ الاستلام</label>
-                        <input type="text" value="{{ sample.received_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                    </div>
-                    <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">تاريخ الفحص</label>
-                        <input type="text" value="{{ sample.test_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                    </div>
-                    <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">تاريخ استلام النتائج</label>
-                        <input type="text" value="{{ sample.result_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                    </div>
+
                     <div class="input-container-read mt-3">
                         <label class="text-gray-900 text-lg">وزن الأرسالية</label>
                         <input type="text" value="{{ sample.shipment_weight }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                     </div>
                     <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">رقم الوجبة</label>
-                        <input type="text" value="{{ sample.batch_number }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                        <label class="text-gray-900 text-lg">وحدة القياس </label>
+                        <input type="text" value="{{ sample.get_unit_of_measure_display }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                     </div>
                     <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">رقم العينة</label>
-                        <input type="text" value="{{ sample.sample_id }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                        <label class="text-gray-900 text-lg">نوع البذور </label>
+                        <input type="text" value="{{ sample.get_batch_number_display }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                     </div>
+
                     <div class="input-container-read mt-3">
                         <label class="text-gray-900 text-lg">حالة المختبرات من الفحص</label>
                         <input type="text" value="{{ sample.lab_status }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                     </div>
+
+
                     <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">نوع المعاملة</label>
-                        <input type="text" value="{{ sample.treatment_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                        <label class="text-gray-900 text-lg">تاريخ سحب العينات</label>
+                        <input type="text" value="{{ sample.sample_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                     </div>
+
+                    <div class="input-container-read mt-3">
+                        <label class="text-gray-900 text-lg">تاريخ الاستلام</label>
+                        <input type="text" value="{{ sample.received_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    </div>
+                    <div class="input-container-read mt-3">
+                        <label class="text-gray-900 text-lg">تاريخ التبليغ </label>
+                        <input type="text" value="{{ sample.result_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    </div>
+                    {% if sample.test_date %}
+                        <div class="input-container-read mt-3">
+                            <label class="text-gray-900 text-lg">تاريخ الفحص</label>
+                            <input type="text" value="{{ sample.test_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                        </div>
+                    {% endif %}
+
                 </div>
             </div>
         </div>
@@ -188,76 +207,88 @@
 
 
             <div class="tab-content" id="plant-tests">
-                <div class="input-grid-read  mt-3 ">
+                <div class="input-grid-read mt-3">
                     {% for test in plant_tests %}
-                        <div class="input-container-read mt-3">
-                            <label class="text-gray-900 text-lg">نسبة البذور الطبيعية</label>
-                            <input type="text" value="%{{ test.natural_percentage }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                        </div>
-                        <div class="input-container-read mt-3">
-                            <label class="text-gray-900 text-lg"> نسبة البذور الصلبة
-                            </label>
-                            <input type="text" value="%{{ test.hard_percentage }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                        </div>
+                        {% if test.natural_percentage is not None or test.hard_percentage is not None %}
+                            <div class="input-container-read mt-3">
+                                <label class="text-gray-900 text-lg">نسبة البذور الطبيعية</label>
+                                <input type="text" value="%{{ test.natural_percentage }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                            </div>
+                            <div class="input-container-read mt-3">
+                                <label class="text-gray-900 text-lg"> نسبة البذور الصلبة</label>
+                                <input type="text" value="%{{ test.hard_percentage }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                            </div>
+                        {% else %}
+                            <li>لا توجد نتائج لاختبارات النبات لهذه العينة.</li>
+                        {% endif %}
                     {% empty %}
                         <li>لا توجد نتائج لاختبارات النبات لهذه العينة.</li>
                     {% endfor %}
                 </div>
             </div>
 
+    <div class="tab-content " id="health-tests">
+            {% if health_tests != None %}
+               <table class="min-w-full bg-white border border-gray-300 rounded-lg mt-4 shadow-md">
+                <thead>
+                    <tr class="bg-gray-100 text-gray-600 border-b border-gray-300">
+                        <!-- First header group (Insect Test) -->
+                        <th class="px-6 py-3 text-lg font-semibold border border-gray-300 text-center" colspan="3">الفحص الحشري Insect Test</th>
+                        <!-- Second header group (Fungi Test) -->
+                        <th class="px-6 py-3 text-lg font-semibold border border-gray-300 text-center" colspan="2">الفحص الفطري Fungi Test</th>
+                        <th class="px-6 py-3 text-lg font-semibold border border-gray-300 text-center" rowspan="2">عدد ثاليل النيماتودا Nematoda No</th>
+                    </tr>
+                    <tr class="bg-gray-100 text-gray-600 border-b border-gray-300">
+                        <!-- Sub-headers for Insect Test -->
+                        <th class="px-6 py-3 text-lg font-semibold border border-gray-300 text-right">نوع الأصابة Infected Type</th>
+                        <th class="px-6 py-3 text-lg font-semibold border border-gray-300 text-right">المسبب Insect</th>
+                        <th class="px-6 py-3 text-lg font-semibold border border-gray-300 text-right">%</th>
+                        <!-- Sub-headers for Fungi Test -->
+                        <th class="px-6 py-3 text-lg font-semibold border border-gray-300 text-right">المسبب المرضي Pathogen</th>
+                        <th class="px-6 py-3 text-lg font-semibold border border-gray-300 text-right">%</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white">
+                {% for insect, fungal in combined_examinations %}
+                <tr class="bg-gray-50 text-gray-600 border-b border-gray-300">
+                    <!-- Insect Examination values -->
+                    {% if insect %}
+                        <td class="px-6 py-4 text-md border border-gray-300">{{ insect.infection_type.name }}</td>
+                        <td class="px-6 py-4 text-md border border-gray-300">{{ insect.cause.name }}</td>
+                        <td class="px-6 py-4 text-md border border-gray-300">{{ insect.infection_percentage|floatformat:1 }}</td>
+                    {% else %}
+                        <td class="px-6 py-4 text-md border border-gray-300"></td>
+                        <td class="px-6 py-4 text-md border border-gray-300"></td>
+                        <td class="px-6 py-4 text-md border border-gray-300"></td>
+                    {% endif %}
 
-            <div class="tab-content " id="health-tests">
-                <div class="input-grid-read  mt-3 ">
-                    {% for test in health_tests %}
-                        <div class="input-container-read mt-3">
-                            <label class="text-gray-900 text-lg">نسبة الإصابة الحشرية</label>
-                            <input type="text" value=" %{{ test.pest_infestation_percentage }} " class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                        </div>
+                    <!-- Fungal Examination values -->
+                    {% if fungal %}
+                        <td class="px-6 py-4 text-md border border-gray-300">{{ fungal.cause.name }}</td>
+                        <td class="px-6 py-4 text-md border border-gray-300">{{ fungal.infection_percentage|floatformat:1 }}</td>
+                    {% else %}
+                        <td class="px-6 py-4 text-md border border-gray-300">No fungal examination</td>
+                        <td class="px-6 py-4 text-md border border-gray-300"></td>
+                    {% endif %}
 
-                        <div class="input-container-read mt-3">
-                            <label class="text-gray-900 text-lg">نسبة الإصابة البكتيرية</label>
-                            <input type="text" value="%{{ test.bacterial_infestation_percentage }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                        </div>
-                        <div class="input-container-read mt-3">
-                            <label class="text-gray-900 text-lg">نسبة الإصابة الفيروسية</label>
-                            <input type="text" value="%{{ test.viral_infestation_percentage }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                        </div>
-                        <div class="input-container-read mt-3">
-                            <label class="text-gray-900 text-lg">نسبة الأضرار</label>
-                            <input type="text" value="%{{ test.damage_percentage }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                        </div>
-                        <!-- Add more fields as needed -->
-                        <div class="input-container-read mt-3">
-                            <label class="text-gray-900 text-lg">نسبة الجرب العادي</label>
-                            <input type="text" value="%{{ test.fungal_examination.common_scabies }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                        </div>
-                        <div class="input-container-read mt-3">
-                            <label class="text-gray-900 text-lg">نسبة الجرب الفضي</label>
-                            <input type="text" value="%{{ test.fungal_examination.silver_scabies }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                        </div>
-                        <div class="input-container-read mt-3">
-                            <label class="text-gray-900 text-lg">Fusarium</label>
-                            <input type="text" value="%{{ test.fungal_examination.fusarium }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                        </div>
+                    <!-- Nematode Test: Single value, display only for the first row -->
+                    {% if forloop.first %}
+                        <td class="px-6 py-4 text-md border border-gray-300">{{ nematode_tests.warts_count }}</td>
+                    {% else %}
+                        <td class="px-6 py-4 text-md border border-gray-300"></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
 
-                        <div class="input-container-read mt-3">
-                            <label class="text-gray-900 text-lg">Rhizoctonia</label>
-                            <input type="text" value="%{{ test.fungal_examination.fusarium }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                        </div>
-                            
-                        </div>
-                    {% empty %}
-                    <li>لا توجد نتائج لاختبارات الصحة لهذه العينة</li>
-
-                    {% endfor %}
-                </div>
+            {% else %}
+                <li class="mt-4">لا توجد نتائج لاختبارات الصحة لهذه العينة</li>
+            {% endif %}
+            </div>
 
 
-                
-            
-            <div class="tab-content" id="purity-tests">
-
-
+        <div class="tab-content" id="purity-tests">
                 <div class="input-grid-read  mt-3 ">
                     {% for test in purity_tests %}
                         <div class="input-container-read mt-3">
@@ -277,18 +308,14 @@
                             <input type="text" value="{{ test.test_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                         </div>
 
-                        <!-- Add more fields as needed -->
                     {% empty %}
                     <li>لا توجد نتائج لاختبارات النقاوة لهذه العينة</li>
 
                     {% endfor %}
                 </div>
-
-
             </div>
 
             <div class="tab-content" id="moisture-tests">
-
                 <div class="input-grid-read  mt-3 ">
                     {% for test in moisture_tests %}
                         <div class="input-container-read mt-3">
@@ -308,26 +335,9 @@
                         <li>لا توجد نتائج لاختبارات الرطوبة لهذه العينة.</li>
                     {% endfor %}
             </div>
-
-
-
-
-
         </div>
+    </div>
 
-<button> 
-
-    <a href="{% url 'sample:generate_certificate'  %}"
-    class="text-[#2a9d8f] hover:text-[#247d73] flex items-center space-x-1 transition-colors duration-200 ease-in-out">
-    <i class="fas fa-eye text-lg ml-1"></i>
-    <span class="text-[#2a9d8f] hover:text-[#247d73]">عرض</span>
-</a>
-</button>
-
-        </div>
-
-
-        
     </div>
 
     <script>

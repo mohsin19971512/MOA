@@ -1,0 +1,48 @@
+
+
+# Ignore virtual environment
+venv/
+VENV/
+env/
+ENV/
+
+# Python bytecode
+*.py[cod]
+__pycache__/
+*.so
+
+# Logs
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+
+# Django stuff
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+
+# Environment Variables
+.env
+
+# macOS specific files
+.DS_Store
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Migrations
+*/migrations/*
+
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+*.pyo
+*.pyd
+ 
+# pytest cache
+.pytest_cache/

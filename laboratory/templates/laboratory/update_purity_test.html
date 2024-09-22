@@ -15,7 +15,7 @@
   <div class="container mx-auto mt-2 p-6 bg-white shadow-lg rounded-lg">
     
 
-    <div class="container   px-2 py-6 ">
+       <div class="container px-2 py-6">
         <div class="bg-gray-50  border border-gray-200 rounded-lg w-full p-4 mb-6">
             <h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">تفاصيل العينة</h2>
             <div class="input-grid-read mb-6">
@@ -23,13 +23,9 @@
                     <label class="text-gray-600 text-lg">رقم العينة</label>
                     <input type="text" value="{{ sample.sample_id }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
-                <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">اسم المحصول</label>
-                    <input type="text" value="{{ sample.crop_name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
 
-                <div class="input-container-read mt-3 ">
-                    <label class="text-gray-600 text-lg ">نوع المحصول</label>
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg"> المحصول</label>
                     <input type="text" value="{{ sample.crop_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
                 <div class="input-container-read mt-3">
@@ -38,17 +34,19 @@
                 </div>
 
                 <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">الرتبة</label>
+                    <input type="text" value="{{ sample.grade }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+                
+
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">رقم الأرسالية </label>
+                    <input type="text" value="{{ sample.distinguishing_marks }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+                <div class="input-container-read mt-3">
                     <label class="text-gray-600 text-lg">نوع العينة</label>
                     <input type="text" value="{{ sample.sample_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
-
-
-                <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">العلامات المميزة</label>
-                    <input type="text" value="{{ sample.distinguishing_marks }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
-
-
                 <div class="input-container-read mt-3">
                     <label class="text-gray-600 text-lg">تاريخ التبليغ</label>
                     <input type="text" value="{{ sample.result_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
@@ -72,17 +70,17 @@
             <div class="col-span-1 p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm space-y-4">
                 <label for="Incoming_sample_weight" class="block text-lg font-semibold text-gray-700 mb-8">وزن العينة الوارد</label>
                 <input type="number" name="Incoming_sample_weight" id="Incoming_sample_weight" value="{{ form.Incoming_sample_weight.value|stringformat:'s' }}" class="w-full border border-gray-500 rounded-md p-2" step="any"  >
-                <div>
-                    <label for="unit_of_measure" class="block text-lg font-bold text-gray-700 mb-2 text-center ">وحدة القياس </label>
-                    <select name="unit_of_measure" id="unit_of_measure" class="w-full border text-center border-gray-500 rounded-md p-2">
-                            {% for choice in form.unit_of_measure.field.choices %}
-                                <option value="{{ choice.0 }}" {% if choice.0 == form.unit_of_measure.value %}selected{% endif %}>{{ choice.1 }}</option>
-                            {% endfor %}
-                    </select>
-                </div>
+                                <div>
+                <label for="unit_of_measure" class="block text-lg font-bold text-gray-700 mb-2 text-center ">وحدة القياس </label>
+                <select name="unit_of_measure" id="unit_of_measure" class="w-full border text-center border-gray-500 rounded-md p-2">
+                        {% for choice in form.unit_of_measure.field.choices %}
+                            <option value="{{ choice.0 }}" {% if choice.0 == form.unit_of_measure.value %}selected{% endif %}>{{ choice.1 }}</option>
+                        {% endfor %}
+                </select>
             
             </div>
-        
+            </div>
+
 
             <!-- Column 2: PurityTest Weights (A and B) -->
             <div class="col-span-1 p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm space-y-4">
@@ -145,7 +143,7 @@
                 </div>
                 <div>
                     <label for="other_seeds_percentage" class="block text-lg font-medium text-gray-700 mb-2">نسبة البذور الأخرى</label>
-                    <input type="number" name="other_seeds_percentage" id="other_seeds_percentage" step="any"   value="{{ form.other_seeds_percentage.value|stringformat:'s' }}" class="w-full border   border-gray-500 rounded-md p-2">
+                    <input type="number" name="other_seeds_percentage" id="other_seeds_percentage" step="any"   value="{{ form.other_seeds_percentage.value|stringformat:'s' }}" class="w-full border border-gray-500 rounded-md p-2">
                 </div>
             </div>
 
@@ -175,26 +173,29 @@
                     <h3 class="text-lg font-medium text-gray-700 mb-2">حدد  المحاصيل وضع الكميات</h3>
                 </div>
     
-                {% for field in crop_type_form %}
-                    <div class="flex items-center mb-4">
-                        <!-- Label for Each Crop Type -->
-                        <label
-                            for="{{ field.id_for_label }}"
-                            class="block text-md font-medium text-gray-700 cursor-pointer p-2 border border-gray-500 hover:border-gray-400 transition-all select-label w-1/3 mr-4">
-                            {{ field.label }}
-                        </label>
-                        <div class="flex-grow">
-                            <!-- Input Field -->
-                            <input
+        {% for field in crop_type_form %}
+            <div class="flex items-center mb-4">
+                <!-- Label for Each Crop Type -->
+                <label 
+                    for="{{ field.id_for_label }}" 
+                    class="block text-md font-medium text-gray-700 cursor-pointer p-2 border border-gray-500 hover:border-gray-400 transition-all select-label w-1/3 mr-4">
+                    {{ field.label }}
+                </label>
+                <div class="flex-grow">
+                    <!-- Input Field -->
+                            <input 
                                 type="{{ field.field.widget.input_type }}"
-                                name="{{ field.name }}"
-                                id="{{ field.id_for_label }}"
-                                value="{{ field.value }}"
-                                class="w-2/3 border border-gray-500 p-2"
+                                name="{{ field.name }}" 
+                                id="{{ field.id_for_label }}" 
+                                value="{{ field.value }}" 
+                                class="w-2/3 border border-gray-500 p-2" 
                                 {% if field.field.widget.attrs %}{{ field.field.widget.attrs|safe }}{% endif %}>
-                        </div>
-                    </div>
-                {% endfor %}
+    
+                </div>
+            </div>
+        {% endfor %}
+
+
             </div>
         
             <!-- Jungles Column -->

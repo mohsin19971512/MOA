@@ -1,10 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+
+from laboratory.Health.models import HealthTest
+from laboratory.Purity.models import PurityTest
 from .forms import SampleForm  # Import the form class
 from laboratory.forms import AssignmentForm
 from laboratory.models import Assignment
-from .models import Sample
-from laboratory.models import HealthTest,PlantTest,PurityTest,MoistureTest,Lab
+from laboratory.models import PlantTest,MoistureTest,Lab
 from django.views.generic import DetailView
 from django.db.models import Q
 from django.shortcuts import render
@@ -12,19 +14,52 @@ from .models import Sample
 from django.core.exceptions import ValidationError
 from io import BytesIO
 from django.template.loader import get_template
-from django.http import HttpResponse
-import os
-from django.conf import settings
 from weasyprint import HTML
 from django.http import HttpResponse
+from django.templatetags.static import static
+from account.models import Profile
+from itertools import zip_longest
+def generate_certificate(request,sample_id):
+    # Data for the certificate
+    sample = Sample.objects.get(pk=sample_id)
+    # Retrieve all assignments related to this sample
+    assignments = Assignment.objects.filter(sample=sample)
+
+    # Retrieve test results for each assignment
+    health_tests = HealthTest.objects.filter(assignment__in=assignments).first()
+    purity_tests = PurityTest.objects.filter(assignment__in=assignments).first()
+    moisture_tests = MoistureTest.objects.filter(assignment__in=assignments).first()
+    plant_tests = PlantTest.objects.filter(assignment__in=assignments).first()
+    insect_examinations = []
+    fungal_examinations = []
+    nematode_tests = None
+    if health_tests:
+        if health_tests.insect_examinations.exists():
+            insect_examinations = health_tests.insect_examinations.all()
+            print('insect_examinations', len(insect_examinations))
+    if health_tests:
+        if health_tests.fungal_examinations.exists():
+            fungal_examinations = health_tests.fungal_examinations.all()
+            print('fungal_examinations', len(fungal_examinations))
+    if health_tests:
+        if health_tests.nematode_tests.exists():
+            nematode_tests = health_tests.nematode_tests.all().first()
+    else:
+        print("health_tests is None")
+    combined_examinations = zip_longest(insect_examinations, fungal_examinations, fillvalue=None)
 
 
 
-
-
-
-def generate_certificate(request):
     data = {
+        'health_tests': health_tests,
+        'moisture_tests': moisture_tests,
+        'purity_tests': purity_tests,
+        'plant_tests': plant_tests,
+        'sample':sample,
+        'insect_examinations' : insect_examinations,
+        'fungal_examinations':fungal_examinations,
+        'nematode_tests':nematode_tests,
+        'combined_examinations': combined_examinations,
         'place': 'مسحوب',
         'applicant_name': 'اسم المتقدم',
         'sample_no': '1327',
@@ -40,22 +75,22 @@ def generate_certificate(request):
         'fungi_test': 'لايوجد',
         'insect_test': '12',
         'lab_manager': 'سالم طعمة كاصد',
+        'static_url': request.build_absolute_uri(static('')),  # Pass the full URL for static files
     }
-
+    print('static_url :', request.build_absolute_uri(static('')))
+    # Load the template and render it with the data
     template = get_template('sample/certificate_template.html')
     html = template.render(data)
 
-    # Use the path from settings
-    pdf_path = os.path.join(settings.TEMP_PDF_DIR, 'certificate.pdf')
-    
-    # Generate PDF and save to the path
-    pdf_file = HTML(string=html).write_pdf(pdf_path)
+    # Generate PDF from HTML
+    pdf_file = BytesIO()
+    HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(pdf_file)
 
-    # Serve the PDF file in the response
-    with open(pdf_path, 'rb') as pdf:
-        response = HttpResponse(pdf.read(), content_type='application/pdf')
-        response['Content-Disposition'] = 'inline; filename="certificate.pdf"'
-        return response
+    # Set the response and return the PDF
+    response = HttpResponse(pdf_file.getvalue(), content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; filename="certificate.pdf"'
+    return response
+
 
 
 
@@ -63,7 +98,35 @@ def generate_certificate(request):
 
 @login_required
 def home(request):
-    return render(request, 'home.html')
+    profile = Profile.objects.get(user=request.user)
+    user_role = profile.user_role
+
+    if user_role == 'Lab':
+        lab = profile.lab
+        # Count the number of uncompleted and completed assignments
+        total_assignments = Assignment.objects.filter(lab=lab).count()
+        uncompleted_assignments = Assignment.objects.filter(lab=lab, completed=False).count()
+        completed_assignments = Assignment.objects.filter(lab=lab, completed=True).count()
+
+        context = {
+            'uncompleted_assignments': uncompleted_assignments,
+            'completed_assignments': completed_assignments,
+            'total_assignments': total_assignments,
+        }
+    else:
+        # Count the number of samples and their statuses
+        total_samples = Sample.objects.count()
+        completed_samples = Sample.objects.filter(lab_status='منجزة').count()
+        uncompleted_samples = Sample.objects.filter(lab_status='غير منجزة').count()
+
+        context = {
+            'total_samples': total_samples,
+            'completed_samples': completed_samples,
+            'uncompleted_samples': uncompleted_samples,
+        }
+
+    return render(request, 'home.html', context)
+
 
 
 
@@ -99,8 +162,45 @@ def add_sample(request):
     })
 
 
+@login_required
+def update_sample(request, sample_id):
+    sample = get_object_or_404(Sample, id=sample_id)
 
+    # Get the labs currently assigned to the sample
+    current_labs = Assignment.objects.filter(sample=sample).values_list('lab', flat=True)
 
+    if request.method == 'POST':
+        sample_form = SampleForm(request.POST, instance=sample)
+        assignment_form = AssignmentForm(request.POST)
+
+        if sample_form.is_valid() and assignment_form.is_valid():
+            # Save the updated sample
+            sample = sample_form.save()
+
+            # Get the selected labs from the form
+            new_labs = assignment_form.cleaned_data['labs']
+
+            # Handle adding/removing assignments
+            current_assignments = Assignment.objects.filter(sample=sample)
+            current_labs = current_assignments.values_list('lab', flat=True)
+
+            labs_to_remove = current_assignments.exclude(lab__in=new_labs)
+            labs_to_remove.delete()
+
+            for lab in new_labs:
+                if lab.id not in current_labs:
+                    Assignment.objects.create(sample=sample, lab=lab)
+
+            return redirect('sample:all_samples')
+    else:
+        sample_form = SampleForm(instance=sample)
+        # Initialize assignment form with current labs
+        assignment_form = AssignmentForm(initial={'labs': current_labs})
+
+    return render(request, 'sample/add_sample.html', {
+        'sample_form': sample_form,
+        'assignment_form': assignment_form
+    })
 
 
 @login_required
@@ -128,9 +228,9 @@ def all_samples(request):
         query &= Q(test_date=test_date)
     if completed:
         if completed.lower() == 'yes':
-            query &= Q(assignment__completed=True)
+            query &= Q(lab_status='منجزة')
         elif completed.lower() == 'no':
-            query &= Q(assignment__completed=False)
+            query &= Q(lab_status='غير منجزة')
         else:
             raise ValidationError(f"Invalid value for completed field: {completed}")
     if lab:
@@ -158,11 +258,27 @@ class SampleDetailView(DetailView):
         assignments = Assignment.objects.filter(sample=sample)
 
         # Retrieve test results for each assignment
-        health_tests = HealthTest.objects.filter(assignment__in=assignments)
+        health_tests = HealthTest.objects.filter(assignment__in=assignments).first()
         purity_tests = PurityTest.objects.filter(assignment__in=assignments)
         moisture_tests = MoistureTest.objects.filter(assignment__in=assignments)
         plant_tests = PlantTest.objects.filter(assignment__in=assignments)
-        print(plant_tests)
+        insect_examinations = []
+        fungal_examinations = []
+        nematode_tests = None
+        if health_tests:
+            if health_tests.insect_examinations.exists():
+                insect_examinations = health_tests.insect_examinations.all()
+                print('insect_examinations', len(insect_examinations))
+        if health_tests:
+            if health_tests.fungal_examinations.exists():
+                fungal_examinations = health_tests.fungal_examinations.all()
+                print('fungal_examinations', len(fungal_examinations))
+        if health_tests:
+            if health_tests.nematode_tests.exists():
+                nematode_tests = health_tests.nematode_tests.all().first()
+        else:
+            print("health_tests is None")
+        combined_examinations = zip_longest(insect_examinations, fungal_examinations, fillvalue=None)
         
         
 
@@ -172,6 +288,10 @@ class SampleDetailView(DetailView):
             'purity_tests': purity_tests,
             'moisture_tests': moisture_tests,
             'plant_tests': plant_tests,
+            'insect_examinations': insect_examinations,
+            'fungal_examinations': fungal_examinations,
+            'nematode_tests': nematode_tests,
+            'combined_examinations': combined_examinations,
         })
         return context
     

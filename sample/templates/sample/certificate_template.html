@@ -30,148 +30,344 @@
 
         body {
             font-family: "Cairo", sans-serif;
-            font-size: 10pt;
-            direction: rtl;
-            text-align: right;
-            margin: 20px;
+            font-size: 11px; /* Decreased font size */
+            width: 100%;
+        }
+
+        .container {
+            max-width: 100%;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 10px; /* Reduced margin */
+            margin-top: -70px;
+        }
+
+        .header img {
+            width: 140px; /* Reduced logo size */
+            height: 120px;
+        }
+
+        .header-right, .header-left {
+            line-height: 1.2;
+        }
+
+        .header-right h4, .header-left h4 {
+            font-size: 12px; /* Reduced header size */
+            margin: 3px 0;
+        }
+
+        .header-right h5, .header-left h5 {
+            font-size: 10px; /* Reduced sub-header size */
+            margin: 2px 0;
         }
 
         table {
             font-family: "Cairo", sans-serif;
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
+            {#margin: 10px 0; /* Reduced margin */#}
             text-align: center;
+            border-radius: 5px;
+            overflow: hidden;
         }
 
         th, td {
-            border: 1px solid black;
-            padding: 8px;
+            border: 1px solid #ccc;
+            padding: 8px; /* Reduced padding */
             text-align: center;
         }
 
         th {
             background-color: #f2f2f2;
-        }
-
-        .header {
-            text-align: center;
-            font-size: 12px;
-            margin-bottom: 20px;
+            font-weight: bold;
         }
 
         .section-title {
             font-weight: bold;
+            font-size: 12px; /* Reduced section title size */
             background-color: #f9e5ff;
-            padding: 10px;
-            margin-top: 20px;
+            padding: 8px; /* Reduced padding */
             text-align: center;
+            margin-top: 15px; /* Reduced margin */
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         }
 
-        .logo {
-            width: 100px;
-            height: auto;
+        .info-table th {
+            background-color: #f0f0f0;
+            color: #333;
         }
 
-        .info-table {
-            width: 100%;
-            margin-bottom: 20px;
-            font-size: 10pt;
-        }
-
-        .results-table {
-            width: 100%;
-            margin-bottom: 20px;
+        .info-table td {
+            background-color: #fff;
         }
 
         .notes {
-            font-size: 10pt;
-            margin-top: 10px;
+            font-size: 6pt;
+            {#margin-top: 2px; /* Reduced margin */#}
+            background-color: #fffbf0;
+            padding: 5px; /* Reduced padding */
+            border-radius: 4px;
         }
 
         .signature {
             text-align: left;
-            margin-top: 20px;
+            {#margin-top: 10px; /* Reduced margin */#}
         }
 
         footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10pt; /* Reduced footer font size */
+            margin-top: 20px; /* Reduced margin */
+            color: #555;
+            background-color: #f1f1f1; /* Optional: background color for footer */
+            padding: 10px; /* Optional: padding inside footer */
+        }
+
+        footer p {
+            margin: 0 10px; /* Adjust margin between items as needed */
+        }
+
+        .logos-section {
             text-align: center;
-            font-size: 10pt;
-            margin-top: 20px;
+
+        }
+
+        .logo-title {
+            font-size: 12px; /* Adjust font size */
+            font-weight: bold;
+        }
+
+        .logos-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 2px;
+            border: 1px solid #ccc;
+            width: 100%;
+            height: 175px;
+            margin-left: 70px;
+            margin-bottom: 5px; /* Space between logos and the bottom title */
+        }
+
+        .logo-container {
+            width: 50%;
+            height: 175px;
+            border: 1px solid #ccc;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .logo {
+            max-width: 100%;
+            height: auto;
+            min-height: 120px;
+            object-fit: fill;
+            display: block;
+            margin-top: 5px;
+        }
+
+
+        .logo-label {
+            width: 100%;
+            height: 10%;
+            padding: 3px;
+            border: 1px solid #ccc;
+        }
+
+        .logo-left {
+            margin-right: 70px;
+            width: 80px; /* Adjust the width as needed */
+            height: auto; /* Keep the aspect ratio */
+        }
+        .cu-h3 {
+            text-align: center;
+            margin-left: 50px;
         }
     </style>
 </head>
 <body>
 
+<div class="container">
     <!-- Header -->
     <div class="header">
-        <img src="{% static 'images/moa.jpg' %}" alt="Logo" class="logo">
-        <h4>جمهورية العراق</h4>
-        <h4>وزارة الزراعة</h4>
-        <h4>قسم فحص وتصديق البذور</h4>
-        <h5>Code NO: IQDL0100 - ISO 17025:2017</h5>
+        <!-- Right section (Arabic) -->
+        <div class="header-right">
+            <h4>جمهورية العراق</h4>
+            <h4>وزارة الزراعة</h4>
+            <h4>دائرة فحص وتصديق البذور</h4>
+            <h4>قسم المختبرات</h4>
+            <h5>عضو الاتحاد الدولي لفحص البذور ISTA</h5>
+            <h5>  IQDL0100 رمز العضوية </h5>
+        </div>
+
+        <!-- Logos -->
+  <div class="logos-section">
+    <!-- Title above logos -->
+    <h4 class="logo-title">بسم الله الرحمن الرحيم</h4>
+
+    <!-- Logos container with two logos -->
+    <div class="logos-container">
+        <div class="logo-container">
+            <div class="logo-label" style="border-right: none; border-left: none;border-top: none">شهادة فحص بذور</div>
+            <img src="{% static 'images/cert.png' %}" alt="Seed Certificate Logo" class="logo">
+            <div class="logo-label" style="border-bottom: none; border-right: none; border-left: none">Seed Tests Certificate</div>
+        </div>
+        <div class="logo-container">
+            <div class="logo-label" style="border-left: none; border-right: none; border-top: none">Accredited CABS</div>
+            <img src="{% static 'images/iqas2.png' %}" alt="IQAS Logo" class="logo">
+            <div class="logo-label" style="border-right: none ;border-bottom: none" >Accredited no.TL 030</div>
+        </div>
     </div>
+
+    <!-- Title below logos -->
+    <h4 class="logo-title">ISO 17025:2017</h4>
+</div>
+
+
+
+
+
+
+        <!-- Left section (English) -->
+        <div class="header-left">
+            <h4>Republic of Iraq</h4>
+            <h4>Ministry of Agriculture</h4>
+            <h4>Seed Testing and Certification Department</h4>
+            <h4>Laboratory Section</h4>
+            <h5>ISTA Member</h5>
+            <h5>Membership Code IQDL0100</h5>
+        </div>
+    </div>
+    <h3 class="cu-h3">تم الفحص وفقاً للقواعد الدولية لفحص البذور (ISTA) أصدار عام 2024</h3>
 
     <!-- Info Table -->
     <table class="info-table">
         <tr>
+            <th>عائدية البذور Name Of Applicant </th>
+            <td> </td>
             <th>الموقع</th>
             <td>بغداد</td>
-            <th>اسم المتقدم</th>
-            <td>أحمد علي</td>
+            <th>نوع العينة</th>
+            <td>{{ sample.sample_type.name }}</td>
         </tr>
         <tr>
+
             <th>رقم العينة</th>
-            <td>12345</td>
-            <th>نوع العينة</th>
-            <td>قمح</td>
+            <td>{{ sample.sample_id }}</td>
+            <th>تاريخ سحب العينات</th>
+            <td>{{ sample.sample_date|date:"d/m/Y" }}</td>
+            <th>تاريخ الاستلام</th>
+            <td>{{ sample.received_date|date:"d/m/Y" }}</td>
+
         </tr>
+
         <tr>
             <th>تاريخ الفحص</th>
-            <td>15/08/2024</td>
-            <th>تاريخ الاستلام</th>
-            <td>12/08/2024</td>
-        </tr>
-        <tr>
-            <th>الوزن</th>
-            <td>50 طن</td>
+            <td>{{ sample.test_date|date:"d/m/Y" }}</td>
+            <th> المحصول والصنف و الرتبة</th>
+            <td>{{ sample.crop_type }}-{{ sample.variety }}-{{ sample.grade }}</td>
             <th>رقم الإرسالية</th>
-            <td>56789</td>
+            <td>{{ sample.distinguishing_marks }}</td>
         </tr>
         <tr>
-            <th>المحصول والصنف</th>
-            <td>الحنطة - صنف ممتاز</td>
-            <th>نوعية الحبوب</th>
-            <td>قمح صلب</td>
+
+            <th>وزن الأرسالية </th>
+            <td>{{ sample.shipment_weight }} </td>
         </tr>
     </table>
 
     <!-- Results Section -->
-    <h4 class="section-title">نتائج الفحص</h4>
+{#    <h4 class="section-title">نتائج الفحص</h4>#}
     <table class="results-table">
         <tr>
-            <th>النقاوة</th>
-            <td>98%</td>
-            <th>الرطوبة</th>
-            <td>12%</td>
-            <th>الإنبات</th>
-            <td>95%</td>
+            <th>نسبة الأنبات % Germination</th>
+            <th>التترازوليوم % Tetazulium</th>
+            <th>نسبة النقاوة % Purity</th>
+            <th>نسبة الرطوبة % Moisture</th>
+            <th>عدد بذور الادغال   No of Weed Seed</th>
+            <th>عدد بذور المحاصيل الأخرى  No of other crop Seed</th>
+
         </tr>
         <tr>
-            <th>عدد بذور الحشائش</th>
-            <td>2</td>
-            <th>عدد بذور المحاصيل الأخرى</th>
-            <td>3</td>
+            {% if  plant_tests.natural_percentage != None %}
+            <td>{{ plant_tests.natural_percentage }}%</td>
+            {% else %}
+            <td>%</td>
+
+            {% endif %}
+            <td></td>
+            <td>{{ purity_tests.purity_percentage }}%</td>
+            <td>{{ moisture_tests.humidity }}%</td>
+            <td>367</td>
+            <td>42</td>
+
         </tr>
-        <tr>
-            <th>فحص النيماتودا</th>
-            <td>سلبي</td>
-            <th>فحص الفطريات</th>
-            <td>سلبي</td>
-            <th>فحص الحشرات</th>
-            <td>سلبي</td>
-        </tr>
+
     </table>
+<table>
+    <thead>
+        <tr>
+            <!-- First header group (Insect Test) -->
+            <th colspan="3">الفحص الحشري Insect Test</th>
+            <!-- Second header group (Fungi Test) -->
+            <th colspan="2">الفحص الفطري Fungi Test</th>
+            <th rowspan="2">عدد ثاليل النيماتودا Nematoda No</th>
+        </tr>
+        <tr>
+            <!-- Sub-headers for Insect Test -->
+            <th>نوع الأصابة Infected Type</th>
+            <th>المسبب Insect</th>
+            <th>%</th>
+            <!-- Sub-headers for Fungi Test -->
+            <th>المسبب المرضي Pathogen</th>
+            <th>%</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for insect, fungal in combined_examinations %}
+    <tr>
+        <!-- Insect Examination values -->
+        {% if insect %}
+            <td>{{ insect.infection_type.name }}</td>
+            <td>{{ insect.cause.name }}</td>
+            <td>{{ insect.infection_percentage|floatformat:1 }}</td>
+        {% else %}
+            <td></td><td></td><td></td>
+        {% endif %}
+
+        <!-- Fungal Examination values -->
+        {% if fungal %}
+            <td>{{ fungal.cause.name }}</td>
+            <td>{{ fungal.infection_percentage|floatformat:1 }}</td>
+        {% else %}
+            <td>No fungal examination</td>
+            <td></td>
+        {% endif %}
+
+        <!-- Nematode Test: Single value, display only for the first row -->
+        {% if forloop.first %}
+            <td>{{ nematode_tests.warts_count }}</td>
+        {% else %}
+            <td></td> <!-- Leave blank for subsequent rows -->
+        {% endif %}
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+
 
     <!-- Notes Section -->
     <div class="notes">
@@ -180,18 +376,21 @@
     </div>
 
     <!-- Signature Section -->
-    <div class="signature">
-        <p>مدير المختبرات: سالم طعمة كاصد</p>
-        <p>التوقيع:</p>
-        <p>سالم طعمة كاصد</p>
+    <div class="signature" style="align-content: flex-end; justify-content: flex-end">
+        <p >سالم طعمة كاصد</p>
+        <p>مدير قسم المختبرات</p>
+        <p>Lab Manager</p>
+            <p>15/08/2024</p>
+
     </div>
 
     <!-- Footer -->
-    <footer>
-        <p>بغداد، ساحة ابو جعفر المنصور</p>
-        <p>15/08/2024</p>
-        <p>E-mail: sbstc@moagr.org</p>
-    </footer>
+<footer>
+    <p>بغداد، ساحة ابو جعفر المنصور</p>
+    <p>E-mail: sbstc@moagr.org</p>
+</footer>
+
+</div>
 
 </body>
 </html>

@@ -21,7 +21,7 @@ class SampleAdmin(admin.ModelAdmin):
             'fields': ('crop_name', 'distinguishing_marks', 'sender_name', 'purification_lab', 'shipment_weight', 'batch_number', 'sample_id', 'treatment_type', 'lab_status')
         }),
         ('Dates', {
-            'fields': ('sample_date', 'received_date', 'test_date', 'result_date')
+            'fields': ('sample_date', 'received_date', 'test_date')
         }),
     )
 

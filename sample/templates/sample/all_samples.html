@@ -49,8 +49,8 @@
             <label for="completed" class="block text-lg font-medium text-gray-700">حالة الأختبار</label>
             <select name="completed" id="completed" class="form-input border border-gray-300 mt-2 rounded-md px-4 py-2 shadow-sm w-full">
                 <option value=""></option>
-                <option value="yes" {% if request.GET.completed == "yes" %}selected{% endif %}>نعم</option>
-                <option value="no" {% if request.GET.completed == "no" %}selected{% endif %}>لا</option>
+                <option value="yes" {% if request.GET.completed == "yes" %}selected{% endif %}>منجزة</option>
+                <option value="no" {% if request.GET.completed == "no" %}selected{% endif %}>غير منجزة</option>
             </select>
         </div>
        
@@ -138,7 +138,7 @@
                     <td class="px-6 py-4 text-lg border-b border-gray-200">
                         <div class="inline-flex items-center space-x-4">
                             {% if user.profile.user_role in " Applicant" %}
-                            <a href=""
+                            <a href="{% url 'sample:update_sample' sample.id %}"
                                 class="text-[#E8B86D]  hover:text-[#b28845] flex items-center space-x-2 ml-1 transition-colors duration-200 ease-in-out">
                                 <i class="fas fa-edit text-md ml-2"></i>
                                 <span class="text-[#E8B86D] hover:text-[#b28845]">تعديل</span>

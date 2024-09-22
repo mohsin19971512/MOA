@@ -155,5 +155,40 @@ body {
     color: #3b4455; /* Dark text color */
 }
 
+.read-only-input-success {
+    background-color: #bfe5c7; /* Light gray background for read-only inputs */
+    border: 1px solid #bfe5c7; /* Light gray border */
+    color: #3b4455; /* Dark text color */
+}
 
 /* Sample details style */
+
+
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+.icon-pulse {
+    animation: pulse 1.5s infinite;
+}
+
+
+    @keyframes scale {
+        0% { transform: scale(0.5); }
+        50% { transform: scale(1.4); }
+        100% { transform: scale(1); }
+    }
+    .icon-scale {
+        animation: scale 2s ease-in-out;
+    }

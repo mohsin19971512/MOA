@@ -28,9 +28,7 @@
                     <label class="text-gray-600 text-lg">الرتبة</label>
                     <input type="text" value="{{ sample.grade }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
-                
-                
-                
+
 
 
                 <div class="input-container-read mt-3">
@@ -60,16 +58,19 @@
 <!-- Fungal Examination Formset -->
 <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
     <h2 class="text-xl font-semibold text-gray-800 mb-4">الفحص الفطري</h2>
-    {{ fungal_examination_formset.management_form }}
+    
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
-        {% for form in fungal_examination_formset %}
-            <div class="bg-white border border-gray-200 rounded-lg p-4 mb-4">
-                {{ form.as_p }}
-                {% if form.errors %}
-                    <div class="text-red-600 mt-2">
-                        {{ form.errors }}
-                    </div>
-                {% endif %}
+        {% for i in fungal_examinations %}
+            <div class="bg-white input-container-read  border border-gray-200 rounded-lg p-4 mb-4">
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">المسبب </label>
+                    <input type="text" value="{{ i.cause.name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+                            <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">نسبة الأصابة </label>
+                    <input type="text" value="{{ i.infection_percentage }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+
             </div>
         {% endfor %}
     </div>
@@ -77,44 +78,52 @@
 
 <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
     <h2 class="text-xl font-semibold text-gray-800 mb-4">الفحص الحشري</h2>
-    {{ insect_examination_formset.management_form }}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {% for form in insect_examination_formset %}
+        {% for i in insect_examinations %}
             <div class="bg-white border border-gray-200 rounded-lg p-4 mb-4">
-                {{ form.as_p }}
-                {% if form.errors %}
-                    <div class="text-red-600 mt-2">
-                        {{ form.errors }}
-                    </div>
-                {% endif %}
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">نوع الأصابة  </label>
+                    <input type="text" value="{{ i.infection_type.name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+                
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">المسبب </label>
+                    <input type="text" value="{{ i.cause.name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+                
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">نسبة الأصابة </label>
+                    <input type="text" value="{{ i.infection_percentage }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
             </div>
         {% endfor %}
     </div>
 </div>
 
 
-<!-- Health Test Form Errors -->
-{% if health_test_form.errors %}
-    <div class="bg-red-50 border border-red-200 text-red-600 rounded-lg p-4 mb-6">
-        {{ health_test_form.errors }}
-    </div>
-{% endif %}
+
 
     <!-- Viral Test Form -->
     <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
         <h2 class="text-xl font-semibold text-gray-800 mb-4">الفحص الفايروسي</h2>
-        <div class=" grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class=" grid grid-cols-1 md:grid-cols-4 gap-6">
             <div>
                 <label for="infection_type" class="block text-lg font-medium text-gray-700 ">نوع الإصابة</label>
-                {{ viral_test_form.infection_type }}
+                
+                    <input type="text" value="{{ viral_test.infection_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                
             </div>
             <div>
-                <label for="cause" class="block text-lg font-medium text-gray-700 ">المسبب </label>
-                {{ viral_test_form.cause }}
+                <label for="infection_type" class="block text-lg font-medium text-gray-700 ">المسبب </label>
+                
+                <input type="text" value="{{ viral_test.cause }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+
             </div>
             <div>
-                <label for="infection_rate" class="block text-lg font-medium text-gray-700 mb-2">نسبة الإصابة</label>
-                {{ viral_test_form.infection_rate }}
+                <label for="infection_rate" class="block text-lg font-medium text-gray-700 ">نسبة الإصابة</label>
+                
+                <input type="text" value="{{ viral_test.infection_rate }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+
             </div>
         </div>
     </div>
@@ -124,20 +133,16 @@
         <h2 class="text-xl font-semibold text-gray-800 mb-4">فحص البكتيريا</h2>
         <div class=" grid grid-cols-1 md:grid-cols-4 gap-6">
             <div>
-                <label for="infection_type" class="block text-lg font-medium text-gray-700 ">نوع الإصابة</label>
-                {{ bacterial_examination_form.infection_type }}
-            </div>
-            <div>
-                <label for="cause" class="block text-lg font-medium text-gray-700 ">المسبب </label>
-                {{ bacterial_examination_form.cause }}
-            </div>
-            <div>
                 <label for="damage_percentage" class="block text-lg font-medium text-gray-700 ">نسبة الأضرار</label>
-                {{ bacterial_examination_form.damage_percentage }}
+                
+                <input type="text" value="{{ bacterial_examination.damage_percentage }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+
             </div>
             <div>
-                <label for="greenness_percentage" class="block text-lg font-medium text-gray-700">نسبة الأخضرار</label>
-                {{ bacterial_examination_form.greenness_percentage }}
+                <label for="greenness_percentage" class="block text-lg font-medium text-gray-700 ">نسبة الأخضرار</label>
+                
+                <input type="text" value="{{ bacterial_examination.greenness_percentage }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+
             </div>
         </div>
     </div>
@@ -150,7 +155,9 @@
         <div class="space-y-4 grid grid-cols-1">
             <div>
                 <label for="warts_count" class="block text-lg font-medium text-gray-700 mb-2">عدد الثآليل</label>
-                {{ nematode_test_form.warts_count }}
+                
+                <input type="text" value="{{ nematode_test.warts_count }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+
             </div>
         </div>
     </div>
@@ -161,7 +168,9 @@
         <div class="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
                 <label for="note" class="block text-lg font-medium text-gray-700 mb-2">ملاحظة</label>
-                {{ health_test_form.note }}
+                <input type="text" value="{{ health_test.note }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+
+                
             </div>
 
         </div>

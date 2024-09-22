@@ -128,12 +128,12 @@
 
                             {% elif assignment.completed == True and assignment.lab.lab_type.lab_type == "HealthTest" %}
 
-                                <a href="{% url 'laboratory:moisture_test_detail' assignment.id %}"
+                                <a href="{% url 'laboratory:health_test_detail' assignment.id %}"
                                     class="text-[#125B9A] hover:text-[#315d83] flex  items-center text-center  transition-colors duration-200 ease-in-out">
                                     <i class="fas fa-eye text-md mr-2 ml-1"></i>
                                     <span class="text-[#125B9A] ml-3 hover:text-[#315d83]">عرض </span>
                                 </a>
-                                <a href="{% url 'laboratory:update_moisture_test' assignment.id %}"
+                                <a href="{% url 'laboratory:update_health_test' assignment.id %}"
                                     class="text-[#E8B86D] hover:text-[#b28845] flex items-center space-x-2 transition-colors duration-200 ease-in-out">
                                     <i class="fas fa-edit text-md ml-2  mr-2"></i>
                                     <span class="text-[#E8B86D] hover:text-[#b28845]">تعديل</span>
@@ -148,10 +148,24 @@
                                     <i class="fas fa-vial w-4 h-4 mr-2 ml-2"></i>
                                     <span>أداء اختبار الرطوبة</span>
                                 </a>
-                            {% elif assignment.lab.lab_type.lab_type == "PlantTest" %}
+                            {% elif assignment.lab.lab_type.lab_type == "PlantTest" and assignment.completed == False %}
                                 <a href="{% url 'laboratory:create_plant_test' assignment.id %}" class="flex items-center text-[#0D7C66] hover:text-[#62b6a5]">
                                     <i class="fas fa-seedling w-4 h-4 ml-2"></i>
                                     <span>أداء اختبار النبات</span>
+                                </a>
+                            {% endif %}
+                        
+                            {% if assignment.lab.lab_type.lab_type == "PlantTest" and assignment.completed == True %}
+                        
+                                <a href="{% url 'laboratory:create_plant_test' assignment.id %}"
+                                    class="text-[#125B9A] hover:text-[#315d83] flex  items-center text-center  transition-colors duration-200 ease-in-out">
+                                    <i class="fas fa-eye text-md mr-2 ml-1"></i>
+                                    <span class="text-[#125B9A] ml-3 hover:text-[#315d83]">عرض </span>
+                                </a>
+                                <a href="{% url 'laboratory:update_plant_test' assignment.id %}"
+                                    class="text-[#E8B86D] hover:text-[#b28845] flex items-center space-x-2 transition-colors duration-200 ease-in-out">
+                                    <i class="fas fa-edit text-md ml-2  mr-2"></i>
+                                    <span class="text-[#E8B86D] hover:text-[#b28845]">تعديل</span>
                                 </a>
                             {% endif %}
                             </div>

@@ -5,7 +5,7 @@ from sample.models import Sample
 from lov.models import LabType,SampleComponents,SampleWeight
 
 class Lab(models.Model):
-    name = models.CharField(max_length=100, unique=True)  # Lab name (e.g., HealthTest, PurityTest)
+    name = models.CharField(max_length=100, unique=True)  # Lab name (e.g., Health, PurityTest)
     user = models.OneToOneField(Profile, on_delete=models.CASCADE)  # User responsible for this lab
     lab_type = models.ForeignKey(LabType,null=True,blank=True,on_delete=models.SET_NULL)
 
@@ -30,74 +30,11 @@ class Assignment(models.Model):
 
 
 
-class FungalExamination(models.Model):
-    common_scabies = models.FloatField(verbose_name='نسبة الجرب العادي')
-    silver_scabies = models.FloatField(verbose_name='نسبة الجرب الفضي')
-    fusarium = models.FloatField()
-    rhizoctonia = models.FloatField()
-
-class HealthTest(models.Model):
-    assignment = models.OneToOneField(
-        Assignment, 
-        on_delete=models.CASCADE, 
-        verbose_name='الواجب'
-    )  # Link to the assignment
-    
-    pest_infestation_percentage = models.FloatField(
-        verbose_name='نسبة الإصابة الحشرية'
-    )  # نسبة الإصابة الحشرية
-    
-    
-    bacterial_infestation_percentage = models.FloatField(
-        verbose_name='نسبة الإصابة البكتيرية'
-    )  # نسبة الإصابة البكتيرية
-    
-    viral_infestation_percentage = models.FloatField(
-        verbose_name='نسبة الإصابة الفيروسية'
-    )  # نسبة الإصابة الفيروسية
-    
-    damage_percentage = models.FloatField(
-        verbose_name='نسبة الأضرار'
-    )  # نسبة الأضرار
-
-    fungal_examination = models.ForeignKey(FungalExamination, on_delete=models.SET_NULL,null=True,blank=True)
-    
-    test_date = models.DateField(
-        auto_now_add=True, 
-        verbose_name='تاريخ الفحص'
-    )  # Date when the test was conducted
-
-    def __str__(self):
-        return f"Health Test for {self.assignment.sample.sample_id}"
-    
-    class Meta:
-        verbose_name = 'اختبار الصحة'
-        verbose_name_plural = 'اختبارات الصحة'
-
-    def __str__(self):
-        return f"اختبار الصحة للعينة : {self.assignment.sample.sample_id}"
 
 
-class PurityTest(models.Model):
-    
-    assignment = models.OneToOneField(Assignment, on_delete=models.CASCADE)
-    Incoming_sample_weight = models.FloatField()
-    weight = models.ForeignKey(SampleWeight, on_delete=models.CASCADE)
-    pure_seeds = models.ForeignKey(SampleComponents, on_delete=models.CASCADE, related_name='purity_tests_as_pure_seeds', limit_choices_to={'component_type': SampleComponents.PURE_SEEDS}, null=True, blank=True)
-    inert_materials = models.ForeignKey(SampleComponents, on_delete=models.CASCADE, related_name='purity_tests_as_inert_materials', limit_choices_to={'component_type': SampleComponents.INERT_MATERIALS}, null=True, blank=True)
-    other_seeds = models.ForeignKey(SampleComponents, on_delete=models.CASCADE, related_name='purity_tests_as_other_seeds', limit_choices_to={'component_type': SampleComponents.OTHER_SEEDS}, null=True, blank=True)
-    purity_percentage = models.FloatField()
-    inert_materials_percentage = models.FloatField()
-    other_seeds_percentage = models.FloatField()
-    test_date = models.DateField(auto_now_add=True)
-    
 
-    class Meta:
-        verbose_name = 'اختبار النقاوة'
-        verbose_name_plural = 'اختبارات النقاوة'
 
-    def __str__(self):
-        return f"اختبار النقاوة للعينة : {self.assignment.sample.sample_id}"
+
 
 class MoistureSample(models.Model):
     sample_a = 'sample_a'
@@ -125,12 +62,20 @@ class MoistureTest(models.Model):
         ('Oven', 'الفرن'),
         ('Khat ', 'الكت '),
     ]
+    UNIT_CHOICES = [
+        ('ton', 'طن'),
+        ('kg', 'كيلوغرام'),
+        ('gram', 'غرام'),
+    ]
+
     assignment = models.OneToOneField(Assignment, on_delete=models.CASCADE)  # Link to the assignment
-    Category = models.CharField(max_length=100, verbose_name="اسم المحصول",null=True, blank=True)
+    Category = models.CharField(max_length=100, verbose_name="اسم المحصول",default=' ',null=True, blank=True)
     examination_method = models.CharField(max_length=100,choices=METHODS,verbose_name="طريقة الفحص ",null=True, blank=True)
     oven_temperature = models.FloatField(verbose_name=' درجة حرارة الفرن ',null=True, blank=True)  
     number_of_drying_hours =  models.FloatField(verbose_name='عدد ساعات التجفيف',null=True, blank=True) 
-    initial_weight = models.FloatField( verbose_name='الوزن قبل التجفيف',null=True, blank=True) 
+    initial_weight = models.FloatField( verbose_name='الوزن قبل التجفيف',null=True, blank=True)
+    unit_of_measure = models.CharField(max_length=10, choices=UNIT_CHOICES, verbose_name="وحدة القياس" , null=True, blank=True)
+
     result_a = models.FloatField( verbose_name='ناتج العينة أ',null=True, blank=True) 
     result_b = models.FloatField( verbose_name='ناتج العينة ب',null=True, blank=True) 
     humidity = models.FloatField(verbose_name='نسبة الرطوبة النهائية',null=True, blank=True)  # محتوى الرطوبة
@@ -167,7 +112,7 @@ class PlantTest(models.Model):
         ('Fold', 'طي'),
         ('Sand', 'رمل')
     ], null=True, blank=True)
-    tetrazonium_test = models.BooleanField(verbose_name='أختبار التترازونيوم',default=False)
+    tetrazonium_test = models.CharField(verbose_name='أختبار التترازوليوم',null=True,blank=True,max_length=50)
     seed_vitality = models.DecimalField(verbose_name='حيوية البذور',max_digits=5, decimal_places=2, null=True, blank=True)  # Percentage
     germination_power = models.DecimalField(verbose_name='قوة الأنبات',max_digits=5, decimal_places=2, null=True, blank=True)  # Percentage
     duplicates = models.CharField(verbose_name='التكرارات',max_length=5, choices=DUPLICATE_CHOICES, null=True, blank=True)

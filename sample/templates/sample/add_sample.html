@@ -10,65 +10,64 @@
 <div class="container mx-auto p-6">
     <h1 class="text-2xl font-bold mb-8 text-gray-800 text-center">إضافة عينة جديدة</h1>
     <div class="max-w-7xl mx-auto bg-white p-10 border border-gray-300 rounded-lg shadow-lg">
-        <form method="post">
-            {% csrf_token %}
-            <!-- Sample Form Section -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                {% for field in sample_form %}
-                    <div class="col-span-1">
-                        <label for="{{ field.id_for_label }}" class="text-lg   text-gray-900">
-                            {{ field.label }}
-                        </label>
-                        <div class="relative">
-                            {% render_field field class="form-input text-md text-center border border-gray-300 mt-2 rounded-md px-4 py-2 shadow-sm w-full" %}
-                            {% if field.errors %}
-                                <p class="text-sm text-red-500 mt-3">{{ field.errors }}</p>
-                            {% endif %}
-                        </div>
-                        {% if field.help_text %}
-                            <p class="text-xs ml-2 text-gray-500">{{ field.help_text }}</p>
-                        {% endif %}
-                    </div>
-                {% endfor %}
+<form method="post">
+    {% csrf_token %}
+
+    <!-- Sample Form Section -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        {% for field in sample_form %}
+            <div class="col-span-1">
+                <label for="{{ field.id_for_label }}" class="text-lg text-gray-900">
+                    {{ field.label }}
+                </label>
+                <div class="relative">
+                    {% render_field field class="form-input text-md text-center border border-gray-300 mt-2 rounded-md px-4 py-2 shadow-sm w-full" %}
+                    {% if field.errors %}
+                        <p class="text-sm text-red-500 mt-3">{{ field.errors }}</p>
+                    {% endif %}
+                </div>
+                {% if field.help_text %}
+                    <p class="text-xs ml-2 text-gray-500">{{ field.help_text }}</p>
+                {% endif %}
             </div>
-            
-            <!-- Assignment Form Section -->
-            <h2 class="text-xl font-semibold mb-4">تحديد المختبرات</h2>
-            <div class="mb-8">
-                {% for field in assignment_form %}
-                    <div class="flex flex-col space-y-2">
-                        <div class="relative">
-                            {% render_field field class="form-input border border-gray-300 rounded-md px-4 py-2 shadow-sm" %}
-                            {% if field.errors %}
-                                <p class="text-sm text-red-500 mt-1">{{ field.errors }}</p>
-                            {% endif %}
-                        </div>
-                        {% if field.help_text %}
-                            <p class="text-xs text-gray-500">{{ field.help_text }}</p>
-                        {% endif %}
-                    </div>
-                {% endfor %}
+        {% endfor %}
+
+
+    </div>
+
+    <!-- Assignment Form Section -->
+    <h2 class="text-xl font-semibold mb-4">تحديد المختبرات</h2>
+    <div class="mb-8">
+        {% for field in assignment_form %}
+            <div class="flex flex-col space-y-2">
+                <div class="relative">
+                    {% render_field field class="form-input border border-gray-300 rounded-md px-4 py-2 shadow-sm" %}
+                    {% if field.errors %}
+                        <p class="text-sm text-red-500 mt-1">{{ field.errors }}</p>
+                    {% endif %}
+                </div>
+                {% if field.help_text %}
+                    <p class="text-xs text-gray-500">{{ field.help_text }}</p>
+                {% endif %}
             </div>
+        {% endfor %}
+    </div>
 
-            <!-- Submit Button Section -->
-            <div class="flex items-center justify-between">
-                <button type="submit" class="px-8 py-3 bg-[#2a9d8f] text-white font-semibold rounded-md shadow-sm hover:bg-[#24877c] transition duration-300 ease-in-out">
+    <!-- Submit Button Section -->
+    <div class="flex items-center justify-between">
+        <button type="submit" class="px-8 py-3 bg-[#2a9d8f] text-white font-semibold rounded-md shadow-sm hover:bg-[#24877c] transition duration-300 ease-in-out">
+            أضافة
+            <i class="fas fa-save ml-2"></i>
+        </button>
+        <button class="px-8 py-3 bg-[#e63946] text-white font-semibold rounded-md shadow-sm hover:bg-[#c6303d] transition duration-300 ease-in-out">
+            <a href="{% url 'sample:all_samples' %}">
+                رجوع
+                <i class="fas fa-arrow-left mr-2"></i>
+            </a>
+        </button>
+    </div>
+</form>
 
-                    أضافة
-                    <i class="fas fa-save ml-2"></i>
-
-                </button>
-                <button  class="px-8 py-3 bg-[#e63946] text-white font-semibold rounded-md shadow-sm hover:bg-[#c6303d] transition duration-300 ease-in-out">
-
-                <a href="{% url 'sample:all_samples' %}" >
-                    رجوع
-                    <i class="fas fa-arrow-left mr-2"></i>
-
-                </a>
-                </button>
-                
-            </div>
-        </form>
     </div>
 </div>
 {% endblock %}

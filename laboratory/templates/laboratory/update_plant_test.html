@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block title %}تحديث اختبار النبات{% endblock %}
+{% block header %}تحديث اختبار النبات{% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-md">
+    <!-- Sample Details -->
+    <div class="container px-2 py-6">
+        <div class="bg-gray-50 border border-gray-200 rounded-lg w-full p-4 mb-6">
+            <h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">تحديث تفاصيل العينة</h2>
+            <div class="input-grid-read mb-6">
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">رقم العينة</label>
+                    <input type="text" value="{{ sample.sample_id }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">المحصول</label>
+                    <input type="text" value="{{ sample.crop_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">الصنف</label>
+                    <input type="text" value="{{ sample.variety }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">الرتبة</label>
+                    <input type="text" value="{{ sample.grade }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">تاريخ التبليغ</label>
+                    <input type="text" value="{{ sample.result_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Plant Test Form -->
+    <form method="POST"  class="space-y-6">
+        {% csrf_token %}
+        <h1 class="text-2xl font-bold mt-6 text-center text-gray-800">تحديث بيانات اختبار النبات</h1>
+
+        <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm">
+            <h3 class="text-lg font-semibold mb-4">بيانات اختبار النبات</h3>
+            <div class="flex flex-wrap -mx-2">
+
+                <!-- First Row (4 Fields) -->
+                <div class="w-full flex flex-wrap -mx-2 mb-4">
+                    <div class="w-1/4 px-2">
+                        {{ plant_test_form.number_of_seeds.label_tag }}
+                        {{ plant_test_form.number_of_seeds }}
+                    </div>
+                    <div class="w-1/4 px-2">
+                        {{ plant_test_form.temperature.label_tag }}
+                        {{ plant_test_form.temperature }}
+                    </div>
+                    <div class="w-1/4 px-2">
+                        {{ plant_test_form.planting_method.label_tag }}
+                        {{ plant_test_form.planting_method }}
+                    </div>
+                    <div class="w-1/4 px-2">
+                        {{ plant_test_form.tetrazonium_test.label_tag }}
+                        {{ plant_test_form.tetrazonium_test }}
+                    </div>
+                </div>
+
+                <!-- Second Row (4 Fields) -->
+                <div class="w-full flex flex-wrap -mx-2 mb-4">
+                    <div class="w-1/4 px-2">
+                        {{ plant_test_form.seed_vitality.label_tag }}
+                        {{ plant_test_form.seed_vitality }}
+                    </div>
+                    <div class="w-1/4 px-2">
+                        {{ plant_test_form.germination_power.label_tag }}
+                        {{ plant_test_form.germination_power }}
+                    </div>
+                    <div class="w-1/4 px-2">
+                        {{ plant_test_form.duplicates.label_tag }}
+                        {{ plant_test_form.duplicates }}
+                    </div>
+                    <!-- If you need another field -->
+                    <div class="w-1/4 px-2">
+                        <!-- Another field -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seed Entries Update Section -->
+        {% if total_value_1 != 0 and total_value_2 != 0 and total_value_3 != 0 and total_value_4 != 0 %}
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+                <thead>
+                    <tr class="bg-gray-100 text-gray-600 border-b border-gray-300">
+                        <th class="px-6 py-3 text-center text-lg font-semibold">نوع البذور</th>
+                        <th class="px-6 py-3 text-center text-lg font-semibold">تاريخ العد</th>
+                        <th class="px-6 py-3 text-center text-lg font-semibold">مكرر 1</th>
+                        <th class="px-6 py-3 text-center text-lg font-semibold">مكرر 2</th>
+                        <th class="px-6 py-3 text-center text-lg font-semibold">مكرر 3</th>
+                        <th class="px-6 py-3 text-center text-lg font-semibold">مكرر 4</th>
+                        {% if plant_test_form.duplicates.value == '8x50' %}
+                        <th class="px-6 py-3 text-lg font-semibold text-center">مكرر 5</th>
+                        <th class="px-6 py-3 text-lg font-semibold text-center">مكرر 6</th>
+                        <th class="px-6 py-3 text-lg font-semibold text-center">مكرر 7</th>
+                        <th class="px-6 py-3 text-lg font-semibold text-center">مكرر 8</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in seed_entries %}
+                    <tr class="hover:bg-gray-400 hover:bg-opacity-25 transition duration-300 ease-in-out">
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ entry.get_seed_type_display }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ entry.count_date }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ entry.value_1 }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ entry.value_2 }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ entry.value_3 }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ entry.value_4 }}</td>
+                        {% if plant_test_form.duplicates.value == '8x50' %}
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ entry.value_5 }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ entry.value_6 }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ entry.value_7 }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ entry.value_8 }}</td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                    <tr class="hover:bg-gray-400 hover:bg-opacity-25 transition duration-300 ease-in-out">
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">المجموع</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">مجموع المكررات</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ total_value_1 }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ total_value_2 }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ total_value_3 }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ total_value_4 }}</td>
+                        {% if plant_test_form.duplicates.value == '8x50' %}
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ total_value_5 }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ total_value_6 }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ total_value_7 }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ total_value_8 }}</td>
+                        {% endif %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- Submit Button -->
+        <div class="text-center mt-6">
+            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
+                تحديث
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

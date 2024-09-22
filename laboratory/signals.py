@@ -1,3 +1,27 @@
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from .models import Assignment
+
+@receiver(post_save, sender=Assignment)
+def check_all_assignments_completed(sender, instance, created, **kwargs):
+    print('Signal Workinng')
+    if not created:  # Only execute this code on update, not on creation
+        sample = instance.sample
+        all_assignments = Assignment.objects.filter(sample=sample)
+        if all(assign.completed for assign in all_assignments):
+            sample.lab_status = 'منجزة'
+            sample.save()
+            print('Signal Saved')
+
+
+
+
+
+
+
+
+
+
 # from django.db.models.signals import post_save
 # from django.dispatch import receiver
 # from .models import PurityTest

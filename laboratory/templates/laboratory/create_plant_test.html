@@ -6,42 +6,44 @@
 {% block content %}
 <div class="container mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-md">
     <!-- Sample Details -->
-    <div class="container px-4 py-0">
-        <div class="bg-gray-50  border border-gray-200 rounded-lg w-full p-6 mb-6">
+      <div class="container px-2 py-6">
+        <div class="bg-gray-50  border border-gray-200 rounded-lg w-full p-4 mb-6">
             <h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">تفاصيل العينة</h2>
-            <div class="input-grid-read">
+            <div class="input-grid-read mb-6">
                 <div class="input-container-read mt-3">
                     <label class="text-gray-600 text-lg">رقم العينة</label>
                     <input type="text" value="{{ sample.sample_id }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
+
                 <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">اسم المحصول</label>
-                    <input type="text" value="{{ sample.crop_name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
-                <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">نوع المحصول</label>
+                    <label class="text-gray-600 text-lg"> المحصول</label>
                     <input type="text" value="{{ sample.crop_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
                 <div class="input-container-read mt-3">
                     <label class="text-gray-600 text-lg">الصنف</label>
                     <input type="text" value="{{ sample.variety }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
+
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">الرتبة</label>
+                    <input type="text" value="{{ sample.grade }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+
+
+
+                <div class="input-container-read mt-3">
+                    <label class="text-gray-600 text-lg">رقم الأرسالية </label>
+                    <input type="text" value="{{ sample.distinguishing_marks }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
                 <div class="input-container-read mt-3">
                     <label class="text-gray-600 text-lg">نوع العينة</label>
                     <input type="text" value="{{ sample.sample_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
                 <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">العلامات المميزة</label>
-                    <input type="text" value="{{ sample.distinguishing_marks }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    <label class="text-gray-600 text-lg">تاريخ التبليغ</label>
+                    <input type="text" value="{{ sample.result_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
-                <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">الجهة المرسلة</label>
-                    <input type="text" value="{{ sample.sender_name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
-                <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">تاريخ الاستلام</label>
-                    <input type="text" value="{{ sample.received_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
+
             </div>
         </div>
     </div>
@@ -99,120 +101,97 @@
 
     </div>
 </div>
-
-
         <!-- Seed Entries Form -->
 
-{% for i in seed_entries %}
-    <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm mb-2">
-        <h3 class="text-lg font-semibold mb-4">بيانات اختبار النبات</h3>
-        <div class="grid grid-cols-5 gap-4">
-            <!-- Column 1: Seed Type and Additional Field -->
-            <div class="col-span-1 flex flex-col">
-                <!-- Seed Type -->
-                <div class="flex flex-col mb-4">
-                    <label class="text-gray-600 text-lg mb-1">نوع البذور</label>
-                    <input type="text" value="{{ i.get_seed_type_display }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
-                <!-- Additional Field -->
-                <div class="flex flex-col">
-                    <label class="text-gray-600 text-lg mb-1">تاريخ الإحصاء</label>
-                    <input type="text" value="{{ i.count_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
-            </div>
 
-            <!-- Column 2: Values -->
-            <div class="col-span-4 flex flex-col mt-2">
-                <div class="flex flex-wrap mx-2">
-                    <div class="w-1/4 px-2 mb-2">
-                        <label class="text-gray-600 text-lg">القيمة 1</label>
-                        <input type="text" value="{{ i.value_1 }}" class="read-only-input rounded-md shadow-sm text-lg w-full" readonly />
-                    </div>
-                    <div class="w-1/4 px-2 mb-2">
-                        <label class="text-gray-600 text-lg">القيمة 2</label>
-                        <input type="text" value="{{ i.value_2 }}" class="read-only-input rounded-md shadow-sm text-lg w-full" readonly />
-                    </div>
-                    <div class="w-1/4 px-2 mb-2">
-                        <label class="text-gray-600 text-lg">القيمة 3</label>
-                        <input type="text" value="{{ i.value_3 }}" class="read-only-input rounded-md shadow-sm text-lg w-full" readonly />
-                    </div>
-                    <div class="w-1/4 px-2 mb-2">
-                        <label class="text-gray-600 text-lg">القيمة 4</label>
-                        <input type="text" value="{{ i.value_4 }}" class="read-only-input rounded-md shadow-sm text-lg w-full" readonly />
-                    </div>
+        {% if total_value_1 != 0 or total_value_2 != 0 or total_value_3 != 0 or total_value_4 != 0 %}
 
-                    {% if i.value_5 %}
-                        <div class="w-1/4 px-2 mb-2">
-                            <label class="text-gray-600 text-lg">القيمة 5</label>
-                            <input type="text" value="{{ i.value_5 }}" class="read-only-input rounded-md shadow-sm text-lg w-full" readonly />
-                        </div>
-                        <div class="w-1/4 px-2 mb-2">
-                            <label class="text-gray-600 text-lg">القيمة 6</label>
-                            <input type="text" value="{{ i.value_6 }}" class="read-only-input rounded-md shadow-sm text-lg w-full" readonly />
-                        </div>
-                        <div class="w-1/4 px-2 mb-2">
-                            <label class="text-gray-600 text-lg">القيمة 7</label>
-                            <input type="text" value="{{ i.value_7 }}" class="read-only-input rounded-md shadow-sm text-lg w-full" readonly />
-                        </div>
-                        <div class="w-1/4 px-2 mb-2">
-                            <label class="text-gray-600 text-lg">القيمة 8</label>
-                            <input type="text" value="{{ i.value_8 }}" class="read-only-input rounded-md shadow-sm text-lg w-full" readonly />
-                        </div>
+
+        <div class="overflow-x-auto">
+
+        <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+            <thead>
+                <tr class="bg-gray-100 text-gray-600 border-b border-gray-300">
+                    <th class="px-6 py-3 text-center text-lg font-semibold">نوع البذور </th>
+                    <th class="px-6 py-3 text-center text-lg font-semibold">تاريخ العد </th>
+                    <th class="px-6 py-3 text-center text-lg font-semibold">مكرر 1</th>
+                    <th class="px-6 py-3 text-center text-lg font-semibold">مكرر 2</th>
+                    <th class="px-6 py-3 text-center text-lg font-semibold">مكرر 3</th>
+                    <th class="px-6 py-3 text-center text-lg font-semibold">مكرر 4 </th>
+                    {% if plant_test_form.duplicates.value == '8x50' %}
+                    <th class="px-6 py-3  text-lg font-semibold text-center">مكرر 5</th>
+                    <th class="px-6 py-3  text-lg font-semibold text-center">مكر6</th>
+                    <th class="px-6 py-3  text-lg font-semibold text-center">مكرر 7</th>
+                    <th class="px-6 py-3  text-lg font-semibold text-center">مكرر 8</th>
                     {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
-    
-{% endfor %}
+
+                </tr>
+            </thead>
 
 
-{% if total_value_1 == 0 and total_value_2 == 0 and total_value_3 == 0 and total_value_4 == 0 %}
-<div> </div>
-{% else %}
-<div class="p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm mb-2">
-    <h3 class="text-lg font-semibold mb-4">مجموع المكررات</h3>
-    <div class="grid grid-cols-4 gap-4">
-        <div class="flex flex-col mb-4">
-            <label class="text-gray-600 text-lg mb-1"> المكرر 1</label>
-            <input type="text" value="{{ total_value_1 }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-        </div>
-        <div class="flex flex-col mb-4">
-            <label class="text-gray-600 text-lg mb-1">المكرر  2</label>
-            <input type="text" value="{{ total_value_2 }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-        </div>
-        <div class="flex flex-col mb-4">
-            <label class="text-gray-600 text-lg mb-1">المكرر  3</label>
-            <input type="text" value="{{ total_value_3 }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-        </div>
-        <div class="flex flex-col mb-4">
-            <label class="text-gray-600 text-lg mb-1">المكرر  4</label>
-            <input type="text" value="{{ total_value_4 }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-        </div>
-        {% if plant_test_form.duplicates.value == '8x50' %}
-            <div class="flex flex-col mb-4">
-                <label class="text-gray-600 text-lg mb-1">المكرر 5</label>
-                <input type="text" value="{{ total_value_5 }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-            </div>
-            <div class="flex flex-col mb-4">
-                <label class="text-gray-600 text-lg mb-1">المكرر 6</label>
-                <input type="text" value="{{ total_value_6 }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-            </div>
-            <div class="flex flex-col mb-4">
-                <label class="text-gray-600 text-lg mb-1">المكرر 7</label>
-                <input type="text" value="{{ total_value_7 }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-            </div>
-            <div class="flex flex-col mb-4">
-                <label class="text-gray-600 text-lg mb-1">المكرر 8</label>
-                <input type="text" value="{{ total_value_8 }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-            </div>
-        {% endif %}
+                <tbody>
+                {% for i in seed_entries %}
+                    <tr class="hover:bg-gray-400 hover:bg-opacity-25 transition duration-300 ease-in-out">
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ i.get_seed_type_display }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ i.count_date  }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ i.value_1  }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ i.value_2  }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ i.value_3  }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ i.value_4  }}</td>
+                                            {% if plant_test_form.duplicates.value == '8x50' %}
 
-    </div>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ i.value_5  }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ i.value_6  }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ i.value_7  }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ i.value_8  }}</td>
+                                        {% endif %}
 
-</div>
 
-{% endif %}
+                    </tr>
+                {% endfor %}
+                {% if total_value_1 == 0 and total_value_2 == 0 and total_value_3 == 0 and total_value_4 == 0 %}
+                <tr></tr>
+                {% else %}
+                <tr class="hover:bg-gray-400 hover:bg-opacity-25 transition duration-300 ease-in-out">
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">المجموع</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">مجموع المكررات</td>
+
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ total_value_1 }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ total_value_2 }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ total_value_3 }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ total_value_4 }}</td>
+                    {% if plant_test_form.duplicates.value == '8x50' %}
+
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{total_value_5 }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ total_value_6  }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center">{{ total_value_7  }}</td>
+                        <td class="px-6 py-4 text-lg border-b border-gray-200 text-center" >{{ total_value_8 }}</td>
+                    {% endif %}
+
+
+
+                    </tr>
+                {% endif %}
+
+            </tbody>
+        </table>
+        </div>
+
+                        {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -233,7 +212,13 @@
     <div class="grid grid-cols-4 gap-4">
         <div class="flex flex-col mb-4">
             <label class="text-gray-600 text-lg mb-1"> نوع البذور</label>
-            <input type="text" value="{{ seed_sum.seed_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+        <input type="text" 
+       value="{% if seed_sum.seed_type == 'Hard' %}صلبة
+              {% elif seed_sum.seed_type == 'Natural' %}طبيعية
+              {% elif seed_sum.seed_type == 'Unnatural' %}غير طبيعية
+              {% elif seed_sum.seed_type == 'Dead' %}ميتة
+              {% else %}غير محددة{% endif %}" 
+               class="read-only-input rounded-md shadow-sm text-lg" readonly />
         </div>
         <div class="flex flex-col mb-4">
             <label class="text-gray-600 text-lg mb-1">المجموع</label>
@@ -257,11 +242,11 @@
     <div class="grid grid-cols-4 gap-4">
         <div class="flex flex-col mb-4">
             <label class="text-gray-600 text-lg mb-1"> نسبة البذور  الصلبة </label>
-            <input type="text" value="{{ plant_test.hard_percentage }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+            <input type="text" value="{{ plant_test.hard_percentage }} %" class="read-only-input-success rounded-md shadow-sm text-lg" readonly />
         </div>
         <div class="flex flex-col mb-4">
             <label class="text-gray-600 text-lg mb-1">نسبة البذور الطبيعية</label>
-            <input type="text" value="{{ plant_test.natural_percentage }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+            <input type="text" value="{{ plant_test.natural_percentage }} %" class="read-only-input-success rounded-md shadow-sm text-lg" readonly />
         </div>
     </div>
 </div>
@@ -270,23 +255,20 @@
 
 
         <div class="mt-8 p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm">
-
-            
             <h3 class="text-lg font-semibold mb-4 mt-4">أدخل بيانات البذور</h3>
             <div class="flex flex-wrap -mx-2">
-
+                
                 <div class="w-1/4 px-2 mb-4">
                     {{ seed_entry_form.seed_type.label_tag }}
                     {{ seed_entry_form.seed_type }}
                 </div>
-                                <div class="w-1/4 px-2 mb-4">
+                
+                <div class="w-1/4 px-2 mb-4">
                     {{ seed_entry_form.count_date.label_tag }}
                     {{ seed_entry_form.count_date }}
                 </div>
             </div>
-                        <div class="flex flex-wrap -mx-2">
-
-
+        <div class="flex flex-wrap -mx-2">
             </div>
             <div id="seed-values" class="flex flex-wrap -mx-2">
                 <div class="w-1/4 px-2 mb-4">
@@ -305,7 +287,7 @@
                     {{ seed_entry_form.value_4.label_tag }}
                     {{ seed_entry_form.value_4 }}
                 </div>
-                                    <div class="w-1/4 px-2 mb-4">
+                <div class="w-1/4 px-2 mb-4">
                         {{ seed_entry_form.value_5.label_tag }}
                         {{ seed_entry_form.value_5 }}
                     </div>
@@ -338,7 +320,8 @@
                         {{ seed_entry_form.value_8.label_tag }}
                         {{ seed_entry_form.value_8 }}
                     </div>
-                {% endif %} {% endcomment %}
+                {% endif %} 
+                {% endcomment %}
             </div>
             <button type="submit" name="add_another" class="mt-4 px-4 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-sm hover:bg-blue-600">
                 أضف نوع بذور آخر
