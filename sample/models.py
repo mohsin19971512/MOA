@@ -40,7 +40,7 @@ class Sample(models.Model):
     result_date = models.DateField(verbose_name="تاريخ التبليغ ",null=True, blank=True,auto_now_add=True)
     shipment_weight = models.FloatField(verbose_name="وزن الأرسالية")
     unit_of_measure = models.CharField(max_length=10, choices=UNIT_CHOICES, verbose_name="وحدة القياس" , null=True, blank=True)
-
+    location = models.CharField(max_length=100, null=True,blank=True,verbose_name="الموقع ")
     batch_number = models.CharField(max_length=100, choices=batch_type,verbose_name="نوع البذور ")
     sample_id = models.CharField(max_length=100, unique=True, verbose_name="رقم العينة")
     lab_status = models.CharField(choices=LAB_STATUS, default='غير منجزة',max_length=100,null=True,blank=True,verbose_name="حالة المختبرات من الفحص")

@@ -64,7 +64,7 @@ class PurityTestForm(forms.ModelForm):
     class Meta:
         model = PurityTest
         fields = ['Incoming_sample_weight', 'unit_of_measure', 'purity_percentage', 'inert_materials_percentage',
-                  'other_seeds_percentage']
+                  'other_seeds_percentage','count_croptype','count_Jungle']
         widgets = {
             'Incoming_sample_weight': forms.NumberInput(
                 attrs={'class': 'w-full border border-gray-300 rounded-md p-2'}),
@@ -96,9 +96,7 @@ class PurityTestForm(forms.ModelForm):
     other_seeds_weight_b = forms.FloatField(label='وزن B للبذور الأخرى', widget=forms.NumberInput(
         attrs={'class': 'w-full border border-gray-300 rounded-md p-2'}))
 
-    # Inline formsets for CropType and Jungle
     CropTypeFormSet = formset_factory(PurityTestCropTypeForm, extra=0)
     JungleFormSet = formset_factory(PurityTestJungleForm, extra=0)
-
     crop_type_forms = CropTypeFormSet()
     jungle_forms = JungleFormSet()

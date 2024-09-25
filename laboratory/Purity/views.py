@@ -242,21 +242,29 @@ def update_purity_test(request, assignment_id):
 
         # Prepare initial data for crop types
         crop_type_initial_data = {
-            f'crop_type_{crop_type.id}': int(crop_type.count)
+            f'crop_type_{crop_type.crop_type.id}': str(crop_type.count).replace(',', '.')
             for crop_type in purity_test.puritytestcroptype_set.all()
         }
 
-        crop_type_form = CropTypeCountForm(initial=crop_type_initial_data, crop_types=CropType.objects.all())
-
-        print("CropType Initial Data:", crop_type_form)
-        for crop_type in purity_test.puritytestcroptype_set.all():
-            print(f"Crop Type ID: {crop_type.id}, Count: {crop_type.count}")
+        # Get all crop types including those without initial values
+        crop_type_form = CropTypeCountForm(
+            initial=crop_type_initial_data,
+            crop_types=CropType.objects.all()  # Include all crop types
+        )
 
         # Prepare initial data for jungles
-        jungle_initial_data = {f'jungle_{jungle.id}': str(jungle.count).replace(',', '.') for jungle in
-                               purity_test.puritytestjungle_set.all()}
-        jungle_form = JungleCountForm(initial=jungle_initial_data, jungles=Jungle.objects.all())
-        print("jungle_initial_data Initial Data:", jungle_initial_data)
+        jungle_initial_data = {
+            f'jungle_{jungle.jungle.id}': str(jungle.count).replace(',', '.')
+            for jungle in purity_test.puritytestjungle_set.all()
+        }
+
+        # Get all jungles including those without initial values
+        jungle_form = JungleCountForm(
+            initial=jungle_initial_data,
+            jungles=Jungle.objects.all()  # Include all jungles
+        )
+
+
 
     return render(request, 'laboratory/update_purity_test.html', {
         'form': form,

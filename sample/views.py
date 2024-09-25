@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 
 from laboratory.Health.models import HealthTest
 from laboratory.Purity.models import PurityTest
-from .forms import SampleForm  # Import the form class
+from .forms import SampleForm, HealthTestNotesForm  # Import the form class
 from laboratory.forms import AssignmentForm
 from laboratory.models import Assignment
 from laboratory.models import PlantTest,MoistureTest,Lab
@@ -19,6 +19,10 @@ from django.http import HttpResponse
 from django.templatetags.static import static
 from account.models import Profile
 from itertools import zip_longest
+from django.http import HttpResponseRedirect
+
+
+
 def generate_certificate(request,sample_id):
     # Data for the certificate
     sample = Sample.objects.get(pk=sample_id)
@@ -243,6 +247,8 @@ def all_samples(request):
     return render(request, 'sample/all_samples.html', {'samples': samples, 'labs': labs})
 
 
+from django.views.generic import DetailView, FormView
+from django.urls import reverse_lazy
 
 
 class SampleDetailView(DetailView):
@@ -265,22 +271,22 @@ class SampleDetailView(DetailView):
         insect_examinations = []
         fungal_examinations = []
         nematode_tests = None
+
         if health_tests:
             if health_tests.insect_examinations.exists():
                 insect_examinations = health_tests.insect_examinations.all()
-                print('insect_examinations', len(insect_examinations))
-        if health_tests:
             if health_tests.fungal_examinations.exists():
                 fungal_examinations = health_tests.fungal_examinations.all()
-                print('fungal_examinations', len(fungal_examinations))
-        if health_tests:
             if health_tests.nematode_tests.exists():
                 nematode_tests = health_tests.nematode_tests.all().first()
-        else:
-            print("health_tests is None")
+
         combined_examinations = zip_longest(insect_examinations, fungal_examinations, fillvalue=None)
-        
-        
+
+        # Add the form for editing HealthTest notes
+        if self.request.method == 'POST':
+            context['notes_form'] = HealthTestNotesForm(self.request.POST, instance=health_tests)
+        else:
+            context['notes_form'] = HealthTestNotesForm(instance=health_tests)
 
         context.update({
             'assignments': assignments,
@@ -294,6 +300,23 @@ class SampleDetailView(DetailView):
             'combined_examinations': combined_examinations,
         })
         return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()  # Get the current Sample object
+
+        # Fetch assignments related to this sample
+        assignments = Assignment.objects.filter(sample=self.object)
+
+        # Fetch the related health tests based on the assignments
+        health_tests = HealthTest.objects.filter(assignment__in=assignments).first()
+
+        form = HealthTestNotesForm(request.POST, instance=health_tests)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(self.request.path_info)  # Redirect to the same page after saving
+        return self.get(request, *args, **kwargs)
+
+
     
 
 

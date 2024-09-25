@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import Assignment
-
+from datetime import date
 @receiver(post_save, sender=Assignment)
 def check_all_assignments_completed(sender, instance, created, **kwargs):
     print('Signal Workinng')
@@ -10,6 +10,7 @@ def check_all_assignments_completed(sender, instance, created, **kwargs):
         all_assignments = Assignment.objects.filter(sample=sample)
         if all(assign.completed for assign in all_assignments):
             sample.lab_status = 'منجزة'
+            sample.test_date = date.today()
             sample.save()
             print('Signal Saved')
 

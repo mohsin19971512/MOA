@@ -32,6 +32,7 @@
             font-family: "Cairo", sans-serif;
             font-size: 11px; /* Decreased font size */
             width: 100%;
+
         }
 
         .container {
@@ -51,12 +52,13 @@
         }
 
         .header img {
-            width: 140px; /* Reduced logo size */
+            {#width: 170px; /* Reduced logo size */#}
             height: 120px;
         }
 
         .header-right, .header-left {
             line-height: 1.2;
+            margin-top: -80px;
         }
 
         .header-right h4, .header-left h4 {
@@ -73,14 +75,15 @@
             font-family: "Cairo", sans-serif;
             width: 100%;
             border-collapse: collapse;
-            {#margin: 10px 0; /* Reduced margin */#}
+            margin: 10px 0; /* Reduced margin */
             text-align: center;
             border-radius: 5px;
             overflow: hidden;
+            align-content: center;
         }
 
         th, td {
-            border: 1px solid #ccc;
+            border: 1px solid #1A2130;
             padding: 8px; /* Reduced padding */
             text-align: center;
         }
@@ -111,17 +114,40 @@
         }
 
         .notes {
-            font-size: 6pt;
+            font-size: 8pt;
             {#margin-top: 2px; /* Reduced margin */#}
-            background-color: #fffbf0;
+            background-color: #FFC7ED;
             padding: 5px; /* Reduced padding */
             border-radius: 4px;
         }
 
         .signature {
-            text-align: left;
-            {#margin-top: 10px; /* Reduced margin */#}
+            display: flex;
+            justify-content: flex-end; /* Aligns the items at the start of the flex container */
+            align-items: center; /* Vertically align them in the center */
+            margin-top: 20px; /* Add some space at the top */
+            direction: rtl; /* Ensure content flows from right to left */
         }
+
+        .signature-info {
+            margin-right: 20px; /* Add some space between the name/title and the date */
+        }
+
+        .signature-info p,
+        .signature-date p {
+            margin: 0; /* Remove default margins */
+        }
+
+        .signature-info p {
+            text-align: left; /* Align text to the right for Arabic content */
+        }
+
+        .signature-date p {
+            text-align: left; /* Align the date to the right */
+            padding-left: 10px; /* Optional: add more space between name/title and the date */
+        }
+
+
 
         footer {
             display: flex;
@@ -194,11 +220,30 @@
             text-align: center;
             margin-left: 50px;
         }
+
+        .additional-info {
+            position: absolute;
+            bottom: 0; /* Position it at the bottom of the left section */
+            left: 0; /* Align to the left */
+            font-size: 12px; /* Adjust font size */
+            font-weight: bold; /* Make text bold */
+            text-align: left; /* Align text to the left */
+        }
+        .blue-background th {
+            background-color: #3ABEF9;
+        }
+
+        .pink-background th{
+            background-color: #FFC7ED;
+        }
+
+        .additional-info p {
+            margin: 5px 0; /* Add some spacing between the lines */
+        }
     </style>
 </head>
-<body>
+<body class="{% if sample.sample_type.name == 'مسحوب' %}blue-background{% else %}pink-background{% endif %}">
 
-<div class="container">
     <!-- Header -->
     <div class="header">
         <!-- Right section (Arabic) -->
@@ -212,52 +257,48 @@
         </div>
 
         <!-- Logos -->
-  <div class="logos-section">
-    <!-- Title above logos -->
-    <h4 class="logo-title">بسم الله الرحمن الرحيم</h4>
+            <div class="logos-section">
+                    <!-- Title above logos -->
+                {#    <h4 class="logo-title">بسم الله الرحمن الرحيم</h4>#}
 
-    <!-- Logos container with two logos -->
-    <div class="logos-container">
-        <div class="logo-container">
-            <div class="logo-label" style="border-right: none; border-left: none;border-top: none">شهادة فحص بذور</div>
-            <img src="{% static 'images/cert.png' %}" alt="Seed Certificate Logo" class="logo">
-            <div class="logo-label" style="border-bottom: none; border-right: none; border-left: none">Seed Tests Certificate</div>
-        </div>
-        <div class="logo-container">
-            <div class="logo-label" style="border-left: none; border-right: none; border-top: none">Accredited CABS</div>
-            <img src="{% static 'images/iqas2.png' %}" alt="IQAS Logo" class="logo">
-            <div class="logo-label" style="border-right: none ;border-bottom: none" >Accredited no.TL 030</div>
-        </div>
-    </div>
+                <!-- Logos container with two logos -->
+                <div class="logos-container">
+                    <div class="logo-container">
+                        <div class="logo-label" style="border-right: none; border-left: none;border-top: none">شهادة فحص بذور</div>
+                        <img src="{% static 'images/cert-logo.png' %}" alt="Seed Certificate Logo" class="logo">
+                        <div class="logo-label" style="border-bottom: none; border-right: none; border-left: none">Seed Tests Certificate</div>
+                    </div>
+                    <div class="logo-container">
+                        <div class="logo-label" style="border-left: none; border-right: none; border-top: none">Accredited CABS</div>
+                        <img src="{% static 'images/iqas2.png' %}" alt="IQAS Logo" class="logo">
+                        <div class="logo-label" style="border-right: none ;border-bottom: none" >Accredited no.TL 030</div>
+                    </div>
+                </div>
 
-    <!-- Title below logos -->
-    <h4 class="logo-title">ISO 17025:2017</h4>
-</div>
-
-
-
-
-
+                <!-- Title below logos -->
+                <h4 class="logo-title">ISO 17025:2017</h4>
+            </div>
 
         <!-- Left section (English) -->
         <div class="header-left">
             <h4>Republic of Iraq</h4>
             <h4>Ministry of Agriculture</h4>
-            <h4>Seed Testing and Certification Department</h4>
-            <h4>Laboratory Section</h4>
-            <h5>ISTA Member</h5>
-            <h5>Membership Code IQDL0100</h5>
+            <h4>Directorate Of Seed Testing And Certificate</h4>
+            <h4>Laboratory Department</h4>
+{#            <h5>ISTA Member</h5>#}
+            <h5> Code No.IQDL0100</h5>
+
         </div>
     </div>
     <h3 class="cu-h3">تم الفحص وفقاً للقواعد الدولية لفحص البذور (ISTA) أصدار عام 2024</h3>
 
     <!-- Info Table -->
     <table class="info-table">
-        <tr>
+        <tr >
             <th>عائدية البذور Name Of Applicant </th>
-            <td> </td>
+            <td> {{ sample.sender_name }}</td>
             <th>الموقع</th>
-            <td>بغداد</td>
+            <td>{{ sample.location }}</td>
             <th>نوع العينة</th>
             <td>{{ sample.sample_type.name }}</td>
         </tr>
@@ -303,14 +344,14 @@
             {% if  plant_tests.natural_percentage != None %}
             <td>{{ plant_tests.natural_percentage }}%</td>
             {% else %}
-            <td>%</td>
+
 
             {% endif %}
-            <td></td>
+            <td>%{{ plant_tests.tetrazonium_test }}</td>
             <td>{{ purity_tests.purity_percentage }}%</td>
             <td>{{ moisture_tests.humidity }}%</td>
-            <td>367</td>
-            <td>42</td>
+            <td>{{ purity_tests.count_Jungle }}</td>
+            <td>{{ purity_tests.count_croptype }}</td>
 
         </tr>
 
@@ -372,25 +413,38 @@
     <!-- Notes Section -->
     <div class="notes">
         <p>التوصيات: البذور صالحة للزراعة لموسم زراعي واحد</p>
-        <p><strong>* فحص صحة البذور غير داخل بالاعتماد</strong></p>
+        <p><strong>* {{ health_tests.note }}</strong></p>
     </div>
 
     <!-- Signature Section -->
-    <div class="signature" style="align-content: flex-end; justify-content: flex-end">
-        <p >سالم طعمة كاصد</p>
-        <p>مدير قسم المختبرات</p>
-        <p>Lab Manager</p>
-            <p>15/08/2024</p>
-
+<!-- Signature Section -->
+<div class="signature">
+            <div class="signature-date">
+        <p>15/08/2024</p>
     </div>
 
-    <!-- Footer -->
-<footer>
-    <p>بغداد، ساحة ابو جعفر المنصور</p>
-    <p>E-mail: sbstc@moagr.org</p>
-</footer>
+    <div class="signature-info">
+        <p>سالم طعمة كاصد</p>
+        <p>مدير قسم المختبرات</p>
+        <p>Lab Manager</p>
+                        <p>No:- 218</p>
+                <p>LSBSTC</p>
+    </div>
+
 
 </div>
 
+
+                    <div class="additional-info">
+
+            </div>
+
+
+
+</div>
+        <footer>
+            <p>بغداد، ساحة ابو جعفر المنصور</p>
+            <p>E-mail: sbstc@moagr.org</p>
+        </footer>
 </body>
 </html>

@@ -70,84 +70,195 @@
             
             <!-- Column 1: Incoming Sample Weight -->
             <div class="col-span-1 p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm space-y-4">
+
+                <!-- Field: Incoming_sample_weight -->
                 <label for="Incoming_sample_weight" class="block text-lg font-semibold text-gray-700 mb-8">وزن العينة الوارد</label>
-                <input type="number" name="Incoming_sample_weight" id="Incoming_sample_weight" value="{{ form.Incoming_sample_weight.value|stringformat:'s' }}" class="w-full border border-gray-500 rounded-md p-2" step="any"  >
+                <input type="number" name="Incoming_sample_weight" id="Incoming_sample_weight"
+                       value="{{ form.Incoming_sample_weight.value|stringformat:'s' }}"
+                       class="w-full border border-gray-500 rounded-md p-2" step="any">
+                <!-- Error Message for Incoming_sample_weight -->
+                {% if form.Incoming_sample_weight.errors %}
+                    <p class="text-red-600 text-sm mt-1">{{ form.Incoming_sample_weight.errors.0 }}</p>
+                {% endif %}
+
+                <!-- Field: unit_of_measure -->
                 <div>
-                    <label for="unit_of_measure" class="block text-lg font-bold text-gray-700 mb-2 text-center ">وحدة القياس </label>
+                    <label for="unit_of_measure" class="block text-lg font-bold text-gray-700 mb-2 text-center">وحدة القياس</label>
                     <select name="unit_of_measure" id="unit_of_measure" class="w-full border text-center border-gray-500 rounded-md p-2">
-                            {% for choice in form.unit_of_measure.field.choices %}
-                                <option value="{{ choice.0 }}" {% if choice.0 == form.unit_of_measure.value %}selected{% endif %}>{{ choice.1 }}</option>
-                            {% endfor %}
+                        {% for choice in form.unit_of_measure.field.choices %}
+                            <option value="{{ choice.0 }}" {% if choice.0 == form.unit_of_measure.value %}selected{% endif %}>
+                                {{ choice.1 }}
+                            </option>
+                        {% endfor %}
                     </select>
+                    <!-- Error Message for unit_of_measure -->
+                    {% if form.unit_of_measure.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ form.unit_of_measure.errors.0 }}</p>
+                    {% endif %}
                 </div>
-            
+
             </div>
+
         
 
             <!-- Column 2: PurityTest Weights (A and B) -->
+            <!-- Column: الأوزان (Weights) -->
             <div class="col-span-1 p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm space-y-4">
                 <h2 class="text-xl font-semibold text-gray-800 mb-4">الأوزان</h2>
+
+                <!-- Field: weight_a -->
                 <div>
                     <label for="weight_a" class="block text-lg font-medium text-gray-700 mb-2">وزن أ</label>
-                    <input type="number" name="weight_a" id="weight_a" value="{{ form.weight_a.value|stringformat:'s' }}" class="w-full border border-gray-500 rounded-md p-2" step="any"  >
+                    <input type="number" name="weight_a" id="weight_a"
+                           value="{{ form.weight_a.value|stringformat:'s' }}"
+                           class="w-full border border-gray-500 rounded-md p-2" step="any">
+                    <!-- Error Message -->
+                    {% if form.weight_a.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ form.weight_a.errors.0 }}</p>
+                    {% endif %}
                 </div>
+
+                <!-- Field: weight_b -->
                 <div>
                     <label for="weight_b" class="block text-lg font-medium text-gray-700 mb-2">وزن ب</label>
-                    <input type="number" name="weight_b" id="weight_b" value="{{ form.weight_b.value|stringformat:'s' }}" class="w-full border border-gray-500 rounded-md p-2" step="any"  >
+                    <input type="number" name="weight_b" id="weight_b"
+                           value="{{ form.weight_b.value|stringformat:'s' }}"
+                           class="w-full border border-gray-500 rounded-md p-2" step="any">
+                    <!-- Error Message -->
+                    {% if form.weight_b.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ form.weight_b.errors.0 }}</p>
+                    {% endif %}
                 </div>
             </div>
+
 
             <!-- Column 3: Pure Seeds -->
+            <!-- Column: Pure Seeds (البذور النقية) -->
             <div class="col-span-1 p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm space-y-4">
                 <h2 class="text-xl font-semibold text-gray-800 mb-4">البذور النقية</h2>
+
+                <!-- Field: pure_seeds_weight_a -->
                 <div>
                     <label for="pure_seeds_weight_a" class="block text-lg font-medium text-gray-700 mb-2">وزن أ للبذور النقية</label>
-                    <input type="number" name="pure_seeds_weight_a" id="pure_seeds_weight_a" value="{{ form.pure_seeds_weight_a.value|stringformat:'s' }}" class="w-full border border-gray-500 rounded-md p-2" step="any"  >
+                    <input type="number" name="pure_seeds_weight_a" id="pure_seeds_weight_a"
+                           value="{{ form.pure_seeds_weight_a.value|stringformat:'s' }}"
+                           class="w-full border border-gray-500 rounded-md p-2" step="any">
+                    <!-- Error Message -->
+                    {% if form.pure_seeds_weight_a.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ form.pure_seeds_weight_a.errors.0 }}</p>
+                    {% endif %}
                 </div>
+
+                <!-- Field: pure_seeds_weight_b -->
                 <div>
                     <label for="pure_seeds_weight_b" class="block text-lg font-medium text-gray-700 mb-2">وزن ب للبذور النقية</label>
-                    <input type="number" name="pure_seeds_weight_b" id="pure_seeds_weight_b" value="{{ form.pure_seeds_weight_b.value |stringformat:'s'}}" class="w-full border border-gray-500 rounded-md p-2" step="any"  >
+                    <input type="number" name="pure_seeds_weight_b" id="pure_seeds_weight_b"
+                           value="{{ form.pure_seeds_weight_b.value|stringformat:'s' }}"
+                           class="w-full border border-gray-500 rounded-md p-2" step="any">
+                    <!-- Error Message -->
+                    {% if form.pure_seeds_weight_b.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ form.pure_seeds_weight_b.errors.0 }}</p>
+                    {% endif %}
                 </div>
+
+                <!-- Field: purity_percentage -->
                 <div>
                     <label for="purity_percentage" class="block text-lg font-medium text-gray-700 mb-2">نسبة النقاوة</label>
-                    <input type="number" name="purity_percentage" id="purity_percentage" value="{{ form.purity_percentage.value|stringformat:'s' }}" class="w-full border border-gray-500 rounded-md p-2"  step="any"  
-                    >
+                    <input type="number" name="purity_percentage" id="purity_percentage"
+                           value="{{ form.purity_percentage.value|stringformat:'s' }}"
+                           class="w-full border border-gray-500 rounded-md p-2" step="any">
+                    <!-- Error Message -->
+                    {% if form.purity_percentage.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ form.purity_percentage.errors.0 }}</p>
+                    {% endif %}
                 </div>
             </div>
 
-            <!-- Column 4: Inert Materials -->
-            <div class="col-span-1 p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm space-y-4">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">المواد غير الحية</h2>
-                <div>
-                    <label for="inert_materials_weight_a" class="block text-lg font-medium text-gray-700 mb-2">وزن أ للمواد غير الحية</label>
-                    <input type="number" name="inert_materials_weight_a" id="inert_materials_weight_a" value="{{ form.inert_materials_weight_a.value|stringformat:'s' }}" class="w-full border border-gray-500 rounded-md p-2" step="any"  >
+
+            <!-- Column 4: Inert Materials --><!-- Column 4: Inert Materials -->
+                <div class="col-span-1 p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm space-y-4">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">المواد غير الحية</h2>
+
+                    <!-- Field: inert_materials_weight_a -->
+                    <div>
+                        <label for="inert_materials_weight_a" class="block text-lg font-medium text-gray-700 mb-2">وزن أ للمواد غير الحية</label>
+                        <input type="number" name="inert_materials_weight_a" id="inert_materials_weight_a"
+                               value="{{ form.inert_materials_weight_a.value|stringformat:'s' }}"
+                               class="w-full border border-gray-500 rounded-md p-2" step="any">
+                        <!-- Error Message -->
+                        {% if form.inert_materials_weight_a.errors %}
+                            <p class="text-red-600 text-sm mt-1">{{ form.inert_materials_weight_a.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Field: inert_materials_weight_b -->
+                    <div>
+                        <label for="inert_materials_weight_b" class="block text-lg font-medium text-gray-700 mb-2">وزن ب للمواد غير الحية</label>
+                        <input type="number" name="inert_materials_weight_b" id="inert_materials_weight_b"
+                               value="{{ form.inert_materials_weight_b.value|stringformat:'s' }}"
+                               class="w-full border border-gray-500 rounded-md p-2" step="any">
+                        <!-- Error Message -->
+                        {% if form.inert_materials_weight_b.errors %}
+                            <p class="text-red-600 text-sm mt-1">{{ form.inert_materials_weight_b.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Field: inert_materials_percentage -->
+                    <div>
+                        <label for="inert_materials_percentage" class="block text-lg font-medium text-gray-700 mb-2">نسبة المواد غير الحية</label>
+                        <input type="number" name="inert_materials_percentage" id="inert_materials_percentage"
+                               step="any" value="{{ form.inert_materials_percentage.value|stringformat:'s' }}"
+                               class="w-full border border-gray-500 rounded-md p-2">
+                        <!-- Error Message -->
+                        {% if form.inert_materials_percentage.errors %}
+                            <p class="text-red-600 text-sm mt-1">{{ form.inert_materials_percentage.errors.0 }}</p>
+                        {% endif %}
+                    </div>
                 </div>
-                <div>
-                    <label for="inert_materials_weight_b" class="block text-lg font-medium text-gray-700 mb-2">وزن ب للمواد غير الحية</label>
-                    <input type="number" name="inert_materials_weight_b" id="inert_materials_weight_b" value="{{ form.inert_materials_weight_b.value|stringformat:'s' }}" class="w-full border border-gray-500 rounded-md p-2" step="any"  >
-                </div>
-                <div>
-                    <label for="inert_materials_percentage" class="block text-lg font-medium text-gray-700 mb-2">نسبة المواد غير الحية</label>
-                    <input type="number" name="inert_materials_percentage" id="inert_materials_percentage" step="any"   value="{{ form.inert_materials_percentage.value|stringformat:'s' }}" class="w-full border border-gray-500 rounded-md p-2">
-                </div>
-            </div>
+
 
             <!-- Column 5: Other Seeds -->
+            <!-- Column: Other Seeds (البذور الأخرى) -->
             <div class="col-span-1 p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm space-y-4">
                 <h2 class="text-xl font-semibold text-gray-800 mb-4">البذور الأخرى</h2>
+
+                <!-- Field: other_seeds_weight_a -->
                 <div>
                     <label for="other_seeds_weight_a" class="block text-lg font-medium text-gray-700 mb-2">وزن أ للبذور الأخرى</label>
-                    <input type="number" name="other_seeds_weight_a" id="other_seeds_weight_a" step="any"   value="{{ form.other_seeds_weight_a.value|stringformat:'s' }}" class="w-full border border-gray-500 rounded-md p-2">
+                    <input type="number" name="other_seeds_weight_a" id="other_seeds_weight_a" step="any"
+                           value="{{ form.other_seeds_weight_a.value|stringformat:'s' }}"
+                           class="w-full border border-gray-500 rounded-md p-2">
+                    <!-- Error Message -->
+                    {% if form.other_seeds_weight_a.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ form.other_seeds_weight_a.errors.0 }}</p>
+                    {% endif %}
                 </div>
+
+                <!-- Field: other_seeds_weight_b -->
                 <div>
                     <label for="other_seeds_weight_b" class="block text-lg font-medium text-gray-700 mb-2">وزن ب للبذور الأخرى</label>
-                    <input type="number" name="other_seeds_weight_b" id="other_seeds_weight_b" step="any"   value="{{ form.other_seeds_weight_b.value|stringformat:'s' }}" class="w-full border border-gray-500 rounded-md p-2">
+                    <input type="number" name="other_seeds_weight_b" id="other_seeds_weight_b" step="any"
+                           value="{{ form.other_seeds_weight_b.value|stringformat:'s' }}"
+                           class="w-full border border-gray-500 rounded-md p-2">
+                    <!-- Error Message -->
+                    {% if form.other_seeds_weight_b.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ form.other_seeds_weight_b.errors.0 }}</p>
+                    {% endif %}
                 </div>
+
+                <!-- Field: other_seeds_percentage -->
                 <div>
                     <label for="other_seeds_percentage" class="block text-lg font-medium text-gray-700 mb-2">نسبة البذور الأخرى</label>
-                    <input type="number" name="other_seeds_percentage" id="other_seeds_percentage" step="any"   value="{{ form.other_seeds_percentage.value|stringformat:'s' }}" class="w-full border   border-gray-500 rounded-md p-2">
+                    <input type="number" name="other_seeds_percentage" id="other_seeds_percentage" step="any"
+                           value="{{ form.other_seeds_percentage.value|stringformat:'s' }}"
+                           class="w-full border border-gray-500 rounded-md p-2">
+                    <!-- Error Message -->
+                    {% if form.other_seeds_percentage.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ form.other_seeds_percentage.errors.0 }}</p>
+                    {% endif %}
                 </div>
             </div>
+
 
 
             <!-- <h2>Select Crop Types and Set Counts</h2>
@@ -190,11 +301,30 @@
                                 name="{{ field.name }}"
                                 id="{{ field.id_for_label }}"
                                 value="{{ field.value }}"
-                                class="w-2/3 border border-gray-500 p-2"
+                                class="w-2/3 border border-gray-500 p-2 crop-input"
                                 {% if field.field.widget.attrs %}{{ field.field.widget.attrs|safe }}{% endif %}>
                         </div>
                     </div>
                 {% endfor %}
+                        <div class="flex items-center mb-4">
+                <!-- Label for Each Crop Type -->
+                <label
+                    for="count_croptype"
+                    class="block text-md font-medium text-gray-700 cursor-pointer p-2 border border-gray-500 hover:border-gray-400 transition-all select-label w-1/3 mr-4">
+                    المجموع
+                </label>
+                <div class="flex-grow">
+                    <!-- Input Field -->
+                            <input
+                                type="number"
+                                name="count_croptype"
+                                id="count_croptype"
+                                value="{{ form.count_croptype.value }}"
+                                class="w-2/3 border border-gray-500 p-2 ">
+
+                </div>
+
+            </div>
             </div>
         
             <!-- Jungles Column -->
@@ -221,11 +351,35 @@
                                 name="{{ field.name }}" 
                                 id="{{ field.id_for_label }}" 
                                 value="{{ field.value }}" 
-                                class="w-2/3 border border-gray-500 p-2" 
+                                class="w-2/3 border border-gray-500 p-2 jungle-input"
                                 {% if field.field.widget.attrs %}{{ field.field.widget.attrs|safe }}{% endif %}>
                         </div>
                     </div>
                 {% endfor %}
+
+
+                        <div class="flex items-center mb-4">
+                <!-- Label for Each Crop Type -->
+                <label
+                    for="count_Jungle"
+                    class="block text-md font-medium text-gray-700 cursor-pointer p-2 border border-gray-500 hover:border-gray-400 transition-all select-label w-1/3 mr-4">
+                    المجموع
+                </label>
+                <div class="flex-grow">
+                    <!-- Input Field -->
+                            <input
+                                type="number"
+                                name="count_Jungle"
+                                id="count_Jungle"
+                                value="{{ form.count_Jungle.value }}"
+                                class="w-2/3 border border-gray-500 p-2"
+                                >
+
+                </div>
+            </div>
+
+
+
             </div>
         </div>
 
@@ -279,6 +433,26 @@ function calculatePurity() {
     } else {
         document.getElementById('other_seeds_percentage').value = 0;
     }
+     // Sum all crop types and set in count_croptype
+    let cropTypeSum = 0;
+    document.querySelectorAll('.crop-input').forEach(input => {
+        const value = parseFloat(input.value); // Parse the input value as a float
+        if (!isNaN(value)) {
+            cropTypeSum += value; // Add to the sum if it's a valid number
+        }
+    });
+    document.getElementById('count_croptype').value = cropTypeSum; // Set the summed value
+
+    // Sum all jungles and set in count_Jungle
+    let jungleSum = 0;
+    document.querySelectorAll('.jungle-input').forEach(input => {
+        const value = parseFloat(input.value);
+        if (!isNaN(value)) {
+            jungleSum += value;
+        }
+    });
+    document.getElementById('count_Jungle').value = jungleSum;
+
 }
 document.querySelectorAll('.select-label').forEach(label => {
         label.addEventListener('click', function() {

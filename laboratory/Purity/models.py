@@ -32,6 +32,9 @@ class PurityTest(models.Model):
     other_seeds_percentage = models.FloatField()
     test_date = models.DateField(auto_now_add=True)
 
+    count_croptype = models.IntegerField(default=0,null=True,blank=True)
+    count_Jungle = models.IntegerField(default=0,null=True,blank=True)
+
 
 
     class Meta:

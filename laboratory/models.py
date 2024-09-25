@@ -69,16 +69,16 @@ class MoistureTest(models.Model):
     ]
 
     assignment = models.OneToOneField(Assignment, on_delete=models.CASCADE)  # Link to the assignment
-    Category = models.CharField(max_length=100, verbose_name="اسم المحصول",default=' ',null=True, blank=True)
+    Category = models.CharField(max_length=100, verbose_name="اسم المحصول",default=' ')
     examination_method = models.CharField(max_length=100,choices=METHODS,verbose_name="طريقة الفحص ",null=True, blank=True)
-    oven_temperature = models.FloatField(verbose_name=' درجة حرارة الفرن ',null=True, blank=True)  
-    number_of_drying_hours =  models.FloatField(verbose_name='عدد ساعات التجفيف',null=True, blank=True) 
+    oven_temperature = models.FloatField(verbose_name=' درجة حرارة الفرن ',null=True, blank=True)
+    number_of_drying_hours =  models.FloatField(verbose_name='عدد ساعات التجفيف',null=True, blank=True)
     initial_weight = models.FloatField( verbose_name='الوزن قبل التجفيف',null=True, blank=True)
     unit_of_measure = models.CharField(max_length=10, choices=UNIT_CHOICES, verbose_name="وحدة القياس" , null=True, blank=True)
 
     result_a = models.FloatField( verbose_name='ناتج العينة أ',null=True, blank=True) 
     result_b = models.FloatField( verbose_name='ناتج العينة ب',null=True, blank=True) 
-    humidity = models.FloatField(verbose_name='نسبة الرطوبة النهائية',null=True, blank=True)  # محتوى الرطوبة
+    humidity = models.FloatField(verbose_name='نسبة الرطوبة النهائية')  # محتوى الرطوبة
     sample_a = models.ForeignKey(MoistureSample, on_delete=models.CASCADE, related_name='Moisture_tests_as_sample_a', limit_choices_to={'component_type': MoistureSample.sample_a}, null=True, blank=True)
     sample_b = models.ForeignKey(MoistureSample, on_delete=models.CASCADE, related_name='Moisture_tests_as_sample_b', limit_choices_to={'component_type': MoistureSample.sample_b}, null=True, blank=True)
     test_date = models.DateField(auto_now_add=True)  # Date when the test was conducted

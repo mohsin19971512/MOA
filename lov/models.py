@@ -93,8 +93,8 @@ class LabType(models.Model):
 
 
 class SampleWeight(models.Model):
-    weight_a = models.FloatField()  # Weight A
-    weight_b = models.FloatField()  # Weight B
+    weight_a = models.FloatField(default=0)  # Weight A
+    weight_b = models.FloatField(default=0)  # Weight B
 
     class Meta:
         verbose_name = 'وزن العينة'
@@ -140,7 +140,7 @@ class SampleComponents(models.Model):
 class PurityTestCropType(models.Model):
     purity_test = models.ForeignKey('laboratory.PurityTest', on_delete=models.CASCADE)
     crop_type = models.ForeignKey(CropType, on_delete=models.CASCADE)
-    count = models.PositiveIntegerField()
+    count = models.IntegerField(null=True, blank=True)
 
     class Meta:
         unique_together = ('purity_test', 'crop_type')
@@ -148,10 +148,11 @@ class PurityTestCropType(models.Model):
     def __str__(self):
         return f"{self.crop_type.name} - {self.count}"
 
+
 class PurityTestJungle(models.Model):
     purity_test = models.ForeignKey('laboratory.PurityTest', on_delete=models.CASCADE)
     jungle = models.ForeignKey(Jungle, on_delete=models.CASCADE)
-    count = models.PositiveIntegerField()
+    count = models.IntegerField(null=True, blank=True)
 
     class Meta:
         unique_together = ('purity_test', 'jungle')

@@ -162,6 +162,26 @@
                         </div>
                     </div>
                 {% endfor %}
+            
+            <div class="flex items-center mb-4">
+                <!-- Label for Each Crop Type -->
+                <label
+                    for="count_croptype"
+                    class="block text-md font-medium text-gray-700 cursor-pointer p-2 border read-only-input-success border-gray-500 hover:border-gray-400 transition-all select-label w-1/3 mr-4">
+                    المجموع
+                </label>
+                <div class="flex-grow">
+                    <!-- Input Field -->
+                            <input
+                                type="text"
+                                name="count_croptype"
+                                id="count_croptype"
+                                value="{{ purity_test.count_croptype }}"
+                                class="w-2/3 border border-gray-500 p-2 read-only-input-success">
+
+                </div>
+                
+            </div>
             </div>
         
             <!-- Jungles Column -->
@@ -191,6 +211,26 @@
                         </div>
                     </div>
                 {% endfor %}
+            
+                        <div class="flex items-center mb-4">
+                <!-- Label for Each Crop Type -->
+                <label
+                    for="count_Jungle"
+                    class="block text-md font-medium text-gray-700 cursor-pointer p-2 border border-gray-500 hover:border-gray-400 transition-all select-label w-1/3 mr-4 read-only-input-success">
+                    المجموع
+                </label>
+                <div class="flex-grow">
+                    <!-- Input Field -->
+                            <input
+                                type="number"
+                                name="count_Jungle"
+                                id="count_Jungle"
+                                value="{{ purity_test.count_Jungle }}"
+                                class="w-2/3 border border-gray-500 p-2 read-only-input-success"
+                                >
+
+                </div>
+            </div>
             </div>
         </div>
 

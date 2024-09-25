@@ -38,7 +38,7 @@
     </div>
 
     <!-- Update Plant Test Form -->
-    <form method="POST"  class="space-y-6">
+    <form method="POST" action=""  class="space-y-6">
         {% csrf_token %}
         <h1 class="text-2xl font-bold mt-6 text-center text-gray-800">تحديث بيانات اختبار النبات</h1>
 
@@ -88,7 +88,107 @@
             </div>
         </div>
 
-        <!-- Seed Entries Update Section -->
+      
+    
+    
+    
+    
+    
+    
+<div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">بيانات العد </h2>
+    {{ seed_entries_formset.management_form }}
+
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
+        {% for form in seed_entries_formset %}
+            <div class="bg-white border border-gray-200 rounded-lg p-4 mb-4">
+            <div>
+    {{ form.id }}  <!-- Hidden field for the ID -->
+</div>
+                <!-- Always show common fields -->
+                <div class="mb-4">
+                    {{ form.seed_type.label_tag }} 
+                    {{ form.seed_type }}
+                </div>
+                <div class="mb-4">
+                    {{ form.count_date.label_tag }} 
+                    {{ form.count_date }}
+                </div>
+
+                <!-- Conditionally display from value_1 to value_4 if duplicates is '4x100' -->
+                {% if plant_test_form.duplicates.value == '4x100' %}
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            {{ form.value_1.label_tag }} 
+                            {{ form.value_1 }}
+                        </div>
+                        <div>
+                            {{ form.value_2.label_tag }} 
+                            {{ form.value_2 }}
+                        </div>
+                        <div>
+                            {{ form.value_3.label_tag }} 
+                            {{ form.value_3 }}
+                        </div>
+                        <div>
+                            {{ form.value_4.label_tag }} 
+                            {{ form.value_4 }}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- Conditionally display all values from value_1 to value_8 if duplicates is '8x50' -->
+                {% if plant_test_form.duplicates.value == '8x50' %}
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            {{ form.value_1.label_tag }} 
+                            {{ form.value_1 }}
+                        </div>
+                        <div>
+                            {{ form.value_2.label_tag }} 
+                            {{ form.value_2 }}
+                        </div>
+                        <div>
+                            {{ form.value_3.label_tag }} 
+                            {{ form.value_3 }}
+                        </div>
+                        <div>
+                            {{ form.value_4.label_tag }} 
+                            {{ form.value_4 }}
+                        </div>
+                        <div>
+                            {{ form.value_5.label_tag }} 
+                            {{ form.value_5 }}
+                        </div>
+                        <div>
+                            {{ form.value_6.label_tag }} 
+                            {{ form.value_6 }}
+                        </div>
+                        <div>
+                            {{ form.value_7.label_tag }} 
+                            {{ form.value_7 }}
+                        </div>
+                        <div>
+                            {{ form.value_8.label_tag }} 
+                            {{ form.value_8 }}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- Display form errors if any -->
+                {% if form.errors %}
+                    <div class="text-red-600 mt-2">
+                        {{ form.errors }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+    
+    
+  <!-- Seed Entries Update Section -->
         {% if total_value_1 != 0 and total_value_2 != 0 and total_value_3 != 0 and total_value_4 != 0 %}
         <div class="overflow-x-auto">
             <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
@@ -143,13 +243,65 @@
             </table>
         </div>
         {% endif %}
+    
+    {% if total_value_1 == 0 and total_value_2 == 0 and total_value_3 == 0 and total_value_4 == 0 %}
+<div> </div>
+{% else %}
+<div class="p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm mb-2">
+    <h3 class="text-lg font-semibold mb-4">مجموع البذور</h3>
+
+{% for seed_sum in seed_type_sums %}
+    <div class="grid grid-cols-4 gap-4">
+        <div class="flex flex-col mb-4">
+            <label class="text-gray-600 text-lg mb-1"> نوع البذور</label>
+        <input type="text" 
+       value="{% if seed_sum.seed_type == 'Hard' %}صلبة
+              {% elif seed_sum.seed_type == 'Natural' %}طبيعية
+              {% elif seed_sum.seed_type == 'Unnatural' %}غير طبيعية
+              {% elif seed_sum.seed_type == 'Dead' %}ميتة
+              {% else %}غير محددة{% endif %}" 
+               class="read-only-input rounded-md shadow-sm text-lg" readonly />
+        </div>
+        <div class="flex flex-col mb-4">
+            <label class="text-gray-600 text-lg mb-1">المجموع</label>
+            <input type="text" value="{{ seed_sum.total_sum }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+        </div>
+
+    </div>
+{% endfor %}
+</div>
+
+{% endif %}
+    
+    {% if plant_test_form.instance.hard_percentage != None %}
+<div class="p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm mb-2">
+
+    <h3 class="text-lg font-semibold mb-4">نتائج الفحص النهائية </h3>
+    <div class="grid grid-cols-4 gap-4">
+        <div class="flex flex-col mb-4">
+            <label class="text-gray-600 text-lg mb-1"> نسبة البذور  الصلبة </label>
+            <input type="text" value="{{ plant_test.hard_percentage }} %" class="read-only-input-success rounded-md shadow-sm text-lg" readonly />
+        </div>
+        <div class="flex flex-col mb-4">
+            <label class="text-gray-600 text-lg mb-1">نسبة البذور الطبيعية</label>
+            <input type="text" value="{{ plant_test.natural_percentage }} %" class="read-only-input-success rounded-md shadow-sm text-lg" readonly />
+        </div>
+    </div>
+</div>
+
+{% else %}
+    {% endif %}
+
 
         <!-- Submit Button -->
-        <div class="text-center mt-6">
-            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
-                تحديث
+        <div class="flex items-center justify-center mt-8">
+            <button type="submit" class="px-6 py-3 bg-[#2a9d8f] text-white font-semibold text-lg rounded-md shadow-sm hover:bg-[#257d73] flex items-center">
+                <i class="fas fa-save ml-2"></i>
+                حفظ
             </button>
         </div>
+    
     </form>
+
 </div>
 {% endblock %}

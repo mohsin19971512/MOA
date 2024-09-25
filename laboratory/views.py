@@ -12,7 +12,9 @@ from django.urls import reverse
 from django.db.models.functions import Coalesce
 
 from django.shortcuts import redirect
-from django.forms import formset_factory
+from django.forms import formset_factory, inlineformset_factory
+
+
 @login_required
 def lab_assigned_samples(request):
     profile = Profile.objects.get(user=request.user)
@@ -177,7 +179,6 @@ def create_health_test(request, assignment_id):
 
 
 #-------------------------------------------------------------------------------------------------------------
-
 @login_required
 def create_moisture_test(request, assignment_id):
     assignment = get_object_or_404(Assignment, id=assignment_id)
@@ -187,34 +188,47 @@ def create_moisture_test(request, assignment_id):
         form = MoistureTestForm(request.POST)
 
         if form.is_valid():
-            # Create the MoistureSample instances for sample_a and sample_b
-            sample_a = MoistureSample.objects.create(
-                component_type='sample_a',
-                empty_box_weight=form.cleaned_data['sample_a_empty_box_weight'],
-                sample_weight_before_drying=form.cleaned_data['sample_a_sample_weight_before_drying'],
-                sample_weight_after_drying=form.cleaned_data['sample_a_sample_weight_after_drying'],
-                result=form.cleaned_data['result_a']
-            )
-            sample_b = MoistureSample.objects.create(
-                component_type='sample_b',
-                empty_box_weight=form.cleaned_data['sample_b_empty_box_weight'],
-                sample_weight_before_drying=form.cleaned_data['sample_b_sample_weight_before_drying'],
-                sample_weight_after_drying=form.cleaned_data['sample_b_sample_weight_after_drying'],
-                result=form.cleaned_data['result_b']
-            )
+            sample_a = None
+            sample_b = None
+
+            # Create the MoistureSample instances for sample_a if values are provided
+            if form.cleaned_data['sample_a_empty_box_weight'] is not None:
+                sample_a = MoistureSample.objects.create(
+                    component_type='sample_a',
+                    empty_box_weight=form.cleaned_data['sample_a_empty_box_weight'],
+                    sample_weight_before_drying=form.cleaned_data['sample_a_sample_weight_before_drying'],
+                    sample_weight_after_drying=form.cleaned_data['sample_a_sample_weight_after_drying'],
+                    result=form.cleaned_data['result_a']
+                )
+
+            # Create the MoistureSample instances for sample_b if values are provided
+            if form.cleaned_data['sample_b_empty_box_weight'] is not None:
+                sample_b = MoistureSample.objects.create(
+                    component_type='sample_b',
+                    empty_box_weight=form.cleaned_data['sample_b_empty_box_weight'],
+                    sample_weight_before_drying=form.cleaned_data['sample_b_sample_weight_before_drying'],
+                    sample_weight_after_drying=form.cleaned_data['sample_b_sample_weight_after_drying'],
+                    result=form.cleaned_data['result_b']
+                )
 
             # Create the MoistureTest instance
             moisture_test = form.save(commit=False)
             moisture_test.assignment = assignment
-            moisture_test.sample_a = sample_a
-            moisture_test.sample_b = sample_b
+
+            if sample_a:
+                moisture_test.sample_a = sample_a
+
+            if sample_b:
+                moisture_test.sample_b = sample_b
+
             moisture_test.save()
 
             # Mark the assignment as completed
             assignment.completed = True
             assignment.save()
 
-            return redirect(reverse('laboratory:moisture_test_detail', args=[assignment_id]))  # Redirect to success page
+            return redirect(
+                reverse('laboratory:moisture_test_detail', args=[assignment_id]))  # Redirect to success page
     else:
         form = MoistureTestForm()
 
@@ -222,7 +236,6 @@ def create_moisture_test(request, assignment_id):
         'form': form,
         'sample': sample,
     })
-
 
 
 @login_required
@@ -236,23 +249,26 @@ def update_moisture_test(request, assignment_id):
         form = MoistureTestForm(request.POST, instance=moisture_test)
 
         if form.is_valid():
-            # Update the MoistureSample instances for sample_a and sample_b
-            sample_a.empty_box_weight = form.cleaned_data['sample_a_empty_box_weight']
-            sample_a.sample_weight_before_drying = form.cleaned_data['sample_a_sample_weight_before_drying']
-            sample_a.sample_weight_after_drying = form.cleaned_data['sample_a_sample_weight_after_drying']
-            sample_a.result = form.cleaned_data['result_a']
-            sample_a.save()
+            # Check if sample_a exists before updating
+            if sample_a:
+                sample_a.empty_box_weight = form.cleaned_data.get('sample_a_empty_box_weight', sample_a.empty_box_weight)
+                sample_a.sample_weight_before_drying = form.cleaned_data.get('sample_a_sample_weight_before_drying', sample_a.sample_weight_before_drying)
+                sample_a.sample_weight_after_drying = form.cleaned_data.get('sample_a_sample_weight_after_drying', sample_a.sample_weight_after_drying)
+                sample_a.result = form.cleaned_data.get('result_a', sample_a.result)
+                sample_a.save()
 
-            sample_b.empty_box_weight = form.cleaned_data['sample_b_empty_box_weight']
-            sample_b.sample_weight_before_drying = form.cleaned_data['sample_b_sample_weight_before_drying']
-            sample_b.sample_weight_after_drying = form.cleaned_data['sample_b_sample_weight_after_drying']
-            sample_b.result = form.cleaned_data['result_b']
-            sample_b.save()
+            # Check if sample_b exists before updating
+            if sample_b:
+                sample_b.empty_box_weight = form.cleaned_data.get('sample_b_empty_box_weight', sample_b.empty_box_weight)
+                sample_b.sample_weight_before_drying = form.cleaned_data.get('sample_b_sample_weight_before_drying', sample_b.sample_weight_before_drying)
+                sample_b.sample_weight_after_drying = form.cleaned_data.get('sample_b_sample_weight_after_drying', sample_b.sample_weight_after_drying)
+                sample_b.result = form.cleaned_data.get('result_b', sample_b.result)
+                sample_b.save()
 
             # Update the MoistureTest instance
             moisture_test = form.save(commit=False)
-            moisture_test.sample_a = sample_a
-            moisture_test.sample_b = sample_b
+            moisture_test.sample_a = sample_a  # Not necessary if sample_a hasn't changed
+            moisture_test.sample_b = sample_b  # Not necessary if sample_b hasn't changed
             moisture_test.save()
 
             return redirect('laboratory:lab_assigned_samples')  # Redirect to success page
@@ -260,24 +276,26 @@ def update_moisture_test(request, assignment_id):
         # Pre-fill the form with the existing data
         form = MoistureTestForm(instance=moisture_test)
 
+        if sample_a:
+            form.fields['sample_a_empty_box_weight'].initial = str(sample_a.empty_box_weight).replace(',', '.')
+            form.fields['sample_a_sample_weight_before_drying'].initial = str(
+                sample_a.sample_weight_before_drying).replace(',', '.')
+            form.fields['sample_a_sample_weight_after_drying'].initial = str(
+                sample_a.sample_weight_after_drying).replace(',', '.')
+            form.fields['result_a'].initial = str(sample_a.result).replace(',', '.')
 
-        form.fields['sample_a_empty_box_weight'].initial = str(sample_a.empty_box_weight).replace(',', '.')
-        form.fields['sample_a_empty_box_weight'].initial = str(sample_a.empty_box_weight).replace(',', '.')
-        form.fields['sample_a_sample_weight_before_drying'].initial = str(sample_a.sample_weight_before_drying).replace(',', '.')
-        form.fields['sample_a_sample_weight_after_drying'].initial = str(sample_a.sample_weight_after_drying).replace(',', '.')
-        form.fields['result_a'].initial = str(sample_a.result).replace(',', '.')
+        if sample_b:
+            form.fields['sample_b_empty_box_weight'].initial = str(sample_b.empty_box_weight).replace(',', '.')
+            form.fields['sample_b_sample_weight_before_drying'].initial = str(
+                sample_b.sample_weight_before_drying).replace(',', '.')
+            form.fields['sample_b_sample_weight_after_drying'].initial = str(
+                sample_b.sample_weight_after_drying).replace(',', '.')
+            form.fields['result_b'].initial = str(sample_b.result).replace(',', '.')
 
-        form.fields['sample_b_empty_box_weight'].initial = str(sample_b.empty_box_weight).replace(',', '.')
-        form.fields['sample_b_sample_weight_before_drying'].initial = str(sample_b.sample_weight_before_drying).replace(',', '.')
-        form.fields['sample_b_sample_weight_after_drying'].initial = str(sample_b.sample_weight_after_drying).replace(',', '.')
-        form.fields['result_b'].initial = str(sample_b.result).replace(',', '.')
-        # form.fields['oven_temperature'].initial = str(moisture_test.oven_temperature).replace(',', '.')
+        # Setting oven temperature
+        if moisture_test.oven_temperature is not None:
+            form.fields['oven_temperature'].initial = moisture_test.oven_temperature
 
-        form.fields['oven_temperature'].initial = moisture_test.oven_temperature
-        # form.fields['unit_of_measure'].initial = moisture_test.unit_of_measure
-        print('moisture_test.unit_of_measure',moisture_test.unit_of_measure)
-
-        print(f"Initial value for oven_temperature: {form.fields['oven_temperature'].initial}")
 
 
 
@@ -438,78 +456,80 @@ def create_plant_test(request, assignment_id):
     })
 
 
-
-
 @login_required
 def update_plant_test(request, assignment_id):
     assignment = get_object_or_404(Assignment, id=assignment_id)
     sample = assignment.sample
     total_value_1 = total_value_2 = total_value_3 = total_value_4 = total_value_5 = total_value_6 = total_value_7 = total_value_8 = 0
 
-    # Try to get an existing PlantTest for this assignment
+    # Get the existing PlantTest
     plant_test = get_object_or_404(PlantTest, assignment_id=assignment_id)
+
+    # Fetch the seed entries related to the plant test
+    seed_entries = SeedEntry.objects.filter(plant_test=plant_test)
+
+    # Initialize seed_type_sums
+    seed_type_sums = []
 
     if request.method == 'POST':
         plant_test_form = PlantTestForm(request.POST, instance=plant_test)
-        duplicates = plant_test.duplicates  # Use the existing duplicates value
 
-        if plant_test_form.is_valid():
+        # Initialize formset and bind it to POST data
+        SeedEntryFormSet = inlineformset_factory(PlantTest, SeedEntry, form=SeedEntryForm, extra=0, can_delete=True)
+        seed_entries_formset = SeedEntryFormSet(request.POST, instance=plant_test, prefix='seed')
+
+        if plant_test_form.is_valid() and seed_entries_formset.is_valid():
+            # Save the updated PlantTest instance
             plant_test = plant_test_form.save(commit=False)
             plant_test.assignment_id = assignment_id
-
-            # Save plant_test before updating seed_entries
             plant_test.save()
 
-            seed_entry_form = SeedEntryForm(request.POST, duplicates=duplicates)
-            if seed_entry_form.is_valid():
-                seed_entry = seed_entry_form.save(commit=False)
-                seed_entry.plant_test = plant_test
-                seed_entry.save()
+            # Save the formset and handle updates to seed entries
+            seed_entries_formset.save()
 
-                # Recalculate totals if necessary
-                seed_entries = SeedEntry.objects.filter(plant_test=plant_test)
+            # Recalculate totals for seed entries
+            seed_entries = SeedEntry.objects.filter(plant_test=plant_test)
+            hard_sum = seed_entries.filter(seed_type='Hard').aggregate(
+                total_hard=Sum(
+                    Coalesce(F('value_1'), Value(0)) + Coalesce(F('value_2'), Value(0)) +
+                    Coalesce(F('value_3'), Value(0)) + Coalesce(F('value_4'), Value(0)) +
+                    Coalesce(F('value_5'), Value(0)) + Coalesce(F('value_6'), Value(0)) +
+                    Coalesce(F('value_7'), Value(0)) + Coalesce(F('value_8'), Value(0))
+                )
+            )['total_hard'] or 0
 
-                hard_sum = seed_entries.filter(seed_type='Hard').aggregate(
-                    total_hard=Sum(
-                        Coalesce(F('value_1'), Value(0)) + Coalesce(F('value_2'), Value(0)) +
-                        Coalesce(F('value_3'), Value(0)) + Coalesce(F('value_4'), Value(0)) +
-                        Coalesce(F('value_5'), Value(0)) + Coalesce(F('value_6'), Value(0)) +
-                        Coalesce(F('value_7'), Value(0)) + Coalesce(F('value_8'), Value(0))
-                    )
-                )['total_hard'] or 0
+            natural_sum = seed_entries.filter(seed_type='Natural').aggregate(
+                total_natural=Sum(
+                    Coalesce(F('value_1'), Value(0)) + Coalesce(F('value_2'), Value(0)) +
+                    Coalesce(F('value_3'), Value(0)) + Coalesce(F('value_4'), Value(0)) +
+                    Coalesce(F('value_5'), Value(0)) + Coalesce(F('value_6'), Value(0)) +
+                    Coalesce(F('value_7'), Value(0)) + Coalesce(F('value_8'), Value(0))
+                )
+            )['total_natural'] or 0
 
-                natural_sum = seed_entries.filter(seed_type='Natural').aggregate(
-                    total_natural=Sum(
-                        Coalesce(F('value_1'), Value(0)) + Coalesce(F('value_2'), Value(0)) +
-                        Coalesce(F('value_3'), Value(0)) + Coalesce(F('value_4'), Value(0)) +
-                        Coalesce(F('value_5'), Value(0)) + Coalesce(F('value_6'), Value(0)) +
-                        Coalesce(F('value_7'), Value(0)) + Coalesce(F('value_8'), Value(0))
-                    )
-                )['total_natural'] or 0
+            # Adjust calculation based on duplicates (4x100 or 8x50)
+            if plant_test.duplicates == '4x100':
+                plant_test.hard_percentage = hard_sum / 4
+                plant_test.natural_percentage = natural_sum / 4
+            elif plant_test.duplicates == '8x50':
+                plant_test.hard_percentage = hard_sum / 8
+                plant_test.natural_percentage = natural_sum / 8
 
-                # Adjust calculation based on duplicates (4x100 or 8x50)
-                if duplicates == '4x100':
-                    plant_test.hard_percentage = hard_sum / 4
-                    plant_test.natural_percentage = natural_sum / 4
-                elif duplicates == '8x50':
-                    plant_test.hard_percentage = hard_sum / 8
-                    plant_test.natural_percentage = natural_sum / 8
+            # Save the updated PlantTest with percentages
+            plant_test.save()
 
-                # Save the updated PlantTest with percentages
-                plant_test.save()
+            return redirect(reverse('laboratory:update_plant_test', args=[assignment_id]))
 
-                return redirect(reverse('laboratory:update_plant_test', args=[assignment_id]))
-
-            else:
-                print("Seed Entry Form Errors:", seed_entry_form.errors)
         else:
-            print("Plant Test Form Errors:", plant_test_form.errors)
+            print("Form Errors:", plant_test_form.errors, seed_entries_formset.errors)
 
     else:
         # Pre-populate forms for an existing plant test
         plant_test_form = PlantTestForm(instance=plant_test)
-        duplicates = plant_test.duplicates
-        seed_entries = SeedEntry.objects.filter(plant_test=plant_test)
+
+        # Formsets for related models
+        SeedEntryFormSet = inlineformset_factory(PlantTest, SeedEntry, form=SeedEntryForm, extra=0, can_delete=True)
+        seed_entries_formset = SeedEntryFormSet(instance=plant_test, prefix='seed')
 
         # Calculate totals for each value field
         for entry in seed_entries:
@@ -532,13 +552,9 @@ def update_plant_test(request, assignment_id):
             )
         )
 
-        seed_entry_form = SeedEntryForm()
-        print(seed_type_sums)
-
     return render(request, 'laboratory/update_plant_test.html', {
         'plant_test_form': plant_test_form,
         'plant_test': plant_test,
-        'seed_entry_form': seed_entry_form,
         'sample': sample,
         'seed_entries': seed_entries,
         'total_value_1': total_value_1,
@@ -550,4 +566,7 @@ def update_plant_test(request, assignment_id):
         'total_value_7': total_value_7,
         'total_value_8': total_value_8,
         'seed_type_sums': seed_type_sums,  # Contains the sum of all values combined by seed_type
+        'seed_entries_formset': seed_entries_formset,  # Include the formset in the context
     })
+
+
