@@ -2,9 +2,11 @@ from django.contrib import admin
 
 from laboratory.Health.models import HealthTest, InsectExamination, FungalExamination, BacterialExamination, \
     NematodeTest, ViralTest, Cause,InfectionType
+from .Moisture.models import MoistureTest
+from .Plan.models import PlantTest, SeedEntry
 from .Purity.models import PurityTest
 # Register your models here.
-from .models import  Lab, Assignment, MoistureTest, PlantTest,SeedEntry
+from .models import  Lab, Assignment
 
 admin.site.register(Lab)
 admin.site.register(Assignment)

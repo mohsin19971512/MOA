@@ -2,11 +2,13 @@ from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 from laboratory.Health.models import HealthTest
+from laboratory.Moisture.models import MoistureTest
+from laboratory.Plan.models import PlantTest
 from laboratory.Purity.models import PurityTest
 from .forms import SampleForm, HealthTestNotesForm  # Import the form class
 from laboratory.forms import AssignmentForm
 from laboratory.models import Assignment
-from laboratory.models import PlantTest,MoistureTest,Lab
+from laboratory.models import Lab
 from django.views.generic import DetailView
 from django.db.models import Q
 from django.shortcuts import render
