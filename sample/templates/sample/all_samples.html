@@ -53,7 +53,7 @@
                 <option value="no" {% if request.GET.completed == "no" %}selected{% endif %}>غير منجزة</option>
             </select>
         </div>
-       
+
 
         <div>
             <label for="assigned_date" class="block text-lg mt-1 font-medium text-gray-700">تاريخ التعيين</label>
@@ -84,84 +84,144 @@
     {% endif %}
 
 
-
-
-    <!-- Samples Table -->
-    <div class="overflow-x-auto mt-6">
-        <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
-            <thead>
-                <tr class="bg-gray-100 text-gray-600 border-b border-gray-300">
-                    <th class="px-6 py-3 text-right text-lg font-semibold">رقم العينة</th>
-                    <th class="px-6 py-3 text-right text-lg font-semibold">المحصول</th>
-                    <th class="px-6 py-3 text-right text-lg font-semibold">الصنف</th>
-                    <th class="px-6 py-3 text-right text-lg font-semibold">نوع العينة</th>
-                    <!-- <th class="px-6 py-3 text-right text-lg font-semibold">وزن الأرسالية </th> -->
-                    <th class="px-6 py-3 text-right text-lg font-semibold">تاريخ الاستلام </th>
-                    <th class="px-6 py-3 text-right text-lg font-semibold">حالة الفحص</th>
-                    <th class="px-6 py-3 text-right text-lg font-semibold">الإجراء</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for sample in samples %}
-                <tr class="hover:bg-gray-400 hover:bg-opacity-25 transition duration-300 ease-in-out">
-                    <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.sample_id }}</td>
-                    <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.crop_name }}</td>
-                    <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.variety }}</td>
-                    <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.sample_type }}</td>
-                    <!-- <td class="px-6 py-4 text-lg border-b border-gray-200">{{ sample.shipment_weight }}</td> -->
-
-                    <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.received_date|date:"Y-m-d" }}</td>
-                    <td class="px-6 py-4 text-md border-b border-gray-200">
-                        {% if sample.lab_status == 'منجزة' %}
-                        <span
-                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800 shadow-sm w-24">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-green-800" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                            </svg>
-                            {{ sample.lab_status }}
-                        </span>
-                        {% else %}
-                        <span
-                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800 shadow-sm w-24">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-red-800" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                            {{ sample.lab_status }}
-                        </span>
-                        {% endif %}
-                    </td>
-
-
-
-                    <td class="px-6 py-4 text-lg border-b border-gray-200">
-                        <div class="inline-flex items-center space-x-4">
-                            {% if user.profile.user_role in " Applicant" %}
-                            <a href="{% url 'sample:update_sample' sample.id %}"
-                                class="text-[#E8B86D]  hover:text-[#b28845] flex items-center space-x-2 ml-1 transition-colors duration-200 ease-in-out">
-                                <i class="fas fa-edit text-md ml-2"></i>
-                                <span class="text-[#E8B86D] hover:text-[#b28845]">تعديل</span>
-                            </a>
-                            <a href=""
-                                class="text-red-500 hover:text-red-600 flex items-center space-x-1 transition-colors duration-200 ease-in-out">
-                                <i class="fas fa-trash-alt text-md ml-2"></i>
-                                <span class="text-red-500 hover:text-red-600">حذف</span>
-                            </a>
-                            {% endif %}
-                            <a href="{% url 'sample:sample_detail' sample.id %}"
-                                class="text-[#2a9d8f] hover:text-[#247d73] flex items-center space-x-1 transition-colors duration-200 ease-in-out">
-                                <i class="fas fa-eye text-lg ml-1"></i>
-                                <span class="text-[#2a9d8f] hover:text-[#247d73]">عرض</span>
-                            </a>
-                        </div>
-                    </td>
-
-
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <!-- Modal section should be outside the table structure -->
+      <!-- Modal section should be outside the table structure -->
+        <!-- Delete Confirmation Modal -->
+{% for sample in samples %}
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal-{{ sample.id }}" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
+    <!-- Modal Content -->
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-lg p-6">
+        <div>
+            <h2 class="text-lg font-semibold text-gray-800">تأكيد الحذف</h2>
+            <p class="mt-2 text-sm text-gray-600">هل أنت متأكد أنك تريد حذف العينة التالية:</p>
+            <div class="mt-4">
+                <p><strong>رقم العينة:</strong> {{ sample.id }}</p>
+                <p><strong>اسم العينة:</strong> {{ sample.name }}</p>
+                <p><strong>وصف:</strong> {{ sample.description }}</p>
+            </div>
+            <div class="mt-6 flex justify-end space-x-3">
+                <form method="POST" action="{% url 'sample:delete_sample' sample.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="bg-blue-500 hover:bg-red-600 text-white px-4 py-2 rounded-md">نعم، حذف</button>
+                </form>
+                <button onclick="document.getElementById('deleteModal-{{ sample.id }}').classList.add('hidden')"
+                    class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-md">إلغاء</button>
+            </div>
+        </div>
     </div>
+</div>
+{% endfor %}
+
+
+
+
+
+<!-- Samples Table -->
+<div class="overflow-x-auto mt-6">
+    <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+        <thead>
+            <tr class="bg-gray-100 text-gray-600 border-b border-gray-300">
+                <th class="px-6 py-3 text-right text-lg font-semibold">رقم العينة</th>
+                <th class="px-6 py-3 text-right text-lg font-semibold">المحصول</th>
+                <th class="px-6 py-3 text-right text-lg font-semibold">الصنف</th>
+                <th class="px-6 py-3 text-right text-lg font-semibold">نوع العينة</th>
+                <th class="px-6 py-3 text-right text-lg font-semibold">تاريخ الاستلام</th>
+                <th class="px-6 py-3 text-right text-lg font-semibold">حالة الفحص</th>
+                <th class="px-6 py-3 text-right text-lg font-semibold">الإجراء</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sample in samples %}
+            <tr class="hover:bg-gray-400 hover:bg-opacity-25 transition duration-300 ease-in-out">
+                <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.sample_id }}</td>
+                <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.crop_name }}</td>
+                <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.variety }}</td>
+                <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.sample_type }}</td>
+                <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.received_date|date:"Y-m-d" }}</td>
+                <td class="px-6 py-4 text-md border-b border-gray-200">
+                    {% if sample.lab_status == 'منجزة' %}
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800 shadow-sm w-24">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-green-800" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                        {{ sample.lab_status }}
+                    </span>
+                    {% else %}
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800 shadow-sm w-24">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-red-800" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        {{ sample.lab_status }}
+                    </span>
+                    {% endif %}
+                </td>
+                <td class="px-6 py-4 text-lg border-b border-gray-200">
+                    <div class="inline-flex items-center space-x-4">
+                        {% if user.profile.user_role in " Applicant" %}
+                        <a href="{% url 'sample:update_sample' sample.id %}"
+                            class="text-[#E8B86D] hover:text-[#b28845] flex items-center space-x-2 ml-1 transition-colors duration-200 ease-in-out">
+                            <i class="fas fa-edit text-md ml-2"></i>
+                            <span class="text-[#E8B86D] hover:text-[#b28845]">تعديل</span>
+                        </a>
+                        <a href="javascript:void(0);"
+                            onclick="document.getElementById('deleteModal-{{ sample.id }}').classList.remove('hidden')"
+                            class="text-red-500 hover:text-red-600 flex items-center space-x-1 transition-colors duration-200 ease-in-out">
+                            <i class="fas fa-trash-alt text-md ml-2"></i>
+                            <span class="text-red-500 hover:text-red-600">حذف</span>
+                        </a>
+                        {% endif %}
+                        <a href="{% url 'sample:sample_detail' sample.id %}"
+                            class="text-[#2a9d8f] hover:text-[#247d73] flex items-center space-x-1 transition-colors duration-200 ease-in-out">
+                            <i class="fas fa-eye text-lg ml-1"></i>
+                            <span class="text-[#2a9d8f] hover:text-[#247d73]">عرض</span>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination Controls -->
+   <div class="flex justify-between items-center mt-4">
+
+    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+        {% if samples.has_previous %}
+        <a href="?page=1" class="relative inline-flex items-center px-3 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 rounded-l-md">
+            << الأول
+        </a>
+        <a href="?page={{ samples.previous_page_number }}" class="relative inline-flex items-center px-3 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+            السابق
+        </a>
+        {% endif %}
+
+        {% for num in samples.paginator.page_range %}
+            {% if num == samples.number %}
+            <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-gray-300 text-sm font-medium text-gray-700">{{ num }}</span>
+            {% else %}
+            <a href="?page={{ num }}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if samples.has_next %}
+        <a href="?page={{ samples.next_page_number }}" class="relative inline-flex items-center px-3 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+            التالي
+        </a>
+        <a href="?page={{ samples.paginator.num_pages }}" class="relative inline-flex items-center px-3 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 rounded-r-md">
+            >> الأخير
+        </a>
+        {% endif %}
+    </nav>
+       <div class="text-gray-700">
+        <span class="text-sm">الصفحة {{ samples.number }} من {{ samples.paginator.num_pages }}</span>
+    </div>
+</div>
+
+</div>
+
+
 </div>
 {% endblock %}

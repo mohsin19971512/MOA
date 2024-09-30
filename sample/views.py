@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-
+from django.contrib import messages
 from laboratory.Health.models import HealthTest
 from laboratory.Moisture.models import MoistureTest
 from laboratory.Plan.models import PlantTest
@@ -22,7 +22,8 @@ from django.templatetags.static import static
 from account.models import Profile
 from itertools import zip_longest
 from django.http import HttpResponseRedirect
-
+from django.views.generic import DetailView, FormView
+from django.core.paginator import Paginator
 
 
 def generate_certificate(request,sample_id):
@@ -208,11 +209,11 @@ def update_sample(request, sample_id):
         'assignment_form': assignment_form
     })
 
-
 @login_required
 def all_samples(request):
     query = Q()
 
+    # Get filters from request
     sample_id = request.GET.get('sample_id')
     crop_name = request.GET.get('crop_name')
     variety = request.GET.get('variety')
@@ -222,6 +223,7 @@ def all_samples(request):
     lab = request.GET.get('lab')
     assigned_date = request.GET.get('assigned_date')
 
+    # Build query based on filters
     if sample_id:
         query &= Q(sample_id__icontains=sample_id)
     if crop_name:
@@ -244,13 +246,16 @@ def all_samples(request):
     if assigned_date:
         query &= Q(assignment__assigned_date=assigned_date)
 
-    samples = Sample.objects.filter(query).distinct()
+    # Fetch samples
+    samples_list = Sample.objects.filter(query).distinct()
+
+    # Pagination
+    paginator = Paginator(samples_list, 10)  # Show 10 samples per page
+    page_number = request.GET.get('page')
+    samples = paginator.get_page(page_number)
+
     labs = Lab.objects.all()  # To populate the dropdown
     return render(request, 'sample/all_samples.html', {'samples': samples, 'labs': labs})
-
-
-from django.views.generic import DetailView, FormView
-from django.urls import reverse_lazy
 
 
 class SampleDetailView(DetailView):
@@ -318,8 +323,15 @@ class SampleDetailView(DetailView):
             return HttpResponseRedirect(self.request.path_info)  # Redirect to the same page after saving
         return self.get(request, *args, **kwargs)
 
+@login_required
+def delete_sample(request, sample_id):
+    sample = get_object_or_404(Sample, id=sample_id)
 
-    
+    if request.method == 'POST':
+        # Perform the delete action
+        sample.delete()
+        messages.success(request, f"Sample '{sample.crop_name}' has been successfully deleted.")
+        return redirect('sample:all_samples')  # Redirect to the list of samples
 
-
-    
+    # If the request is GET, render a page or handle accordingly
+    return redirect('sample:all_samples')  # Redirect back if not a POST request

@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Assignment
@@ -42,13 +43,20 @@ def lab_assigned_samples(request):
         # Filter the assignments based on the constructed query
         assignments = Assignment.objects.filter(query).order_by('completed', 'id').distinct()
 
-        return render(request, 'laboratory/lab_assigned_samples.html', {'assignments': assignments})
+        # Implement pagination
+        paginator = Paginator(assignments, 10)  # Show 10 assignments per page
+        page_number = request.GET.get('page')
+        assignments_page = paginator.get_page(page_number)
+
+        return render(request, 'laboratory/lab_assigned_samples.html', {'assignments': assignments_page})
+
     elif user_role in ['Manager', 'Applicant']:
         # Redirect to a page that shows all assignments with options for Manager and Applicant roles
         return redirect('sample:all_samples')  # Make sure to define this view and URL pattern
     else:
         # Handle other roles or unauthorized access
         return redirect('unauthorized')  # Make sure to define this view and URL pattern
+
 
 
 

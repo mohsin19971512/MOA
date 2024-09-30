@@ -11,5 +11,6 @@ urlpatterns = [
     path('sample/<int:pk>/', SampleDetailView.as_view(), name='sample_detail'),
     path('generate-certificate/<int:sample_id>/', views.generate_certificate, name='generate_certificate'),
     path('update_sample/<int:sample_id>/', views.update_sample, name='update_sample'),
+    path('delete/<int:sample_id>/', views.delete_sample, name='delete_sample'),
 
 ]

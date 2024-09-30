@@ -9,15 +9,20 @@
 {% if user.profile.user_role == 'Lab' %}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
         <!-- Card 1: عدد العينات الغير منجزة -->
-        <div class="bg-red-100 shadow-md rounded-lg p-6 flex items-center">
-            <div class="flex-shrink-0 bg-red-300 p-4 rounded-full">
-                <i class="fas fa-circle-notch fa-spin text-red-600 fa-2x"></i>
+        <a href="{% url 'laboratory:lab_assigned_samples' %}?completed=No" class="block">
+            <div class="bg-red-100 shadow-md rounded-lg p-6 flex items-center hover:bg-red-200 hover:scale-110 transition-transform duration-300 ease-in-out transform">
+                <div class="flex-shrink-0 bg-red-300 p-4 rounded-full">
+                    <i class="fas fa-circle-notch fa-spin text-red-600 fa-2x"></i>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-lg font-semibold text-gray-800">عدد العينات الغير منجزة بعد</h3>
+                    <p class="text-2xl font-bold text-gray-900 mt-2">{{ uncompleted_assignments }}</p>
+                </div>
             </div>
-            <div class="ml-4">
-                <h3 class="text-lg font-semibold text-gray-800">عدد العينات الغير منجزة بعد</h3>
-                <p class="text-2xl font-bold text-gray-900 mt-2">{{ uncompleted_assignments }}</p>
-            </div>
-        </div>
+        </a>
+
+
+        <a href="{% url 'laboratory:lab_assigned_samples' %}?completed=Yes" class="block">
 
         <!-- Card 2: عدد العينات المنجزة التي تم اجراء الاختبارات عليها -->
         <div class="bg-green-100 shadow-md rounded-lg p-6 flex items-center">
@@ -29,6 +34,8 @@
                 <p class="text-2xl font-bold text-gray-900 mt-2">{{ completed_assignments }}</p>
             </div>
         </div>
+        </a>
+        <a href="{% url 'laboratory:lab_assigned_samples' %}" class="block">
 
         <!-- Card 3: العدد الكلي للعينات الواردة للمختبر -->
         <div class="bg-blue-100 shadow-md rounded-lg p-6 flex items-center">
@@ -40,10 +47,13 @@
                 <p class="text-2xl font-bold text-gray-900 mt-2">{{ total_assignments }}</p>
             </div>
         </div>
+        </a>
     </div>
 {% else %}
+
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
         <!-- Card 1: عدد العينات المنجزة -->
+        <a href="{% url 'sample:all_samples' %}?completed=Yes" class="block">
         <div class="bg-green-100 shadow-md rounded-lg p-6 flex items-center">
             <div class="flex-shrink-0 bg-green-300 p-4 rounded-full">
                 <i class="fas fa-check-circle text-green-600 fa-2x icon-scale"></i>
@@ -53,8 +63,11 @@
                 <p class="text-2xl font-bold text-gray-900 mt-2">{{ completed_samples }}</p>
             </div>
         </div>
+        </a>
 
         <!-- Card 2: عدد العينات غير المنجزة -->
+        <a href="{% url 'sample:all_samples' %}?completed=No" class="block">
+
         <div class="bg-red-100 shadow-md rounded-lg p-6 flex items-center">
             <div class="flex-shrink-0 bg-red-300 p-4 rounded-full">
                 <i class="fas fa-circle-notch fa-spin text-red-600 fa-2x"></i>
@@ -64,8 +77,10 @@
                 <p class="text-2xl font-bold text-gray-900 mt-2">{{ uncompleted_samples }}</p>
             </div>
         </div>
+        </a>
 
         <!-- Card 3: العدد الكلي للعينات -->
+        <a href="{% url 'sample:all_samples' %}" class="block">
         <div class="bg-blue-100 shadow-md rounded-lg p-6 flex items-center">
             <div class="flex-shrink-0 bg-blue-300 p-4 rounded-full">
                 <i class="fas fa-boxes text-blue-600 fa-2x"></i>
@@ -75,6 +90,7 @@
                 <p class="text-2xl font-bold text-gray-900 mt-2">{{ total_samples }}</p>
             </div>
         </div>
+        </a>
     </div>
 {% endif %}
 
