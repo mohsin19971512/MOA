@@ -25,7 +25,6 @@ INSTALLED_APPS = [
     'account',
     'tailwind',
     'theme',
-    'django_browser_reload',
     'widget_tweaks',
     'xhtml2pdf',
 
