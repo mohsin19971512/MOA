@@ -35,9 +35,12 @@ logger.setLevel(logging.DEBUG)
 handler = logging.StreamHandler(sys.stdout)
 handler.setLevel(logging.DEBUG)
 logger.addHandler(handler)
-def generate_certificate(request,sample_id):
+
+
+def generate_certificate(request, sample_id):
     # Data for the certificate
     sample = Sample.objects.get(pk=sample_id)
+
     # Retrieve all assignments related to this sample
     assignments = Assignment.objects.filter(sample=sample)
 
@@ -46,35 +49,36 @@ def generate_certificate(request,sample_id):
     purity_tests = PurityTest.objects.filter(assignment__in=assignments).first()
     moisture_tests = MoistureTest.objects.filter(assignment__in=assignments).first()
     plant_tests = PlantTest.objects.filter(assignment__in=assignments).first()
+
     insect_examinations = []
     fungal_examinations = []
     nematode_tests = None
+
     if health_tests:
         if health_tests.insect_examinations.exists():
             insect_examinations = health_tests.insect_examinations.all()
             print('insect_examinations', len(insect_examinations))
-    if health_tests:
+
         if health_tests.fungal_examinations.exists():
             fungal_examinations = health_tests.fungal_examinations.all()
             print('fungal_examinations', len(fungal_examinations))
-    if health_tests:
+
         if health_tests.nematode_tests.exists():
             nematode_tests = health_tests.nematode_tests.all().first()
     else:
         print("health_tests is None")
+
     combined_examinations = zip_longest(insect_examinations, fungal_examinations, fillvalue=None)
-
-
 
     data = {
         'health_tests': health_tests,
         'moisture_tests': moisture_tests,
         'purity_tests': purity_tests,
         'plant_tests': plant_tests,
-        'sample':sample,
-        'insect_examinations' : insect_examinations,
-        'fungal_examinations':fungal_examinations,
-        'nematode_tests':nematode_tests,
+        'sample': sample,
+        'insect_examinations': insect_examinations,
+        'fungal_examinations': fungal_examinations,
+        'nematode_tests': nematode_tests,
         'combined_examinations': combined_examinations,
         'place': 'مسحوب',
         'applicant_name': 'اسم المتقدم',
@@ -93,10 +97,24 @@ def generate_certificate(request,sample_id):
         'lab_manager': 'سالم طعمة كاصد',
         'static_url': request.build_absolute_uri(static('')),  # Pass the full URL for static files
     }
+
     print('static_url :', request.build_absolute_uri(static('')))
+
     # Load the template and render it with the data
     template = get_template('sample/certificate_template.html')
     html = template.render(data)
+
+    # Set the paths for your local images
+    # Set the paths for your local images
+    cert_logo_url = f"{ request.build_absolute_uri(static(''))}images/cert-logo.png"
+    iqas_logo_url = f"{ request.build_absolute_uri(static(''))}images/iqas2.png"
+
+
+
+    # Replace image sources in the HTML string with local paths
+    html = html.replace('src="/static/images/cert-logo.png"', f'src="{cert_logo_url}"')
+    html = html.replace('src="/static/images/iqas2.png"', f'src="{iqas_logo_url}"')
+    print(html)
 
     # Generate PDF from HTML
     pdf_file = BytesIO()
@@ -106,7 +124,6 @@ def generate_certificate(request,sample_id):
     response = HttpResponse(pdf_file.getvalue(), content_type='application/pdf')
     response['Content-Disposition'] = 'inline; filename="certificate.pdf"'
     return response
-
 
 
 
