@@ -27,13 +27,13 @@ from django.core.paginator import Paginator
 from django.conf import settings
 import logging
 import os
-# Initialize logging at the module level (only once)
+import sys
 logger = logging.getLogger('weasyprint')
 logger.setLevel(logging.DEBUG)
 
-# Ensure this path is correctly set for production
-log_path = os.path.join(settings.BASE_DIR, 'temp_pdfs', 'weasyprint.log')
-handler = logging.FileHandler(log_path)
+# Log to standard output (console)
+handler = logging.StreamHandler(sys.stdout)
+handler.setLevel(logging.DEBUG)
 logger.addHandler(handler)
 def generate_certificate(request,sample_id):
     # Data for the certificate
