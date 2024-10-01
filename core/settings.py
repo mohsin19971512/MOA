@@ -147,3 +147,16 @@ TEMP_PDF_DIR = os.path.join(BASE_DIR, 'temp_pdfs')
 
 
 LOGIN_URL='account/login/'
+
+
+
+import logging
+logger = logging.getLogger('weasyprint')
+# Use the correct file path for the log file
+log_file_path = os.path.join(TEMP_PDF_DIR, 'weasyprint.log')
+logger.addHandler(logging.FileHandler(log_file_path))
+
+import ssl
+
+# Disable SSL certificate verification globally
+ssl._create_default_https_context = ssl._create_unverified_context
