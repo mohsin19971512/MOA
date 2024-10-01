@@ -9,7 +9,7 @@ SECRET_KEY = 'django-insecure-tdn^p-3ecek17@nal9n!=vuvvvs&huca1175)!%gdkkl#4a(_0
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['moa-fh5j.onrender.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['*']
 
 
 INSTALLED_APPS = [

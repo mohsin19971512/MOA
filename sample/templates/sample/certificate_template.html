@@ -8,14 +8,44 @@
     <style>
 
 
+        @font-face {
+            font-family: 'Cairo';
+            src: url('https://moa-fh5j.onrender.com/static/fonts/Cairo-VariableFont_slnt,wght.ttf') format('truetype');;
+            font-weight: bold;
+        }
 
+        body {
+            font-family: "Cairo", sans-serif;
+            font-size: 11px; /* Decreased font size */
+            width: 100%;
+
+        }
+
+        .container {
+            max-width: 100%;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 10px; /* Reduced margin */
+            margin-top: -60px;
+        }
 
         .header img {
             {#width: 170px; /* Reduced logo size */#}
             height: 120px;
         }
 
-
+        .header-right, .header-left {
+            line-height: 1.2;
+            margin-top: -80px;
+        }
 
         .header-right h4, .header-left h4 {
             font-size: 12px; /* Reduced header size */
@@ -50,7 +80,16 @@
             font-weight: bold;
         }
 
-
+        .section-title {
+            font-weight: bold;
+            font-size: 12px; /* Reduced section title size */
+            background-color: #f9e5ff;
+            padding: 8px; /* Reduced padding */
+            text-align: center;
+            margin-top: 15px; /* Reduced margin */
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
 
         .info-table th {
             background-color: #f0f0f0;
@@ -61,6 +100,28 @@
             background-color: #fff;
         }
 
+        .notes {
+            font-size: 8pt;
+            {#margin-top: 2px; /* Reduced margin */#}
+            margin-right: -10px;
+            background-color: #FF9874;
+            padding: 5px; /* Reduced padding */
+            border-radius: 4px;
+            width: 99%;
+        }
+
+        .signature {
+            display: flex;
+            justify-content: flex-end; /* Aligns the items at the start of the flex container */
+            align-items: center; /* Vertically align them in the center */
+            margin-top: 20px; /* Add some space at the top */
+            margin-left: 10px;
+            direction: rtl; /* Ensure content flows from right to left */
+        }
+
+        .signature-info {
+            margin-right: 20px; /* Add some space between the name/title and the date */
+        }
 
         .signature-info p,
         .signature-date p {
@@ -141,12 +202,36 @@
             border: 1px solid #1A2130;
         }
 
+        .logo-left {
+            margin-right: 70px;
+            width: 80px; /* Adjust the width as needed */
+            height: auto; /* Keep the aspect ratio */
+        }
+        .cu-h3 {
+            text-align: center;
+            margin-left: 50px;
+        }
 
+        .additional-info {
+            position: absolute;
+            bottom: 0; /* Position it at the bottom of the left section */
+            left: 0; /* Align to the left */
+            font-size: 12px; /* Adjust font size */
+            font-weight: bold; /* Make text bold */
+            text-align: left; /* Align text to the left */
+        }
         .blue-background th {
             background-color: #3ABEF9;
         }
         .pink-background th{
             background-color: #FF9874;
+        }
+       .notespink{
+            background-color: #FF9874!important;
+        }
+
+        .notesblue {
+            background-color: #3ABEF9!important;
         }
 
 
@@ -158,7 +243,17 @@
 </head>
 <body class="{% if sample.sample_type.name == 'مسحوب' %}blue-background{% else %}pink-background{% endif %}">
 
-
+    <!-- Header -->
+    <div class="header">
+        <!-- Right section (Arabic) -->
+        <div class="header-right">
+            <h4>جمهورية العراق</h4>
+            <h4>وزارة الزراعة</h4>
+            <h4>دائرة فحص وتصديق البذور</h4>
+            <h4>قسم المختبرات</h4>
+            <h5>عضو الاتحاد الدولي لفحص البذور ISTA</h5>
+            <h5>  IQDL0100 رمز العضوية </h5>
+        </div>
 
         <!-- Logos -->
             <div class="logos-section">
@@ -169,12 +264,12 @@
                 <div class="logos-container">
                     <div class="logo-container">
                         <div class="logo-label" style="border-right: none; border-left: none;border-top: none">شهادة فحص بذور</div>
-                        <img src="/static/images/cert-logo.png" alt="Seed Certificate Logo" class="logo">
+                        <img src="https://moa-fh5j.onrender.com/static/images/cert-logo.png" alt="Seed Certificate Logo" class="logo">
                         <div class="logo-label" style="border-bottom: none; border-right: none; border-left: none">Seed Tests Certificate</div>
                     </div>
                     <div class="logo-container">
                         <div class="logo-label" style="border-left: none; border-right: none; border-top: none">Accredited CABS</div>
-                        <img src="/static/images/iqas2.png" alt="IQAS Logo" class="logo">
+                        <img src="https://moa-fh5j.onrender.com/static/images/iqas2.png" alt="IQAS Logo" class="logo">
                         <div class="logo-label" style="border-right: none ;border-bottom: none" >Accredited no.TL 030</div>
                     </div>
                 </div>
@@ -183,5 +278,172 @@
                 <h4 class="logo-title">ISO 17025:2017</h4>
             </div>
 
+        <!-- Left section (English) -->
+        <div class="header-left">
+            <h4>Republic of Iraq</h4>
+            <h4>Ministry of Agriculture</h4>
+            <h4>Directorate Of Seed Testing And Certificate</h4>
+            <h4>Laboratory Department</h4>
+{#            <h5>ISTA Member</h5>#}
+            <h5> Code No.IQDL0100</h5>
+
+        </div>
+    </div>
+    <h3 class="cu-h3">تم الفحص وفقاً للقواعد الدولية لفحص البذور (ISTA) أصدار عام 2024</h3>
+
+    <!-- Info Table -->
+    <table class="info-table">
+        <tr >
+            <th>عائدية البذور Name Of Applicant </th>
+            <td> {{ sample.sender_name }}</td>
+            <th>الموقع</th>
+            <td>{{ sample.location }}</td>
+            <th>نوع العينة</th>
+            <td>{{ sample.sample_type.name }}</td>
+        </tr>
+        <tr>
+
+            <th>رقم العينة</th>
+            <td>{{ sample.sample_id }}</td>
+            <th>تاريخ سحب العينات</th>
+            <td>{{ sample.sample_date|date:"d/m/Y" }}</td>
+            <th>تاريخ الاستلام</th>
+            <td>{{ sample.received_date|date:"d/m/Y" }}</td>
+
+        </tr>
+
+        <tr>
+            <th>تاريخ الفحص</th>
+            <td>{{ sample.test_date|date:"d/m/Y" }}</td>
+            <th> المحصول والصنف و الرتبة</th>
+            <td>{{ sample.crop_type }}-{{ sample.variety }}-{{ sample.grade }}</td>
+            <th>رقم الإرسالية</th>
+            <td>{{ sample.distinguishing_marks }}</td>
+        </tr>
+        <tr>
+
+            <th>وزن الأرسالية </th>
+            <td>{{ sample.shipment_weight }} {{ sample.get_unit_of_measure_display }} </td>
+        </tr>
+    </table>
+
+    <!-- Results Section -->
+{#    <h4 class="section-title">نتائج الفحص</h4>#}
+    <table class="results-table">
+        <tr>
+            <th>نسبة الأنبات % Germination</th>
+            <th>التترازوليوم % Tetazulium</th>
+            <th>نسبة النقاوة % Purity</th>
+            <th>نسبة الرطوبة % Moisture</th>
+            <th>عدد بذور الادغال   No of Weed Seed</th>
+            <th>عدد بذور المحاصيل الأخرى  No of other crop Seed</th>
+
+        </tr>
+        <tr>
+            {% if  plant_tests.natural_percentage != None %}
+            <td>{{ plant_tests.natural_percentage }}%</td>
+            {% else %}
+
+
+            {% endif %}
+            <td>%{{ plant_tests.tetrazonium_test }}</td>
+            <td>{{ purity_tests.purity_percentage }}%</td>
+            <td>{{ moisture_tests.humidity }}%</td>
+            <td>{{ purity_tests.count_Jungle }}</td>
+            <td>{{ purity_tests.count_croptype }}</td>
+
+        </tr>
+
+    </table>
+<table>
+    <thead>
+        <tr>
+            <!-- First header group (Insect Test) -->
+            <th colspan="3">الفحص الحشري Insect Test</th>
+            <!-- Second header group (Fungi Test) -->
+            <th colspan="2">الفحص الفطري Fungi Test</th>
+            <th rowspan="2">عدد ثاليل النيماتودا Nematoda No</th>
+        </tr>
+        <tr>
+            <!-- Sub-headers for Insect Test -->
+            <th>نوع الأصابة Infected Type</th>
+            <th>المسبب Insect</th>
+            <th>%</th>
+            <!-- Sub-headers for Fungi Test -->
+            <th>المسبب المرضي Pathogen</th>
+            <th>%</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for insect, fungal in combined_examinations %}
+    <tr>
+        <!-- Insect Examination values -->
+        {% if insect %}
+            <td>{{ insect.infection_type.name }}</td>
+            <td>{{ insect.cause.name }}</td>
+            <td>{{ insect.infection_percentage|floatformat:1 }}</td>
+        {% else %}
+            <td></td><td></td><td></td>
+        {% endif %}
+
+        <!-- Fungal Examination values -->
+        {% if fungal %}
+            <td>{{ fungal.cause.name }}</td>
+            <td>{{ fungal.infection_percentage|floatformat:1 }}</td>
+        {% else %}
+            <td>No fungal examination</td>
+            <td></td>
+        {% endif %}
+
+        <!-- Nematode Test: Single value, display only for the first row -->
+        {% if forloop.first %}
+            <td>{{ nematode_tests.warts_count }}</td>
+        {% else %}
+            <td></td> <!-- Leave blank for subsequent rows -->
+        {% endif %}
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+
+
+    <!-- Notes Section -->
+    <div class="notes {% if sample.sample_type.name == 'مسحوب' %}notesblue{% else %}notespink{% endif %}">
+        <p>التوصيات: البذور صالحة للزراعة لموسم زراعي واحد</p>
+        <p><strong>* {{ health_tests.note }}</strong></p>
+    </div>
+
+    <!-- Signature Section -->
+<!-- Signature Section -->
+<div class="signature">
+            <div class="signature-date">
+        <p>15/08/2024</p>
+    </div>
+
+    <div class="signature-info">
+        <p>سالم طعمة كاصد</p>
+        <p>مدير قسم المختبرات</p>
+        <p>Lab Manager</p>
+                        <p>No:- 218</p>
+                <p>LSBSTC</p>
+    </div>
+
+
+</div>
+
+
+    <div class="additional-info">
+
+</div>
+
+
+
+</div>
+        <footer>
+            <p>بغداد، ساحة ابو جعفر المنصور</p>
+            <p>E-mail: sbstc@moagr.org</p>
+        </footer>
 </body>
 </html>
