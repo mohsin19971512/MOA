@@ -24,8 +24,17 @@ from itertools import zip_longest
 from django.http import HttpResponseRedirect
 from django.views.generic import DetailView, FormView
 from django.core.paginator import Paginator
+from django.conf import settings
+import logging
+import os
+# Initialize logging at the module level (only once)
+logger = logging.getLogger('weasyprint')
+logger.setLevel(logging.DEBUG)
 
-
+# Ensure this path is correctly set for production
+log_path = os.path.join(settings.BASE_DIR, 'temp_pdfs', 'weasyprint.log')
+handler = logging.FileHandler(log_path)
+logger.addHandler(handler)
 def generate_certificate(request,sample_id):
     # Data for the certificate
     sample = Sample.objects.get(pk=sample_id)
