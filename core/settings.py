@@ -7,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-tdn^p-3ecek17@nal9n!=vuvvvs&huca1175)!%gdkkl#4a(_0'
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['moa-fh5j.onrender.com', '127.0.0.1']
 
@@ -115,8 +115,10 @@ STATICFILES_DIRS = [
 ]
 
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+
 
 
 TAILWIND_APP_NAME = 'theme'
