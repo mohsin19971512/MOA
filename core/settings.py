@@ -5,9 +5,9 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-tdn^p-3ecek17@nal9n!=vuvvvs&huca1175)!%gdkkl#4a(_0'
+SECRET_KEY = 'b7(55vlmh)#_h_k+-t)w9mpdn%tp^jo60$-m)d@7$lf7mnhgf5'
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['moa-fh5j.onrender.com', '127.0.0.1']
 
@@ -161,7 +161,38 @@ logger = logging.getLogger('weasyprint')
 log_file_path = os.path.join(TEMP_PDF_DIR, 'weasyprint.log')
 logger.addHandler(logging.FileHandler(log_file_path))
 
+
+
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': 'error.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}
+
 import ssl
 
 # Disable SSL certificate verification globally
 ssl._create_default_https_context = ssl._create_unverified_context
+
+
+SECURE_HSTS_SECONDS = 3600  # Adjust the duration (in seconds) as needed
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Optional
+SECURE_HSTS_PRELOAD = True  # Optional
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
