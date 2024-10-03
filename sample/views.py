@@ -28,6 +28,8 @@ from django.conf import settings
 import logging
 import os
 import sys
+import requests
+from weasyprint.urls import default_url_fetcher
 logger = logging.getLogger('weasyprint')
 logger.setLevel(logging.DEBUG)
 
@@ -36,6 +38,16 @@ handler = logging.StreamHandler(sys.stdout)
 handler.setLevel(logging.DEBUG)
 logger.addHandler(handler)
 
+
+def custom_url_fetcher(url):
+    try:
+        # Use requests to fetch the resource with a longer timeout
+        response = requests.get(url, timeout=30)
+        # Return the default fetcher behavior
+        return default_url_fetcher(url)
+    except requests.exceptions.Timeout:
+        print(f"Timeout error while fetching {url}")
+        return None  # Return None if the resource could not be fetched
 
 def generate_certificate(request, sample_id):
     # Data for the certificate
@@ -104,17 +116,14 @@ def generate_certificate(request, sample_id):
     template = get_template('sample/certificate_template.html')
     html = template.render(data)
 
-
-
-    # Generate PDF from HTML
+    # Generate PDF from HTML using a custom URL fetcher with increased timeout
     pdf_file = BytesIO()
-    HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(pdf_file, timeout=120,presentational_hints=True)
+    HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(pdf_file, url_fetcher=custom_url_fetcher, timeout=120, presentational_hints=True)
 
     # Set the response and return the PDF
     response = HttpResponse(pdf_file.getvalue(), content_type='application/pdf')
     response['Content-Disposition'] = 'inline; filename="certificate.pdf"'
     return response
-
 
 
 
