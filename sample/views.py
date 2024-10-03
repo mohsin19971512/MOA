@@ -104,17 +104,7 @@ def generate_certificate(request, sample_id):
     template = get_template('sample/certificate_template.html')
     html = template.render(data)
 
-    # Set the paths for your local images
-    # Set the paths for your local images
-    cert_logo_url = f"{ request.build_absolute_uri(static(''))}images/cert-logo.png"
-    iqas_logo_url = f"{ request.build_absolute_uri(static(''))}images/iqas2.png"
 
-
-
-    # Replace image sources in the HTML string with local paths
-    html = html.replace('src="/static/images/cert-logo.png"', f'src="{cert_logo_url}"')
-    html = html.replace('src="/static/images/iqas2.png"', f'src="{iqas_logo_url}"')
-    print(html)
 
     # Generate PDF from HTML
     pdf_file = BytesIO()

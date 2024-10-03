@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'b7(55vlmh)#_h_k+-t)w9mpdn%tp^jo60$-m)d@7$lf7mnhgf5'
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'lov',
     'laboratory',
@@ -121,15 +122,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 
-STORAGES = {
-    # ...
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
+# STORAGES = {
+#     # ...
+#     "staticfiles": {
+#         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+#     },
+# }
 
 TAILWIND_APP_NAME = 'theme'
 
@@ -180,16 +181,27 @@ LOGGING = {
     },
 }
 
-import ssl
+# import ssl
+#
+# # Disable SSL certificate verification globally
+# ssl._create_default_https_context = ssl._create_unverified_context
+#
+#
+# SECURE_HSTS_SECONDS = 3600  # Adjust the duration (in seconds) as needed
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Optional
+# SECURE_HSTS_PRELOAD = True  # Optional
+# SECURE_SSL_REDIRECT = True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
 
-# Disable SSL certificate verification globally
-ssl._create_default_https_context = ssl._create_unverified_context
-
-
-SECURE_HSTS_SECONDS = 3600  # Adjust the duration (in seconds) as needed
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Optional
-SECURE_HSTS_PRELOAD = True  # Optional
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-
+if os.getenv('DJANGO_PRODUCTION') == 'True':
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 3600
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+else:
+    SECURE_SSL_REDIRECT = False  # Disable for local development
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
