@@ -108,7 +108,7 @@ def generate_certificate(request, sample_id):
 
     # Generate PDF from HTML
     pdf_file = BytesIO()
-    HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(pdf_file, timeout=120)
+    HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(pdf_file, timeout=120,presentational_hints=True)
 
     # Set the response and return the PDF
     response = HttpResponse(pdf_file.getvalue(), content_type='application/pdf')

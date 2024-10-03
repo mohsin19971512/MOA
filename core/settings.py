@@ -10,7 +10,7 @@ SECRET_KEY = 'b7(55vlmh)#_h_k+-t)w9mpdn%tp^jo60$-m)d@7$lf7mnhgf5'
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost','https://moa-fh5j.onrender.com/','moa-fh5j.onrender.com']
 
 
 INSTALLED_APPS = [
