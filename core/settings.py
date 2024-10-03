@@ -194,7 +194,7 @@ LOGGING = {
 # SESSION_COOKIE_SECURE = True
 # CSRF_COOKIE_SECURE = True
 
-if os.getenv('DJANGO_PRODUCTION') == 'True':
+if os.getenv('DJANGO_PRODUCTION') == 'False':
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
@@ -205,3 +205,9 @@ else:
     SECURE_SSL_REDIRECT = False  # Disable for local development
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
+
+
+import ssl
+
+# Disable SSL certificate verification globally
+ssl._create_default_https_context = ssl._create_unverified_context
