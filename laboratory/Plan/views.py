@@ -35,18 +35,25 @@ def create_plant_test(request, assignment_id):
 
             seed_entry_form = SeedEntryForm(request.POST, duplicates=duplicates)
             if seed_entry_form.is_valid():
-                seed_entry = seed_entry_form.save(commit=False)
-                seed_entry.plant_test = plant_test
-                seed_entry.save()
+                # Check if all fields are empty
+                all_fields_empty = all(
+                    seed_entry_form.cleaned_data.get(field, None) in [None, '', [], {}]
+                    for field in seed_entry_form.fields
+                )
+
+                if not all_fields_empty:
+                    seed_entry = seed_entry_form.save(commit=False)
+                    seed_entry.plant_test = plant_test
+                    seed_entry.save()
 
                 if 'add_another' not in request.POST:
                     # Set the Assignment as completed
                     assignment.completed = True
                     assignment.save()
 
+                    # if not all_fields_empty:
                     # Calculate hard_percentage and natural_percentage
                     seed_entries = SeedEntry.objects.filter(plant_test=plant_test)
-
                     hard_sum = seed_entries.filter(seed_type='Hard').aggregate(
                         total_hard=Sum(
                             Coalesce(F('value_1'), Value(0)) + Coalesce(F('value_2'), Value(0)) +
@@ -55,7 +62,6 @@ def create_plant_test(request, assignment_id):
                             Coalesce(F('value_7'), Value(0)) + Coalesce(F('value_8'), Value(0))
                         )
                     )['total_hard'] or 0
-
                     natural_sum = seed_entries.filter(seed_type='Natural').aggregate(
                         total_natural=Sum(
                             Coalesce(F('value_1'), Value(0)) + Coalesce(F('value_2'), Value(0)) +
@@ -75,6 +81,7 @@ def create_plant_test(request, assignment_id):
 
                     # Save the updated PlantTest with percentages
                     plant_test.save()
+
                     return redirect(reverse('laboratory:create_plant_test', args=[assignment_id]))
 
                 return redirect(reverse('laboratory:create_plant_test', args=[assignment_id]))

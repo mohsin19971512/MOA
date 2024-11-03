@@ -11,40 +11,28 @@
             <h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">تفاصيل العينة</h2>
             <div class="input-grid-read mb-6">
                 <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">رقم العينة</label>
+                    <label class="text-gray-600 text-lg">رقم العينة  ( الرقم المختبري)</label>
                     <input type="text" value="{{ sample.sample_id }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
 
                 <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg"> المحصول</label>
-                    <input type="text" value="{{ sample.crop_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
-                <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">الصنف</label>
-                    <input type="text" value="{{ sample.variety }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
-
-                <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">الرتبة</label>
-                    <input type="text" value="{{ sample.grade }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    <label class="text-gray-600 text-lg"> المحصول والصنف</label>
+                    <input type="text" value="{{ sample.crop_name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
 
 
-
+                
                 <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">رقم الأرسالية </label>
-                    <input type="text" value="{{ sample.distinguishing_marks }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    <label class="text-gray-600 text-lg">نوع المعاملة</label>
+                    <input type="text" value="{{ sample.treatment_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
                 <div class="input-container-read mt-3">
                     <label class="text-gray-600 text-lg">نوع العينة</label>
                     <input type="text" value="{{ sample.sample_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
-                <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">تاريخ التبليغ</label>
-                    <input type="text" value="{{ sample.result_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
 
-            </div>
+
+            </div>       
         </div>
     </div>
 
@@ -104,48 +92,48 @@
 
 
     <!-- Viral Test Form -->
-    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">الفحص الفايروسي</h2>
-        <div class=" grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div>
-                <label for="infection_type" class="block text-lg font-medium text-gray-700 ">نوع الإصابة</label>
-                
-                    <input type="text" value="{{ viral_test.infection_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                
-            </div>
-            <div>
-                <label for="infection_type" class="block text-lg font-medium text-gray-700 ">المسبب </label>
-                
-                <input type="text" value="{{ viral_test.cause }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-
-            </div>
-            <div>
-                <label for="infection_rate" class="block text-lg font-medium text-gray-700 ">نسبة الإصابة</label>
-                
-                <input type="text" value="{{ viral_test.infection_rate }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-
-            </div>
-        </div>
-    </div>
+{#    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">#}
+{#        <h2 class="text-xl font-semibold text-gray-800 mb-4">الفحص الفايروسي</h2>#}
+{#        <div class=" grid grid-cols-1 md:grid-cols-4 gap-6">#}
+{#            <div>#}
+{#                <label for="infection_type" class="block text-lg font-medium text-gray-700 ">نوع الإصابة</label>#}
+{#                #}
+{#                    <input type="text" value="{{ viral_test.infection_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />#}
+{#                #}
+{#            </div>#}
+{#            <div>#}
+{#                <label for="infection_type" class="block text-lg font-medium text-gray-700 ">المسبب </label>#}
+{#                #}
+{#                <input type="text" value="{{ viral_test.cause }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />#}
+{##}
+{#            </div>#}
+{#            <div>#}
+{#                <label for="infection_rate" class="block text-lg font-medium text-gray-700 ">نسبة الإصابة</label>#}
+{#                #}
+{#                <input type="text" value="{{ viral_test.infection_rate }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />#}
+{##}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
 
     <!-- Bacterial Examination Form -->
-    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">فحص البكتيريا</h2>
-        <div class=" grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div>
-                <label for="damage_percentage" class="block text-lg font-medium text-gray-700 ">نسبة الأضرار</label>
-                
-                <input type="text" value="{{ bacterial_examination.damage_percentage }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-
-            </div>
-            <div>
-                <label for="greenness_percentage" class="block text-lg font-medium text-gray-700 ">نسبة الأخضرار</label>
-                
-                <input type="text" value="{{ bacterial_examination.greenness_percentage }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-
-            </div>
-        </div>
-    </div>
+{#    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">#}
+{#        <h2 class="text-xl font-semibold text-gray-800 mb-4">فحص البكتيريا</h2>#}
+{#        <div class=" grid grid-cols-1 md:grid-cols-4 gap-6">#}
+{#            <div>#}
+{#                <label for="damage_percentage" class="block text-lg font-medium text-gray-700 ">نسبة الأضرار</label>#}
+{#                #}
+{#                <input type="text" value="{{ bacterial_examination.damage_percentage }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />#}
+{##}
+{#            </div>#}
+{#            <div>#}
+{#                <label for="greenness_percentage" class="block text-lg font-medium text-gray-700 ">نسبة الأخضرار</label>#}
+{#                #}
+{#                <input type="text" value="{{ bacterial_examination.greenness_percentage }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />#}
+{##}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
 
 
 
@@ -175,12 +163,7 @@
 
         </div>
     </div>
-    <!-- Submit Button -->
-    <div class="mt-6 text-center">
-        <button type="submit" class="w-[10%] bg-[#2a9d8f] text-white py-2 px-4 rounded-md hover:bg-[#268d81] focus:outline-none focus:ring-2 focus:ring-bg-[#268d81]">حفظ
-            <i class="fas fa-save ml-2"></i>
-        </button>
-    </div>
+
 
 
 

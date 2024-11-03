@@ -13,7 +13,8 @@ class PlantTestForm(forms.ModelForm):
             'tetrazonium_test',
             'seed_vitality',
             'germination_power',
-            'duplicates'
+            'duplicates',
+            'agriculture_date'
         ]
         widgets = {
             'number_of_seeds': forms.NumberInput(attrs={'class': 'w-full border border-gray-600 rounded-md p-2'}),
@@ -23,7 +24,9 @@ class PlantTestForm(forms.ModelForm):
             'tetrazonium_test': forms.TextInput(attrs={'class': 'w-full border border-gray-600 rounded-md p-2'}),
             'seed_vitality': forms.NumberInput(attrs={'class': 'w-full border border-gray-600 rounded-md p-2 '}),
             'germination_power': forms.NumberInput(attrs={'class': 'w-full border border-gray-600 rounded-md p-2'}),
-            'duplicates': forms.Select(attrs={'class': 'w-full border border-gray-600 rounded-md p-2 text-center'})
+            'duplicates': forms.Select(attrs={'class': 'w-full border border-gray-600 rounded-md p-2 text-center'}),
+            'agriculture_date': forms.DateInput
+            (attrs={'class': 'w-full border border-gray-600 rounded-md p-2', 'type': 'date'}),
         }
 
 

@@ -17,8 +17,7 @@
             <thead>
                 <tr class="bg-gray-100 text-gray-600 border-b border-gray-300">
                     <th class="px-6 py-3 text-right text-sm font-semibold">رقم العينة</th>
-                    <th class="px-6 py-3 text-right text-sm font-semibold">المحصول</th>
-                    <th class="px-6 py-3 text-right text-sm font-semibold">الصنف</th>
+                    <th class="px-6 py-3 text-right text-sm font-semibold"> المحصول والصنف</th>
                     <th class="px-6 py-3 text-right text-sm font-semibold">نوع العينة</th>
                     <th class="px-6 py-3 text-right text-sm font-semibold">تاريخ الفحص</th>
                     <th class="px-6 py-3 text-right text-sm font-semibold">الإجراء</th>
@@ -29,7 +28,6 @@
                     <tr class="hover:bg-gray-50 transition duration-300 ease-in-out">
                         <td class="px-6 py-4 text-sm border-b border-gray-200">{{ assignment.sample.sample_id }}</td>
                         <td class="px-6 py-4 text-sm border-b border-gray-200">{{ assignment.sample.crop_name }}</td>
-                        <td class="px-6 py-4 text-sm border-b border-gray-200">{{ assignment.sample.variety }}</td>
                         <td class="px-6 py-4 text-sm border-b border-gray-200">{{ assignment.sample.sample_type }}</td>
                         <td class="px-6 py-4 text-sm border-b border-gray-200">{{ assignment.sample.test_date|date:"Y-m-d" }}</td>
                         <td class="px-6 py-4 text-sm border-b border-gray-200 flex space-x-4">

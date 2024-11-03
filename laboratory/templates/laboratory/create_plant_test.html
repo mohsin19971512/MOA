@@ -16,32 +16,8 @@
                 </div>
 
                 <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg"> المحصول</label>
-                    <input type="text" value="{{ sample.crop_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
-                <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">الصنف</label>
-                    <input type="text" value="{{ sample.variety }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
-
-                <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">الرتبة</label>
-                    <input type="text" value="{{ sample.grade }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
-
-
-
-                <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">رقم الأرسالية </label>
-                    <input type="text" value="{{ sample.distinguishing_marks }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
-                <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">نوع العينة</label>
-                    <input type="text" value="{{ sample.sample_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
-                <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">تاريخ التبليغ</label>
-                    <input type="text" value="{{ sample.result_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    <label class="text-gray-600 text-lg"> المحصول والصنف</label>
+                    <input type="text" value="{{ sample.crop_name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
 
             </div>
@@ -53,54 +29,68 @@
         {% csrf_token %}
         <h1 class="text-2xl font-bold mt-6 text-center text-gray-800">أداء أختبار النبات</h1>
 
-        <!-- Plant Test Form -->
-<!-- Plant Test Form -->
-<div class="p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm">
-    <h3 class="text-lg font-semibold mb-4">بيانات اختبار النبات</h3>
-    <div class="flex flex-wrap -mx-2">
-
-        <!-- First Row (4 Fields) -->
-        <div class="w-full flex flex-wrap -mx-2 mb-4">
-            <div class="w-1/4 px-2">
-                {{ plant_test_form.number_of_seeds.label_tag }}
-                {{ plant_test_form.number_of_seeds }}
+            <!-- Plant Test Form -->
+            <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm">
+                <h3 class="text-lg font-semibold mb-4">بيانات اختبار النبات</h3>
+                <div class="flex flex-wrap -mx-2">
+            
+                    <!-- First Row (4 Fields) -->
+                    <div class="w-full flex flex-wrap -mx-2 mb-4">
+                        <div class="w-1/4 px-2">
+                        {{ plant_test_form.number_of_seeds.label_tag }}
+                        {{ plant_test_form.number_of_seeds }}
+                        {% for error in plant_test_form.number_of_seeds.errors %}
+                            <div class="error text-red-500">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+            
+                    <div class="w-1/4 px-2">
+                        {{ plant_test_form.temperature.label_tag }}
+                        {{ plant_test_form.temperature }}
+                        {% for error in plant_test_form.temperature.errors %}
+                            <div class="error text-red-500">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="w-1/4 px-2">
+                        {{ plant_test_form.planting_method.label_tag }}
+                        {{ plant_test_form.planting_method }}
+                        {% for error in plant_test_form.planting_method.errors %}
+                            <div class="error text-red-500">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                        <div class="w-1/4 px-2">
+                            {{ plant_test_form.tetrazonium_test.label_tag }}
+                            {{ plant_test_form.tetrazonium_test }}
+                        </div>
+            
+            
+                    </div>
+            
+                    <!-- Second Row (4 Fields) -->
+                    <div class="w-full flex flex-wrap -mx-2 mb-4">
+                        <div class="w-1/4 px-2">
+                            {{ plant_test_form.seed_vitality.label_tag }}
+                            {{ plant_test_form.seed_vitality }}
+                        </div>
+                        <div class="w-1/4 px-2">
+                            {{ plant_test_form.germination_power.label_tag }}
+                            {{ plant_test_form.germination_power }}
+                        </div>
+                        <div class="w-1/4 px-2">
+                            {{ plant_test_form.duplicates.label_tag }}
+                            {{ plant_test_form.duplicates }}
+                        </div>
+                        
+                        <!-- If you have another field, add it here -->
+                        <div class="w-1/4 px-2">
+                            {{ plant_test_form.agriculture_date.label_tag }}
+                            {{ plant_test_form.agriculture_date }}
+                        </div>
+                    </div>
+            
+                </div>
             </div>
-            <div class="w-1/4 px-2">
-                {{ plant_test_form.temperature.label_tag }}
-                {{ plant_test_form.temperature }}
-            </div>
-            <div class="w-1/4 px-2">
-                {{ plant_test_form.planting_method.label_tag }}
-                {{ plant_test_form.planting_method }}
-            </div>
-            <div class="w-1/4 px-2">
-                {{ plant_test_form.tetrazonium_test.label_tag }}
-                {{ plant_test_form.tetrazonium_test }}
-            </div>
-        </div>
-
-        <!-- Second Row (4 Fields) -->
-        <div class="w-full flex flex-wrap -mx-2 mb-4">
-            <div class="w-1/4 px-2">
-                {{ plant_test_form.seed_vitality.label_tag }}
-                {{ plant_test_form.seed_vitality }}
-            </div>
-            <div class="w-1/4 px-2">
-                {{ plant_test_form.germination_power.label_tag }}
-                {{ plant_test_form.germination_power }}
-            </div>
-            <div class="w-1/4 px-2">
-                {{ plant_test_form.duplicates.label_tag }}
-                {{ plant_test_form.duplicates }}
-            </div>
-            <!-- If you have another field, add it here -->
-            <div class="w-1/4 px-2">
-                <!-- Another field here if needed -->
-            </div>
-        </div>
-
-    </div>
-</div>
         <!-- Seed Entries Form -->
 
 

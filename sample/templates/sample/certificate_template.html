@@ -262,9 +262,9 @@
 
                 <!-- Logos container with two logos -->
                 <div class="logos-container">
-                    <div class="logo-container">
+                    <div class="logo-container">  
                         <div class="logo-label" style="border-right: none; border-left: none;border-top: none">شهادة فحص بذور</div>
-                        <img src="{% static 'images/moa.jpg' %}" alt="Seed Certificate Logo" class="logo">
+                        <img src="{% static 'images/cert-logo.png' %}" alt="Seed Certificate Logo" class="logo">
                         <div class="logo-label" style="border-bottom: none; border-right: none; border-left: none">Seed Tests Certificate</div>
                     </div>
                     <div class="logo-container">
@@ -315,7 +315,7 @@
             <th>تاريخ الفحص</th>
             <td>{{ sample.test_date|date:"d/m/Y" }}</td>
             <th> المحصول والصنف و الرتبة</th>
-            <td>{{ sample.crop_type }}-{{ sample.variety }}-{{ sample.grade }}</td>
+            <td>{{ sample.crop_name }}</td>
             <th>رقم الإرسالية</th>
             <td>{{ sample.distinguishing_marks }}</td>
         </tr>

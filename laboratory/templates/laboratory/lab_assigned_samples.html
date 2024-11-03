@@ -14,13 +14,10 @@
                 <input type="text" name="sample_id" id="sample_id" class="form-input border border-gray-300 mt-2 rounded-md px-4 py-2 shadow-sm w-full" value="{{ request.GET.sample_id }}">
             </div>
             <div class="col-span-1">
-                <label for="crop_name" class="text-lg font-medium text-gray-700">أسم المحصول</label>
+                <label for="crop_name" class="text-lg font-medium text-gray-700"> المحصول والصنف </label>
                 <input type="text" name="crop_name" id="crop_name" class="form-input border border-gray-300 mt-2 rounded-md px-4 py-2 shadow-sm w-full" value="{{ request.GET.crop_name }}">
             </div>
-            <div class="col-span-1">
-                <label for="variety" class="text-lg font-medium text-gray-700">الصنف</label>
-                <input type="text" name="variety" id="variety" class="form-input border border-gray-300 mt-2 rounded-md px-4 py-2 shadow-sm w-full" value="{{ request.GET.variety }}">
-            </div>
+
             <div class="col-span-1">
                 <label for="sample_type" class="text-lg font-medium text-gray-700">نوع العينة</label>
                 <input type="text" name="sample_type" id="sample_type" class="form-input border border-gray-300 mt-2 rounded-md px-4 py-2 shadow-sm w-full" value="{{ request.GET.sample_type }}">
@@ -41,8 +38,6 @@
             
             
             
-            
-            
             <div class="col-span-1 flex items-end">
                 <button type="submit" class="px-4 py-2 bg-[#4361ee] text-white font-semibold rounded-md shadow-sm hover:bg-blue-600">
                     بحث</button>
@@ -55,8 +50,7 @@
             <thead>
                 <tr class="bg-gray-100 text-gray-600 border-b border-gray-300">
                     <th class="px-6 py-3 text-right text-lg font-semibold">رقم العينة</th>
-                    <th class="px-6 py-3 text-right text-lg font-semibold">أسم المحصول</th>
-                    <th class="px-6 py-3 text-right text-lg font-semibold">الصنف</th>
+                    <th class="px-6 py-3 text-right text-lg font-semibold"> المحصول والصنف</th>
                     <th class="px-6 py-3 text-right text-lg font-semibold">نوع العينة</th>
                     <th class="px-6 py-3 text-right text-lg font-semibold">تاريخ الأستلام</th>
                     <th class="px-6 py-3 text-right text-lg font-semibold">حالة الفحص</th>
@@ -68,7 +62,6 @@
                     <tr class="hover:bg-gray-400 hover:bg-opacity-25 transition duration-300 ease-in-out">
                         <td class="px-6 py-4 text-lg border-b border-gray-200">{{ assignment.sample.sample_id }}</td>
                         <td class="px-6 py-4 text-lg border-b border-gray-200">{{ assignment.sample.crop_name }}</td>
-                        <td class="px-6 py-4 text-lg border-b border-gray-200">{{ assignment.sample.variety }}</td>
                         <td class="px-6 py-4 text-lg border-b border-gray-200">{{ assignment.sample.sample_type }}</td>
                         <td class="px-6 py-4 text-lg border-b border-gray-200">{{ assignment.sample.received_date|date:"Y-m-d" }}</td>
                         <td class="px-6 py-4 text-lg border-b border-gray-200">

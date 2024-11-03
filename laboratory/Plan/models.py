@@ -18,14 +18,13 @@ class PlantTest(models.Model):
         ('Dead', 'ميتة')
     ]
 
-    number_of_seeds = models.PositiveIntegerField(verbose_name='عدد البذور', null=True, blank=True)
-    temperature = models.DecimalField(verbose_name='درجة الحرارة', max_digits=5, decimal_places=2, null=True,
-                                      blank=True)  # Storing temperature, e.g., 22.5°C
+    number_of_seeds = models.PositiveIntegerField(verbose_name='عدد البذور')
+    temperature = models.DecimalField(verbose_name='درجة الحرارة', max_digits=5, decimal_places=2)
     planting_method = models.CharField(verbose_name='طريقة الزراعة', max_length=20, choices=[
         ('Roll', 'لف'),
         ('Fold', 'طي'),
         ('Sand', 'رمل')
-    ], null=True, blank=True)
+    ])
     tetrazonium_test = models.CharField(verbose_name='أختبار التترازوليوم', null=True, blank=True, max_length=50)
     seed_vitality = models.DecimalField(verbose_name='حيوية البذور', max_digits=5, decimal_places=2, null=True,
                                         blank=True)  # Percentage
@@ -37,7 +36,7 @@ class PlantTest(models.Model):
                                           blank=True)
     natural_percentage = models.DecimalField(verbose_name='نسبة البذور الطبيعية ', max_digits=5, decimal_places=2,
                                              null=True, blank=True)
-
+    agriculture_date = models.DateField(null=True, blank=True,verbose_name='تاريخ الزرعة')
     def __str__(self):
         return f"PlantTest {self.id} - {self.duplicates}"
 

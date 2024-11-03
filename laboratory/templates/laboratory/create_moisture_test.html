@@ -15,26 +15,11 @@
                 </div>
 
                 <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg"> المحصول</label>
-                    <input type="text" value="{{ sample.crop_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
-                <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">الصنف</label>
-                    <input type="text" value="{{ sample.variety }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    <label class="text-gray-600 text-lg"> المحصول والصنف</label>
+                    <input type="text" value="{{ sample.crop_name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
 
-                <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">الرتبة</label>
-                    <input type="text" value="{{ sample.grade }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
 
-                
-
-
-                <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">رقم الأرسالية </label>
-                    <input type="text" value="{{ sample.distinguishing_marks }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
                 <div class="input-container-read mt-3">
                     <label class="text-gray-600 text-lg">نوع العينة</label>
                     <input type="text" value="{{ sample.sample_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
@@ -132,11 +117,11 @@
                     <input type="number" name="sample_a_empty_box_weight" id="sample_a_empty_box_weight" value="{{ form.sample_a_empty_box_weight.value }}" class="w-full border border-gray-500 rounded-md p-2" step="any">
                 </div>
                 <div>
-                    <label for="sample_a_sample_weight_before_drying" class="block text-lg font-medium text-gray-700 mb-2">وزن العينة قبل التجفيف لعينة أ</label>
+                    <label for="sample_a_sample_weight_before_drying" class="block text-lg font-medium text-gray-700 mb-2">وزن العينة العملية أ</label>
                     <input type="number" name="sample_a_sample_weight_before_drying" id="sample_a_sample_weight_before_drying" value="{{ form.sample_a_sample_weight_before_drying.value }}" class="w-full border border-gray-500 rounded-md p-2" step="any">
                 </div>
                 <div>
-                    <label for="sample_a_sample_weight_after_drying" class="block text-lg font-medium text-gray-700 mb-2">وزن العينة بعد التجفيف لعينة أ</label>
+                    <label for="sample_a_sample_weight_after_drying" class="block text-lg font-medium text-gray-700 mb-2">وزن العينة بعد التجفيف  أ</label>
                     <input type="number" name="sample_a_sample_weight_after_drying" id="sample_a_sample_weight_after_drying" value="{{ form.sample_a_sample_weight_after_drying.value }}" class="w-full border border-gray-500 rounded-md p-2" step="any">
                 </div>
                 <div>
@@ -153,11 +138,11 @@
                     <input type="number" name="sample_b_empty_box_weight" id="sample_b_empty_box_weight" value="{{ form.sample_b_empty_box_weight.value }}" class="w-full border border-gray-500 rounded-md p-2" step="any">
                 </div>
                 <div>
-                    <label for="sample_b_sample_weight_before_drying" class="block text-lg font-medium text-gray-700 mb-2">وزن العينة قبل التجفيف لعينة ب</label>
+                    <label for="sample_b_sample_weight_before_drying" class="block text-lg font-medium text-gray-700 mb-2">وزن العينة العملية ب</label>
                     <input type="number" name="sample_b_sample_weight_before_drying" id="sample_b_sample_weight_before_drying" value="{{ form.sample_b_sample_weight_before_drying.value }}" class="w-full border border-gray-500 rounded-md p-2" step="any">
                 </div>
                 <div>
-                    <label for="sample_b_sample_weight_after_drying" class="block text-lg font-medium text-gray-700 mb-2">وزن العينة بعد التجفيف لعينة ب</label>
+                    <label for="sample_b_sample_weight_after_drying" class="block text-lg font-medium text-gray-700 mb-2">وزن العينة بعد التجفيف  ب</label>
                     <input type="number" name="sample_b_sample_weight_after_drying" id="sample_b_sample_weight_after_drying" value="{{ form.sample_b_sample_weight_after_drying.value }}" class="w-full border border-gray-500 rounded-md p-2" step="any">
                 </div>
                 <div>
@@ -196,7 +181,7 @@ function calculateResults() {
     const sampleAEmptyBoxWeight = parseFloat(document.getElementById('sample_a_empty_box_weight').value);
     const sampleASampleWeightBeforeDrying = parseFloat(document.getElementById('sample_a_sample_weight_before_drying').value);
     const sampleASampleWeightAfterDrying = parseFloat(document.getElementById('sample_a_sample_weight_after_drying').value);
-
+    const initial_weight = parseFloat(document.getElementById('initial_weight').value);
     const sampleBEmptyBoxWeight = parseFloat(document.getElementById('sample_b_empty_box_weight').value);
     const sampleBSampleWeightBeforeDrying = parseFloat(document.getElementById('sample_b_sample_weight_before_drying').value);
     const sampleBSampleWeightAfterDrying = parseFloat(document.getElementById('sample_b_sample_weight_after_drying').value);
@@ -206,13 +191,13 @@ function calculateResults() {
 
     // Calculate results for sample A
     if (!isNaN(sampleAEmptyBoxWeight) && !isNaN(sampleASampleWeightBeforeDrying) && !isNaN(sampleASampleWeightAfterDrying)) {
-        sampleAResult = ((sampleASampleWeightBeforeDrying - sampleASampleWeightAfterDrying) / (sampleASampleWeightBeforeDrying - sampleAEmptyBoxWeight)) * 100;
+        sampleAResult = (((sampleASampleWeightBeforeDrying +sampleAEmptyBoxWeight) - (sampleASampleWeightAfterDrying))/initial_weight) * 100;
         document.getElementById('result_a').value = sampleAResult.toFixed(2);
     }
 
     // Calculate results for sample B
     if (!isNaN(sampleBEmptyBoxWeight) && !isNaN(sampleBSampleWeightBeforeDrying) && !isNaN(sampleBSampleWeightAfterDrying)) {
-        sampleBResult = ((sampleBSampleWeightBeforeDrying - sampleBSampleWeightAfterDrying) / (sampleBSampleWeightBeforeDrying - sampleBEmptyBoxWeight)) * 100;
+        sampleBResult = ((sampleBSampleWeightBeforeDrying - sampleBSampleWeightAfterDrying) / initial_weight) * 100;
         document.getElementById('result_b').value = sampleBResult.toFixed(2);
     }
 

@@ -1,0 +1,14 @@
+body {
+    direction: rtl;
+    text-align: right;
+}
+
+.admin-header {
+    text-align: right;
+}
+
+.nav-tabs {
+    float: right;
+}
+
+/* Add more styles as needed to adjust layout */

@@ -8,29 +8,16 @@
     <!-- Sample Details -->
     <div class="container px-2 py-6">
         <div class="bg-gray-50 border border-gray-200 rounded-lg w-full p-4 mb-6">
-            <h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">تحديث تفاصيل العينة</h2>
-            <div class="input-grid-read mb-6">
+            <h2 class="text-2xl font-semibold text-center text-gray-800 mb-4"> تفاصيل العينة</h2>
+                        <div class="input-grid-read mb-6">
                 <div class="input-container-read mt-3">
                     <label class="text-gray-600 text-lg">رقم العينة</label>
                     <input type="text" value="{{ sample.sample_id }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
 
                 <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">المحصول</label>
-                    <input type="text" value="{{ sample.crop_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
-                <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">الصنف</label>
-                    <input type="text" value="{{ sample.variety }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
-
-                <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">الرتبة</label>
-                    <input type="text" value="{{ sample.grade }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
-                <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">تاريخ التبليغ</label>
-                    <input type="text" value="{{ sample.result_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    <label class="text-gray-600 text-lg"> المحصول والصنف</label>
+                    <input type="text" value="{{ sample.crop_name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
 
             </div>
@@ -82,7 +69,8 @@
                     </div>
                     <!-- If you need another field -->
                     <div class="w-1/4 px-2">
-                        <!-- Another field -->
+                        {{ plant_test_form.agriculture_date.label_tag }}
+                        {{ plant_test_form.agriculture_date }}
                     </div>
                 </div>
             </div>

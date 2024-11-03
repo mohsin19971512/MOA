@@ -7,12 +7,12 @@ class SampleForm(forms.ModelForm):
     class Meta:
         model = Sample
         fields = [
-            'sample_id', 'crop_name', 'shipment_weight', 'unit_of_measure', 'location','batch_number',
-            'crop_type', 'variety', 'grade', 'sample_type', 'test_type', 'treatment_type',
-            'sample_date', 'received_date', 'distinguishing_marks', 'sender_name'
+            'crop_name', 'distinguishing_marks', 'sample_id', 'shipment_weight', 'unit_of_measure',
+            'location', 'sender_name', 'sample_type', 'the_draw', 'batch_number', 'received_date',
+            'the_divider', 'test_type',
+            'treatment_type'
         ]
         widgets = {
-            'sample_date': forms.DateInput(attrs={'type': 'date'}),
             'received_date': forms.DateInput(attrs={'type': 'date'}),
             'test_date': forms.DateInput(attrs={'type': 'date'}),
             'result_date': forms.DateInput(attrs={'type': 'date'}),

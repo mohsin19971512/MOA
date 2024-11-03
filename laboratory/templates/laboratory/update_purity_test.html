@@ -19,34 +19,28 @@
         <div class="bg-gray-50  border border-gray-200 rounded-lg w-full p-4 mb-6">
             <h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">تفاصيل العينة</h2>
             <div class="input-grid-read mb-6">
+                
                 <div class="input-container-read mt-3">
                     <label class="text-gray-600 text-lg">رقم العينة</label>
                     <input type="text" value="{{ sample.sample_id }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
 
                 <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg"> المحصول</label>
-                    <input type="text" value="{{ sample.crop_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
-                <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">الصنف</label>
-                    <input type="text" value="{{ sample.variety }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    <label class="text-gray-600 text-lg"> المحصول و الصنف </label>
+                    <input type="text" value="{{ sample.crop_name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
 
-                <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">الرتبة</label>
-                    <input type="text" value="{{ sample.grade }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
-
-
+                
                 <div class="input-container-read mt-3">
                     <label class="text-gray-600 text-lg">رقم الأرسالية </label>
                     <input type="text" value="{{ sample.distinguishing_marks }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
+                
                 <div class="input-container-read mt-3">
                     <label class="text-gray-600 text-lg">نوع العينة</label>
                     <input type="text" value="{{ sample.sample_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
+                
                 <div class="input-container-read mt-3">
                     <label class="text-gray-600 text-lg">تاريخ التبليغ</label>
                     <input type="text" value="{{ sample.result_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
@@ -171,11 +165,11 @@
 
             <!-- Column 4: Inert Materials -->
             <div class="col-span-1 p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm space-y-4">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-4">المواد غير الحية</h2>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">المواد الخاملة</h2>
 
                     <!-- Field: inert_materials_weight_a -->
                     <div>
-                        <label for="inert_materials_weight_a" class="block text-lg font-medium text-gray-700 mb-2">وزن أ للمواد غير الحية</label>
+                        <label for="inert_materials_weight_a" class="block text-lg font-medium text-gray-700 mb-2">وزن أ للمواد الخاملة</label>
                         <input type="number" name="inert_materials_weight_a" id="inert_materials_weight_a"
                                value="{{ form.inert_materials_weight_a.value|stringformat:'s' }}"
                                class="w-full border border-gray-500 rounded-md p-2" step="any">
@@ -187,7 +181,7 @@
 
                     <!-- Field: inert_materials_weight_b -->
                     <div>
-                        <label for="inert_materials_weight_b" class="block text-lg font-medium text-gray-700 mb-2">وزن ب للمواد غير الحية</label>
+                        <label for="inert_materials_weight_b" class="block text-lg font-medium text-gray-700 mb-2">وزن ب للمواد الخاملة</label>
                         <input type="number" name="inert_materials_weight_b" id="inert_materials_weight_b"
                                value="{{ form.inert_materials_weight_b.value|stringformat:'s' }}"
                                class="w-full border border-gray-500 rounded-md p-2" step="any">

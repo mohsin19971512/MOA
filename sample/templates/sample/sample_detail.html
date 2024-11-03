@@ -8,75 +8,96 @@
             <div class="bg-white shadow-md w-full rounded-lg p-10 mb-6 ">
             {% if user.profile.user_role in " Manager" %}
             <div class="text-center mb-4">
-                   <a href="{% url 'sample:generate_certificate' sample.id %}"
-               class="inline-flex items-center text-white text-center bg-[#2a9d8f] hover:bg-[#247d73] px-4 py-2 rounded transition-colors duration-200 ease-in-out">
-                <i class="fas fa-certificate text-lg ml-2"></i>
-                <span>عرض الشهادة</span>
-            </a>
+                <a href="{% url 'sample:generate_certificate' sample.id %}"
+                   class="inline-flex items-center text-white text-center bg-[#2a9d8f] hover:bg-[#247d73] px-4 py-2 rounded transition-colors duration-200 ease-in-out">
+                    <i class="fas fa-certificate text-lg ml-2"></i>
+                    <span>عرض الشهادة</span>
+                </a>
             </div>
             {% endif %}
                 <h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">تفاصيل العينة</h2>
                 <div class="input-grid-read ">
+
+
                     <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">رقم العينة</label>
-                        <input type="text" value="{{ sample.sample_id }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                    </div>
-                    <div class="input-container-read mt-3 ">
-                        <label class="text-gray-900 text-lg ">نوع المحصول</label>
-                        <input type="text" value="{{ sample.crop_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                    </div>
-                    <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">اسم المحصول</label>
+                        <label class="text-gray-900 text-lg"> المحصول والصنف</label>
                         <input type="text" value="{{ sample.crop_name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                    </div>
-                    <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">الصنف</label>
-                        <input type="text" value="{{ sample.variety }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                    </div>
-                    <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">الرتبة</label>
-                        <input type="text" value="{{ sample.grade }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                    </div>
-                    <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">نوع العينة</label>
-                        <input type="text" value="{{ sample.sample_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                    </div>
-                    <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">نوع الفحص</label>
-                        <input type="text" value="{{ sample.test_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                     </div>
 
                     <div class="input-container-read mt-3">
                         <label class="text-gray-900 text-lg">رقم الأرسالية  </label>
                         <input type="text" value="{{ sample.distinguishing_marks }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                     </div>
+
                     <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">الجهة المرسلة</label>
+                        <label class="text-gray-900 text-lg">رقم العينة (الرقم المختبري)</label>
+                        <input type="text" value="{{ sample.sample_id }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    </div>
+
+
+                    <div class="input-container-read mt-3">
+                        <label class="text-gray-900 text-lg">وزن الأرسالية</label>
+                        <input type="text" value="{{ sample.shipment_weight }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    </div>
+
+                    <div class="input-container-read mt-3">
+                        <label class="text-gray-900 text-lg">وحدة القياس </label>
+                        <input type="text" value="{{ sample.get_unit_of_measure_display }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    </div>
+
+
+                    <div class="input-container-read mt-3">
+                        <label class="text-gray-900 text-lg">الموقع (عائدية البذور) </label>
+                        <input type="text" value="{{ sample.location }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    </div>
+
+                    <div class="input-container-read mt-3">
+                        <label class="text-gray-900 text-lg"> الجهة المرسلة (أسم الشركة)</label>
                         <input type="text" value="{{ sample.sender_name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                     </div>
+
+
+
+                    <div class="input-container-read mt-3">
+                        <label class="text-gray-900 text-lg">نوع العينة</label>
+                        <input type="text" value="{{ sample.sample_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    </div>
+
+                    <div class="input-container-read mt-3">
+                        <label class="text-gray-900 text-lg"> القائم بالسحب</label>
+                        <input type="text" value="{{ sample.the_draw }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    </div>
+
+                    <div class="input-container-read mt-3">
+                        <label class="text-gray-900 text-lg">نوع البذور </label>
+                        <input type="text" value="{{ sample.get_batch_number_display }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    </div>
+
+                    <div class="input-container-read mt-3">
+                        <label class="text-gray-900 text-lg">تاريخ الاستلام</label>
+                        <input type="text" value="{{ sample.received_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    </div>
+
+
+                    <div class="input-container-read mt-3">
+                        <label class="text-gray-900 text-lg"> القائم بالتقسيم</label>
+                        <input type="text" value="{{ sample.the_divider }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    </div>
+
+                    <div class="input-container-read mt-3">
+                        <label class="text-gray-900 text-lg">نوع الفحص</label>
+                        <input type="text" value="{{ sample.test_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    </div>
+
+
+
 
                     <div class="input-container-read mt-3">
                         <label class="text-gray-900 text-lg">نوع المعاملة</label>
                         <input type="text" value="{{ sample.treatment_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                     </div>
 
-                    <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">وزن الأرسالية</label>
-                        <input type="text" value="{{ sample.shipment_weight }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                    </div>
-                    <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">وحدة القياس </label>
-                        <input type="text" value="{{ sample.get_unit_of_measure_display }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                    </div>
 
-                    <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">الموقع </label>
-                        <input type="text" value="{{ sample.location }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                    </div>
-                    <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">نوع البذور </label>
-                        <input type="text" value="{{ sample.get_batch_number_display }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                    </div>
 
                     <div class="input-container-read mt-3">
                         <label class="text-gray-900 text-lg">حالة المختبرات من الفحص</label>
@@ -84,15 +105,7 @@
                     </div>
 
 
-                    <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">تاريخ سحب العينات</label>
-                        <input type="text" value="{{ sample.sample_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                    </div>
 
-                    <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">تاريخ الاستلام</label>
-                        <input type="text" value="{{ sample.received_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                    </div>
                     <div class="input-container-read mt-3">
                         <label class="text-gray-900 text-lg">تاريخ التبليغ </label>
                         <input type="text" value="{{ sample.result_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
@@ -310,7 +323,7 @@
             </div>
         </div>
     </div>
-
+{% if user.profile.user_role in " Manager" %}
       <form method="POST">
     {% csrf_token %}
     <div>
@@ -319,6 +332,7 @@
     </div>
     <button type="submit" class="px-8 py-3 bg-[#2a9d8f] text-white font-semibold rounded-md shadow-sm hover:bg-[#24877c] transition duration-300 ease-in-out">تحديث الملاحضات</button>
   </form>
+    {% endif %}
 
     </div>
 

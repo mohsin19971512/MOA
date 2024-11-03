@@ -1,0 +1,194 @@
+/* @font-face {
+    font-family: 'FF Shamel Sans';
+    src: url('/static/fonts/FF-Shamel-Family-Sans-One-Book.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+} */
+
+
+@font-face {
+    font-family: 'Noto Kufi Arabic';
+    src: url('/static/fonts/NotoKufiArabic_VariableFont_wght.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'RTLFont';
+    src: url('/static/fonts/arial.ttf') format('truetype');
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+.logo-title{
+    font-family: 'Arial', sans-serif;
+}
+.wrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+#sidebar {
+    height: calc(100vh - 40px); 
+    position: fixed; /* Fix the sidebar position */
+    width: 250px; /* Adjust width as needed */
+    top: 20px; /* Space from the top */
+    right: 20px; /* Space from the right */
+    bottom: 20px; /* Space from the bottom */
+    padding: 1rem; /* Add padding inside the sidebar */
+    overflow-y: auto; /* Make the sidebar scrollable if content overflows */
+    border-radius: 0.5rem; /* Rounded corners for visual appeal */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visibility */
+    margin-bottom: 2rem;
+    font-family: 'Arial', sans-serif;
+
+}
+
+#sidebar ul.components { 
+    padding: 20px;
+}
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+
+
+
+
+
+#content {
+    margin-right: 270px; /* Adjust margin to accommodate sidebar width and right space */
+    width: calc(100% - 270px); /* Full width minus sidebar width and right space */
+    padding: 1rem; /* Optional: add padding to avoid content touching edges */
+    font-family: 'Arial', sans-serif;
+
+}
+
+/* Custom CSS or Tailwind configuration */
+
+
+.form-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.3);
+}
+
+
+/* Full sidebar view */
+#sidebar {
+    width: 16rem; /* Adjust as needed */
+    transition: width 0.3s;
+    font-family: 'Arial', sans-serif;
+
+}
+
+/* Minimized sidebar view */
+#sidebar.minimized {
+    width: 4rem; /* Adjust as needed */
+}
+
+/* Hide text in minimized view */
+#sidebar.minimized .sidebar-header,
+#sidebar.minimized ul {
+    display: none;
+}
+
+/* Show icons only */
+#sidebar.minimized .icon-only {
+    display: block;
+}
+
+.icon-only {
+    display: none;
+}
+
+
+/* Sample details style */
+.tab-content {
+    display: none;
+    max-height: 400px; /* Adjust as needed */
+    overflow-y: auto;  /* Ensures content scrolls inside the container */
+}
+.tab-content.active {
+    display: block;
+}
+.tab-button.active {
+    background-color: #e2e8f0; /* Light gray background for active tab */
+    color: #1a202c; /* Dark text color for better visibility */
+}
+.input-grid-read {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    gap: 1rem; /* Gap between inputs */
+    
+
+}
+
+.input-grid-read3 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    gap: 1rem; /* Gap between items */
+}
+
+.input-grid-read3 > div {
+    grid-column: span 1; /* Each item takes one column */
+}
+.input-grid2 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 4 columns */
+    gap: 1rem; /* Gap between inputs */
+}
+.input-container-read {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem; /* Space between label and input */
+}
+.read-only-input {
+    background-color: #d6dadd; /* Light gray background for read-only inputs */
+    border: 1px solid #e2e8f0; /* Light gray border */
+    color: #3b4455; /* Dark text color */
+}
+
+.read-only-input-success {
+    background-color: #bfe5c7; /* Light gray background for read-only inputs */
+    border: 1px solid #bfe5c7; /* Light gray border */
+    color: #3b4455; /* Dark text color */
+}
+
+/* Sample details style */
+
+
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+.icon-pulse {
+    animation: pulse 1.5s infinite;
+}
+
+
+    @keyframes scale {
+        0% { transform: scale(0.5); }
+        50% { transform: scale(1.4); }
+        100% { transform: scale(1); }
+    }
+    .icon-scale {
+        animation: scale 2s ease-in-out;
+    }
