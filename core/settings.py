@@ -73,7 +73,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-# DATABASES["default"] = dj_database_url.parse("postgresql://stagingmoadb_user:KJvzhTdkgpYoZws1S1J5BXRbpI506bb5@dpg-crtcom68ii6s73ekohqg-a.oregon-postgres.render.com/stagingmoadb")
+DATABASES["default"] = dj_database_url.parse("postgresql://stagingmoadb_user:KJvzhTdkgpYoZws1S1J5BXRbpI506bb5@dpg-crtcom68ii6s73ekohqg-a.oregon-postgres.render.com/stagingmoadb")
 
 # DATABASES = {
 #     'default': dj_database_url.parse(os.environ.get('DATABASE_URL')),
