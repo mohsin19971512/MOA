@@ -191,13 +191,16 @@ function calculateResults() {
 
     // Calculate results for sample A
     if (!isNaN(sampleAEmptyBoxWeight) && !isNaN(sampleASampleWeightBeforeDrying) && !isNaN(sampleASampleWeightAfterDrying)) {
-        sampleAResult = (((sampleASampleWeightBeforeDrying +sampleAEmptyBoxWeight) - (sampleASampleWeightAfterDrying))/initial_weight) * 100;
+        sampleAResult = (((sampleASampleWeightBeforeDrying + sampleAEmptyBoxWeight) - (sampleASampleWeightAfterDrying))/4.512) * 100;
         document.getElementById('result_a').value = sampleAResult.toFixed(2);
+
+        console.log('sampleAResult',sampleAResult)
     }
 
     // Calculate results for sample B
     if (!isNaN(sampleBEmptyBoxWeight) && !isNaN(sampleBSampleWeightBeforeDrying) && !isNaN(sampleBSampleWeightAfterDrying)) {
-        sampleBResult = ((sampleBSampleWeightBeforeDrying - sampleBSampleWeightAfterDrying) / initial_weight) * 100;
+        sampleBResult = (((sampleBSampleWeightBeforeDrying +sampleBEmptyBoxWeight) - (sampleBSampleWeightAfterDrying))/sampleBSampleWeightBeforeDrying) * 100;
+
         document.getElementById('result_b').value = sampleBResult.toFixed(2);
     }
 
