@@ -213,3 +213,15 @@ import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 
 
+# PDF Generation Settings
+PDF_GENERATION = {
+    'MAX_FILE_SIZE': 10 * 1024 * 1024,  # 10MB
+    'ALLOWED_FONTS': ['Cairo-VariableFont_slnt,wght.ttf.ttf'],
+    'ALLOWED_IMAGES': ['cert-logo.png', 'iqas2.png'],
+}
+
+# Ensure proper static file handling
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
