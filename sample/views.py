@@ -46,7 +46,7 @@ from django.contrib.staticfiles.finders import find
 import weasyprint
 
 from django.template.loader import render_to_string
-
+from django.contrib.staticfiles import finders
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -56,9 +56,7 @@ logging.basicConfig(
     ]
 )
 
-# https://github.com/fdemmer/django-weasyprint/blob/main/django_weasyprint/utils.py
 def url_fetcher(url, *args, **kwargs):
-    # load file:// paths directly from disk
     if url.startswith('file:'):
         mime_type, encoding = mimetypes.guess_type(url)
         url_path = urlparse(url).path
@@ -68,6 +66,17 @@ def url_fetcher(url, *args, **kwargs):
             'filename': Path(url_path).name,
         }
 
+        # Handle static files
+        if settings.STATIC_URL and url_path.startswith(settings.STATIC_URL):
+            relative_path = url_path.replace(settings.STATIC_URL, '', 1)
+            # Use finders to get the absolute path
+            absolute_path = finders.find(relative_path)
+            if absolute_path:
+                data['file_obj'] = open(absolute_path, 'rb')
+                return data
+            raise FileNotFoundError(f"Static file not found: {relative_path}")
+
+        # Handle media files
         default_media_url = settings.MEDIA_URL in ('', get_script_prefix())
         if not default_media_url and url_path.startswith(settings.MEDIA_URL):
             media_root = settings.MEDIA_ROOT
@@ -77,12 +86,6 @@ def url_fetcher(url, *args, **kwargs):
             data['file_obj'] = default_storage.open(path)
             return data
 
-        elif settings.STATIC_URL and url_path.startswith(settings.STATIC_URL):
-            path = url_path.replace(settings.STATIC_URL, '', 1)
-            data['file_obj'] = open(find(path), 'rb')
-            return data
-
-    # fall back to weasyprint default fetcher
     return weasyprint.default_url_fetcher(url, *args, **kwargs)
 
 
@@ -131,7 +134,7 @@ def generate_certificate(request, sample_id):
         'fungal_examinations': fungal_examinations,
         'nematode_tests': nematode_tests,
         'combined_examinations': combined_examinations,
-        'static_url': request.build_absolute_uri(static('')),  # Pass the full URL for static files
+        'static_url': request.build_absolute_uri(static('.')),  # Pass the full URL for static files
     }
 
     print('static_url :', request.build_absolute_uri(static('')))
@@ -141,18 +144,23 @@ def generate_certificate(request, sample_id):
     # html = template.render(data)
 
 
+    # Update the static URL handling
+    base_url = request.build_absolute_uri('/').rstrip('/')
+
+
     results = BytesIO()
     template_string = render_to_string(
         template_name='sample/certificate_template.html',
         context=data,
     )
 
-    # Generate PDF from HTML
-    # pdf_file = BytesIO()
-    HTML(string=template_string, base_url=".", url_fetcher=url_fetcher).write_pdf(results)
+    # Generate PDF with the base_url parameter
+    HTML(
+        string=template_string,
+        base_url=base_url,  # Use the full base URL
+        url_fetcher=url_fetcher
+    ).write_pdf(results)
 
-    # return results.getbuffer()
-    # # Set the response and return the PDF
     response = HttpResponse(results.getvalue(), content_type='application/pdf')
     response['Content-Disposition'] = 'inline; filename="certificate.pdf"'
     return response
