@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'xhtml2pdf',
     'corsheaders',
+    'fontawesomefree'
 ]
 
 
