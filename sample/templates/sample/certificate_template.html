@@ -112,7 +112,7 @@
 
         .signature {
             display: flex;
-            justify-content: flex-end; /* Aligns the items at the start of the flex container */
+            justify-content: space-between; /* Aligns the items at the start of the flex container */
             align-items: center; /* Vertically align them in the center */
             margin-top: 20px; /* Add some space at the top */
             margin-left: 10px;
@@ -129,7 +129,7 @@
         }
 
         .signature-info p {
-            text-align: left; /* Align text to the right for Arabic content */
+            text-align: center; /* Align text to the right for Arabic content */
         }
 
         .signature-date p {
@@ -144,7 +144,7 @@
             justify-content: center;
             align-items: center;
             font-size: 10pt; /* Reduced footer font size */
-            margin-top: 20px; /* Reduced margin */
+            margin-top: 70px; /* Reduced margin */
             color: #555;
             background-color: #f1f1f1; /* Optional: background color for footer */
             padding: 10px; /* Optional: padding inside footer */
@@ -262,9 +262,9 @@
 
                 <!-- Logos container with two logos -->
                 <div class="logos-container">
-                    <div class="logo-container">  
+                    <div class="logo-container">
                         <div class="logo-label" style="border-right: none; border-left: none;border-top: none">شهادة فحص بذور</div>
-                        <img src="{% static 'images/cert-logo.png' %}" alt="Seed Certificate Logo" class="logo">
+                        <img src="{{ static_url }}images/cert-logo.png" alt="Seed Certificate Logo" class="logo">
                         <div class="logo-label" style="border-bottom: none; border-right: none; border-left: none">Seed Tests Certificate</div>
                     </div>
                     <div class="logo-container">
@@ -410,23 +410,24 @@
 
     <!-- Notes Section -->
     <div class="notes {% if sample.sample_type.name == 'مسحوب' %}notesblue{% else %}notespink{% endif %}">
-        <p>التوصيات: البذور صالحة للزراعة لموسم زراعي واحد</p>
-        <p><strong>* {{ health_tests.note }}</strong></p>
+        <p>التوصيات: {{ health_tests.note }}</p>
+{#        <p><strong>* {{ health_tests.note }}</strong></p>#}
     </div>
 
     <!-- Signature Section -->
 <!-- Signature Section -->
 <div class="signature">
-            <div class="signature-date">
+    <div class="signature-date">
         <p>15/08/2024</p>
+                        <p>No:- 218</p>
+        <p>LSBSTC</p>
     </div>
 
     <div class="signature-info">
         <p>سالم طعمة كاصد</p>
         <p>مدير قسم المختبرات</p>
         <p>Lab Manager</p>
-                        <p>No:- 218</p>
-                <p>LSBSTC</p>
+
     </div>
 
 

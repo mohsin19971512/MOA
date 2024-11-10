@@ -80,21 +80,6 @@ def generate_certificate(request, sample_id):
         'fungal_examinations': fungal_examinations,
         'nematode_tests': nematode_tests,
         'combined_examinations': combined_examinations,
-        'place': 'مسحوب',
-        'applicant_name': 'اسم المتقدم',
-        'sample_no': '1327',
-        'sample_type': 'مسجلة',
-        'date_of_test': '24/07/2024',
-        'date_received': '24/07/2024',
-        'lot_weight': '21',
-        'variety_grade': 'باء 99',
-        'purity': '96.33',
-        'moisture': '6.90',
-        'germination': '89',
-        'nematoda_no': '2',
-        'fungi_test': 'لايوجد',
-        'insect_test': '12',
-        'lab_manager': 'سالم طعمة كاصد',
         'static_url': request.build_absolute_uri(static('')),  # Pass the full URL for static files
     }
 
@@ -108,7 +93,7 @@ def generate_certificate(request, sample_id):
 
     # Generate PDF from HTML
     pdf_file = BytesIO()
-    HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(pdf_file, timeout=120,presentational_hints=True)
+    HTML(string=html, base_url=".").write_pdf(pdf_file, timeout=200,presentational_hints=True)
 
     # Set the response and return the PDF
     response = HttpResponse(pdf_file.getvalue(), content_type='application/pdf')
