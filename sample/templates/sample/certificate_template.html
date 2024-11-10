@@ -9,18 +9,23 @@
     <style>
 
 
+
+        {% if font_base64 %}
         @font-face {
             font-family: 'Cairo';
-            src: url('{{static_url}}fonts/Cairo-VariableFont_slnt,wght.ttf') format('truetype');;
-            font-weight: bold;
+            src: url(data:font/truetype;base64,{{ font_base64 }}) format('truetype');
+            font-weight: normal;
+            font-style: normal;
         }
+        {% endif %}
 
         body {
-            font-family: "Cairo", sans-serif;
-            font-size: 11px; /* Decreased font size */
+            font-family: {% if font_base64 %}'Cairo',{% endif %} , sans-serif;
+            font-size: 12px; /* Decreased font size */
             width: 100%;
 
         }
+
 
         .container {
             max-width: 100%;
@@ -54,7 +59,7 @@
         }
 
         .header-right h5, .header-left h5 {
-            font-size: 10px; /* Reduced sub-header size */
+            font-size: 12px; /* Reduced sub-header size */
             margin: 2px 0;
         }
 
@@ -102,7 +107,7 @@
         }
 
         .notes {
-            font-size: 8pt;
+            font-size: 10pt;
             {#margin-top: 2px; /* Reduced margin */#}
             margin-right: -10px;
             background-color: #FF9874;
@@ -127,6 +132,7 @@
         .signature-info p,
         .signature-date p {
             margin: 0; /* Remove default margins */
+            font-size: 16px;
         }
 
         .signature-info p {
@@ -144,7 +150,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 10pt; /* Reduced footer font size */
+            font-size: 12pt; /* Reduced footer font size */
             margin-top: 70px; /* Reduced margin */
             color: #555;
             background-color: #f1f1f1; /* Optional: background color for footer */
@@ -173,14 +179,14 @@
             gap: 2px;
             border: 1px solid #1A2130;
             width: 100%;
-            height: 175px;
+            height: 178px;
             margin-left: 70px;
             margin-bottom: 5px; /* Space between logos and the bottom title */
         }
 
         .logo-container {
             width: 50%;
-            height: 175px;
+            height: 178px;
             border: 1px solid #1A2130;
             overflow: hidden;
             position: relative;
@@ -199,8 +205,10 @@
         .logo-label {
             width: 100%;
             height: 10%;
-            padding: 3px;
+            padding: 2px;
             border: 1px solid #1A2130;
+            text-align: center;
+            font-weight: bold;
         }
 
         .logo-left {
@@ -236,10 +244,10 @@
         }
 
 
-
         .additional-info p {
-            margin: 5px 0; /* Add some spacing between the lines */
+            margin: 5px 0;
         }
+
     </style>
 </head>
 <body class="{% if sample.sample_type.name == 'مسحوب' %}blue-background{% else %}pink-background{% endif %}">
@@ -265,12 +273,24 @@
                 <div class="logos-container">
                     <div class="logo-container">
                         <div class="logo-label" style="border-right: none; border-left: none;border-top: none">شهادة فحص بذور</div>
-                        <img src="{% static 'images/cert-logo.png' %}" alt="Seed Certificate Logo" class="logo">
+                            {% if logo_base64 %}
+
+                                <img src="data:image/png;base64,{{ logo_base64 }}" alt="Seed Certificate Logo" class="logo">
+
+                            {% endif %}
+
                         <div class="logo-label" style="border-bottom: none; border-right: none; border-left: none">Seed Tests Certificate</div>
                     </div>
                     <div class="logo-container">
                         <div class="logo-label" style="border-left: none; border-right: none; border-top: none">Accredited CABS</div>
-                        <img  src="{% static 'images/iqas2.png' %}" alt="IQAS Logo" class="logo">
+
+                        {% if iqas_base64 %}
+                        <img
+                            src="data:image/png;base64,{{ iqas_base64 }}"
+                            alt="IQAS Logo"
+                            class="logo"
+                        >
+                        {% endif %}
                         <div class="logo-label" style="border-right: none ;border-bottom: none" >Accredited no.TL 030</div>
                     </div>
                 </div>

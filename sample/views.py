@@ -44,7 +44,7 @@ from pathlib import Path
 from django.core.files.storage import default_storage
 from django.contrib.staticfiles.finders import find
 import weasyprint
-
+import base64
 from django.template.loader import render_to_string
 from django.contrib.staticfiles import finders
 logging.basicConfig(
@@ -56,114 +56,124 @@ logging.basicConfig(
     ]
 )
 
-def url_fetcher(url, *args, **kwargs):
-    if url.startswith('file:'):
-        mime_type, encoding = mimetypes.guess_type(url)
-        url_path = urlparse(url).path
-        data = {
-            'mime_type': mime_type,
-            'encoding': encoding,
-            'filename': Path(url_path).name,
-        }
+logger = logging.getLogger(__name__)
 
-        # Handle static files
-        if settings.STATIC_URL and url_path.startswith(settings.STATIC_URL):
-            relative_path = url_path.replace(settings.STATIC_URL, '', 1)
-            # Use finders to get the absolute path
-            absolute_path = finders.find(relative_path)
-            if absolute_path:
-                data['file_obj'] = open(absolute_path, 'rb')
-                return data
-            raise FileNotFoundError(f"Static file not found: {relative_path}")
 
-        # Handle media files
-        default_media_url = settings.MEDIA_URL in ('', get_script_prefix())
-        if not default_media_url and url_path.startswith(settings.MEDIA_URL):
-            media_root = settings.MEDIA_ROOT
-            if isinstance(settings.MEDIA_ROOT, Path):
-                media_root = f'{settings.MEDIA_ROOT}/'
-            path = url_path.replace(settings.MEDIA_URL, media_root, 1)
-            data['file_obj'] = default_storage.open(path)
-            return data
+def get_file_content(file_path, max_size=10 * 1024 * 1024):  # 10MB limit
+    """Safely read file content with size limit"""
+    try:
+        absolute_path = finders.find(file_path)
+        if not absolute_path:
+            logger.error(f"File not found: {file_path}")
+            return None
 
-    return weasyprint.default_url_fetcher(url, *args, **kwargs)
+        if os.path.getsize(absolute_path) > max_size:
+            logger.error(f"File too large: {file_path}")
+            return None
 
+        with open(absolute_path, 'rb') as f:
+            return f.read()
+    except Exception as e:
+        logger.error(f"Error reading file {file_path}: {str(e)}")
+        return None
 
 
 def generate_certificate(request, sample_id):
-    # Data for the certificate
-    sample = Sample.objects.get(pk=sample_id)
+    try:
+        # Data for the certificate
+        sample = Sample.objects.get(pk=sample_id)
 
-    # Retrieve all assignments related to this sample
-    assignments = Assignment.objects.filter(sample=sample)
+        # Retrieve all assignments related to this sample
+        assignments = Assignment.objects.filter(sample=sample)
 
-    # Retrieve test results for each assignment
-    health_tests = HealthTest.objects.filter(assignment__in=assignments).first()
-    purity_tests = PurityTest.objects.filter(assignment__in=assignments).first()
-    moisture_tests = MoistureTest.objects.filter(assignment__in=assignments).first()
-    plant_tests = PlantTest.objects.filter(assignment__in=assignments).first()
+        # Retrieve test results for each assignment
+        health_tests = HealthTest.objects.filter(assignment__in=assignments).first()
+        purity_tests = PurityTest.objects.filter(assignment__in=assignments).first()
+        moisture_tests = MoistureTest.objects.filter(assignment__in=assignments).first()
+        plant_tests = PlantTest.objects.filter(assignment__in=assignments).first()
 
-    insect_examinations = []
-    fungal_examinations = []
-    nematode_tests = None
+        insect_examinations = []
+        fungal_examinations = []
+        nematode_tests = None
 
-    if health_tests:
-        if health_tests.insect_examinations.exists():
-            insect_examinations = health_tests.insect_examinations.all()
-            print('insect_examinations', len(insect_examinations))
+        if health_tests:
+            if health_tests.insect_examinations.exists():
+                insect_examinations = health_tests.insect_examinations.all()
+                print('insect_examinations', len(insect_examinations))
 
-        if health_tests.fungal_examinations.exists():
-            fungal_examinations = health_tests.fungal_examinations.all()
-            print('fungal_examinations', len(fungal_examinations))
+            if health_tests.fungal_examinations.exists():
+                fungal_examinations = health_tests.fungal_examinations.all()
+                print('fungal_examinations', len(fungal_examinations))
 
-        if health_tests.nematode_tests.exists():
-            nematode_tests = health_tests.nematode_tests.all().first()
-    else:
-        print("health_tests is None")
+            if health_tests.nematode_tests.exists():
+                nematode_tests = health_tests.nematode_tests.all().first()
+        else:
+            print("health_tests is None")
 
-    combined_examinations = zip_longest(insect_examinations, fungal_examinations, fillvalue=None)
-    print('combined_examinations', combined_examinations)
+        combined_examinations = zip_longest(insect_examinations, fungal_examinations, fillvalue=None)
+        print('combined_examinations', combined_examinations)
+        # Load font file
+        font_content = get_file_content('fonts/Cairo-VariableFont_slnt,wght.ttf')
+        if font_content:
+            font_base64 = base64.b64encode(font_content).decode('utf-8')
+        else:
+            font_base64 = None
+            logger.warning("Failed to load Cairo font")
 
-    data = {
-        'health_tests': health_tests,
-        'moisture_tests': moisture_tests,
-        'purity_tests': purity_tests,
-        'plant_tests': plant_tests,
-        'sample': sample,
-        'insect_examinations': insect_examinations,
-        'fungal_examinations': fungal_examinations,
-        'nematode_tests': nematode_tests,
-        'combined_examinations': combined_examinations,
-        'static_url': request.build_absolute_uri(static('.')),  # Pass the full URL for static files
-    }
+        # Load images
+        logo_content = get_file_content('images/cert-logo.png')
+        if logo_content:
+            logo_base64 = base64.b64encode(logo_content).decode('utf-8')
+        else:
+            logo_base64 = None
+            logger.warning("Failed to load cert logo")
 
-    print('static_url :', request.build_absolute_uri(static('')))
+        iqas_content = get_file_content('images/iqas2.png')
+        if iqas_content:
+            iqas_base64 = base64.b64encode(iqas_content).decode('utf-8')
+        else:
+            iqas_base64 = None
+            logger.warning("Failed to load IQAS logo")
 
-    # Load the template and render it with the data
-    # template = get_template('sample/certificate_template.html')
-    # html = template.render(data)
+        # Your existing data preparation
+        sample = Sample.objects.get(pk=sample_id)
+        # ... rest of your data preparation ...
 
+        # Prepare context with embedded assets
+        context = {
+            'font_base64': font_base64,
+            'logo_base64': logo_base64,
+            'iqas_base64': iqas_base64,
+            'health_tests': health_tests,
+            'moisture_tests': moisture_tests,
+            'purity_tests': purity_tests,
+            'plant_tests': plant_tests,
+            'sample': sample,
+            'insect_examinations': insect_examinations,
+            'fungal_examinations': fungal_examinations,
+            'nematode_tests': nematode_tests,
+            'combined_examinations': combined_examinations,
+        }
 
-    # Update the static URL handling
-    base_url = request.build_absolute_uri('/').rstrip('/')
+        # Generate PDF
+        template = render_to_string('sample/certificate_template.html', context)
 
+        pdf_buffer = BytesIO()
+        HTML(string=template).write_pdf(
+            pdf_buffer,
+            stylesheets=[],
+            optimize_size=('fonts', 'images')
+        )
 
-    results = BytesIO()
-    template_string = render_to_string(
-        template_name='sample/certificate_template.html',
-        context=data,
-    )
+        # Create response
+        response = HttpResponse(pdf_buffer.getvalue(), content_type='application/pdf')
+        response['Content-Disposition'] = 'inline; filename="certificate.pdf"'
+        return response
 
-    # Generate PDF with the base_url parameter
-    HTML(
-        string=template_string,
-        base_url=base_url,  # Use the full base URL
-        url_fetcher=url_fetcher
-    ).write_pdf(results)
+    except Exception as e:
+        logger.error(f"PDF generation failed: {str(e)}")
+        raise
 
-    response = HttpResponse(results.getvalue(), content_type='application/pdf')
-    response['Content-Disposition'] = 'inline; filename="certificate.pdf"'
-    return response
 
 
 
