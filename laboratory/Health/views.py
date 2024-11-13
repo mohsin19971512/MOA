@@ -133,7 +133,7 @@ class HealthTestDetailView(DetailView):
 
 
 InsectExaminationFormSet = formset_factory(InsectExaminationForm, extra=2)
-FungalExaminationFormSet = formset_factory(FungalExaminationForm, extra=3)
+FungalExaminationFormSet = formset_factory(FungalExaminationForm, extra=5)
 @login_required
 def create_health_test(request, assignment_id):
     assignment = get_object_or_404(Assignment, id=assignment_id)

@@ -299,3 +299,6 @@ body {
   }
 }
 
+.hidden-field {
+    display: none !important;
+}

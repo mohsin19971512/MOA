@@ -51,6 +51,8 @@
     </div>
 {% else %}
 
+    {% if user.profile.user_role in  'Manager Altarmiz' %}
+
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
         <!-- Card 1: عدد العينات المنجزة -->
         <a href="{% url 'sample:all_samples' %}?completed=Yes" class="block">
@@ -59,7 +61,7 @@
                 <i class="fas fa-check-circle text-green-600 fa-2x icon-scale"></i>
             </div>
             <div class="ml-4">
-                <h3 class="text-lg font-semibold text-gray-800">عدد العينات المنجزة</h3>
+                <h3 class="text-lg font-semibold text-gray-800">عدد العينات المنجزة </h3>
                 <p class="text-2xl font-bold text-gray-900 mt-2">{{ completed_samples }}</p>
             </div>
         </div>
@@ -92,6 +94,52 @@
         </div>
         </a>
     </div>
+    {% else %}
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+        <!-- Card 1: عدد العينات المنجزة -->
+        <a href="{% url 'sample:all_samples' %}?completed=Yes" class="block">
+        <div class="bg-green-100 shadow-md rounded-lg p-6 flex items-center">
+            <div class="flex-shrink-0 bg-green-300 p-4 rounded-full">
+                <i class="fas fa-check-circle text-green-600 fa-2x icon-scale"></i>
+            </div>
+            <div class="ml-4">
+                <h3 class="text-lg font-semibold text-gray-800">عدد العينات المنجزة</h3>
+                <p class="text-2xl font-bold text-gray-900 mt-2">{{ completed_received }}</p>
+            </div>
+        </div>
+        </a>
+
+        <!-- Card 2: عدد العينات غير المنجزة -->
+        <a href="{% url 'sample:all_samples' %}?completed=No" class="block">
+
+        <div class="bg-red-100 shadow-md rounded-lg p-6 flex items-center">
+            <div class="flex-shrink-0 bg-red-300 p-4 rounded-full">
+                <i class="fas fa-circle-notch fa-spin text-red-600 fa-2x"></i>
+            </div>
+            <div class="ml-4">
+                <h3 class="text-lg font-semibold text-gray-800">عدد العينات غير المنجزة</h3>
+                <p class="text-2xl font-bold text-gray-900 mt-2">{{ uncompleted_received }}</p>
+            </div>
+        </div>
+        </a>
+
+        <!-- Card 3: العدد الكلي للعينات -->
+        <a href="{% url 'sample:all_samples' %}" class="block">
+        <div class="bg-blue-100 shadow-md rounded-lg p-6 flex items-center">
+            <div class="flex-shrink-0 bg-blue-300 p-4 rounded-full">
+                <i class="fas fa-boxes text-blue-600 fa-2x"></i>
+            </div>
+            <div class="ml-4">
+                <h3 class="text-lg font-semibold text-gray-800">العدد الكلي للعينات</h3>
+                <p class="text-2xl font-bold text-gray-900 mt-2">{{ total_samples }}</p>
+            </div>
+        </div>
+        </a>
+    </div>
+        {% endif %}
+
+
 {% endif %}
 
 {% endblock %}

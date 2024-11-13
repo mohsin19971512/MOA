@@ -15,27 +15,15 @@
                 </a>
             </div>
             {% endif %}
+
                 <h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">تفاصيل العينة</h2>
                 <div class="input-grid-read ">
-
-
+                {% if user.profile.user_role in " Altarmiz Manager" %}
                     <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg"> المحصول والصنف</label>
-                        <input type="text" value="{{ sample.crop_name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                    </div>
-
-                    <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">رقم الأرسالية  </label>
+                            <label class="text-gray-900 text-lg">رقم الأرسالية  </label>
                         <input type="text" value="{{ sample.distinguishing_marks }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                     </div>
-
-                    <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">رقم العينة (الرقم المختبري)</label>
-                        <input type="text" value="{{ sample.sample_id }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                    </div>
-
-
-                    <div class="input-container-read mt-3">
+                <div class="input-container-read mt-3">
                         <label class="text-gray-900 text-lg">وزن الأرسالية</label>
                         <input type="text" value="{{ sample.shipment_weight }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                     </div>
@@ -57,21 +45,53 @@
                     </div>
 
 
+                    <div class="input-container-read mt-3">
+                            <label class="text-gray-900 text-lg"> القائم بالسحب</label>
+                            <input type="text" value="{{ sample.the_draw }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                        </div>
+                <div class="input-container-read mt-3">
+                        <label class="text-gray-900 text-lg">تاريخ السحب</label>
+                        <input type="text" value="{{ sample.withdrawal_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    </div>
+
+
+                    <div class="input-container-read mt-3">
+                        <label class="text-gray-900 text-lg">نوع البذور </label>
+                        <input type="text" value="{{ sample.get_batch_number_display }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    </div>
+                {% endif %}
+
+
+
+
+                {% if user.profile.user_role in " Applicant Manager" %}
+                    <div class="input-container-read mt-3">
+                        <label class="text-gray-900 text-lg">رقم الأرسالية  </label>
+                        <input type="text" value="{{ sample.distinguishing_marks }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    </div>
+                    <div class="input-container-read mt-3">
+                        <label class="text-gray-900 text-lg"> المحصول والصنف</label>
+                        <input type="text" value="{{ sample.crop_name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    </div>
+
+
+
+                    <div class="input-container-read mt-3">
+                        <label class="text-gray-900 text-lg">رقم العينة (الرقم المختبري)</label>
+                        <input type="text" value="{{ sample.sample_id }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    </div>
+
+
+
+
+
 
                     <div class="input-container-read mt-3">
                         <label class="text-gray-900 text-lg">نوع العينة</label>
                         <input type="text" value="{{ sample.sample_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                     </div>
 
-                    <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg"> القائم بالسحب</label>
-                        <input type="text" value="{{ sample.the_draw }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                    </div>
 
-                    <div class="input-container-read mt-3">
-                        <label class="text-gray-900 text-lg">نوع البذور </label>
-                        <input type="text" value="{{ sample.get_batch_number_display }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                    </div>
 
                     <div class="input-container-read mt-3">
                         <label class="text-gray-900 text-lg">تاريخ الاستلام</label>
@@ -98,11 +118,12 @@
                     </div>
 
 
-
+                    {% if user.profile.user_role in " Manager" %}
                     <div class="input-container-read mt-3">
                         <label class="text-gray-900 text-lg">حالة المختبرات من الفحص</label>
                         <input type="text" value="{{ sample.lab_status }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                     </div>
+                    {% endif %}
 
 
 
@@ -118,12 +139,16 @@
                     {% endif %}
 
                 </div>
+
+            {% endif %}
             </div>
         </div>
+
 
         <!-- <div class="bg-white shadow-sm rounded-lg p-6 mb-6">
             <h2 class="text-xl font-semibold text-gray-800 mb-4">التعيينات</h2>
             <ul class="space-y-2">
+
                 {% for assignment in assignments %}
                     <li class="border-b border-gray-200 pb-2 mb-2">
                         <strong class="text-gray-900 text-lg">معمل</strong> {{ assignment.lab.name }}<br>
@@ -182,7 +207,7 @@
                 </table>
             </div>
         </div>
-
+{% if user.profile.user_role in "  Manager" %}
         <div class="bg-white shadow-md rounded-lg p-6 mb-6">
             <h2 class="text-xl font-semibold text-gray-800 mb-4">نتائج الاختبارات</h2>
             <div class="flex border-b border-gray-200">
@@ -323,6 +348,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
 {% if user.profile.user_role in " Manager" %}
       <form method="POST">
     {% csrf_token %}

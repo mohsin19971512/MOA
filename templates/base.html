@@ -17,9 +17,7 @@
     <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
 
     <style>
-        body {
-            font-family: 'Tajawal', sans-serif;
-        }
+
 
         #sidebar {
             height: calc(100vh - 40px);
@@ -76,7 +74,7 @@
                     <a href="{% url 'laboratory:lab_assigned_samples' %}"
                         class="flex items-center p-4 rounded-lg {% if request.path == '/' or request.path == '/sample/samall/sample/' %}active-item{% endif %} text-gray-100 hover:bg-gray-400 hover:bg-opacity-25 transition duration-300 ease-in-out">
                         <i class="fas fa-flask ml-3"></i>
-                        {% if user.profile.user_role in "Manager Applicant" %}
+                        {% if user.profile.user_role in "Manager Applicant Altarmiz" %}
                         <span>سجل العينات</span>
                         {% else %}
                         <span>العينات المخصصة</span>

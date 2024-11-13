@@ -5,45 +5,25 @@ from laboratory.Health.models import HealthTest
 from laboratory.Moisture.models import MoistureTest
 from laboratory.Plan.models import PlantTest
 from laboratory.Purity.models import PurityTest
-from .forms import SampleForm, HealthTestNotesForm  # Import the form class
+from .forms import SampleForm, HealthTestNotesForm
 from laboratory.forms import AssignmentForm
 from laboratory.models import Assignment
 from laboratory.models import Lab
-from django.views.generic import DetailView
 from django.db.models import Q
 from django.shortcuts import render
 from .models import Sample
 from django.core.exceptions import ValidationError
 from io import BytesIO
-from django.template.loader import get_template
 from weasyprint import HTML
 from django.http import HttpResponse
-from django.templatetags.static import static
 from account.models import Profile
 from itertools import zip_longest
 from django.http import HttpResponseRedirect
-from django.views.generic import DetailView, FormView
+from django.views.generic import DetailView
 from django.core.paginator import Paginator
-from django.conf import settings
 import logging
 import os
-import sys
-# logger = logging.getLogger('weasyprint')
-# logger.setLevel(logging.DEBUG)
-#
-# # Log to standard output (console)
-# handler = logging.StreamHandler(sys.stdout)
-# handler.setLevel(logging.DEBUG)
-# logger.addHandler(handler)
 
-
-from urllib.parse import urlparse
-from django.urls import get_script_prefix
-import mimetypes
-from pathlib import Path
-from django.core.files.storage import default_storage
-from django.contrib.staticfiles.finders import find
-import weasyprint
 import base64
 from django.template.loader import render_to_string
 from django.contrib.staticfiles import finders
@@ -99,11 +79,9 @@ def generate_certificate(request, sample_id):
         if health_tests:
             if health_tests.insect_examinations.exists():
                 insect_examinations = health_tests.insect_examinations.all()
-                print('insect_examinations', len(insect_examinations))
 
             if health_tests.fungal_examinations.exists():
                 fungal_examinations = health_tests.fungal_examinations.all()
-                print('fungal_examinations', len(fungal_examinations))
 
             if health_tests.nematode_tests.exists():
                 nematode_tests = health_tests.nematode_tests.all().first()
@@ -111,8 +89,6 @@ def generate_certificate(request, sample_id):
             print("health_tests is None")
 
         combined_examinations = zip_longest(insect_examinations, fungal_examinations, fillvalue=None)
-        print('combined_examinations', combined_examinations)
-        # Load font file
         font_content = get_file_content('fonts/Cairo-VariableFont_slnt,wght.ttf')
         if font_content:
             font_base64 = base64.b64encode(font_content).decode('utf-8')
@@ -196,7 +172,8 @@ def home(request):
             'completed_assignments': completed_assignments,
             'total_assignments': total_assignments,
         }
-    else:
+
+    elif user_role in 'Altarmiz Manager':
         # Count the number of samples and their statuses
         total_samples = Sample.objects.count()
         completed_samples = Sample.objects.filter(lab_status='منجزة').count()
@@ -207,6 +184,16 @@ def home(request):
             'completed_samples': completed_samples,
             'uncompleted_samples': uncompleted_samples,
         }
+    else:
+        total_samples = Sample.objects.count()
+        completed_received = Sample.objects.filter(crop_name__isnull=False).count()
+        uncompleted_received= Sample.objects.filter(crop_name__isnull=True).count()
+        context = {
+            'total_samples': total_samples,
+            'completed_received': completed_received,
+            'uncompleted_received': uncompleted_received,
+        }
+
 
     return render(request, 'home.html', context)
 
@@ -217,26 +204,27 @@ def home(request):
 @login_required
 def add_sample(request):
     if request.method == 'POST':
-        sample_form = SampleForm(request.POST)
+        sample_form = SampleForm(request.POST,user=request.user)
         assignment_form = AssignmentForm(request.POST)
         
-        if sample_form.is_valid() and assignment_form.is_valid():
+        if sample_form.is_valid() :
             # Save the sample
             sample = sample_form.save()
 
             # Get the selected labs from the assignment form
-            labs = assignment_form.cleaned_data['labs']
+            if assignment_form.is_valid():
+                labs = assignment_form.cleaned_data['labs']
             
             # Create assignments for each selected lab
-            for lab in labs:
-                Assignment.objects.create(
-                    sample=sample,
-                    lab=lab
-                )
+                for lab in labs:
+                    Assignment.objects.create(
+                        sample=sample,
+                        lab=lab
+                    )
 
             return redirect('sample:all_samples')  # Redirect to the page with all assignments
     else:
-        sample_form = SampleForm()
+        sample_form = SampleForm(user=request.user)
         assignment_form = AssignmentForm()
     
     return render(request, 'sample/add_sample.html', {
@@ -253,30 +241,31 @@ def update_sample(request, sample_id):
     current_labs = Assignment.objects.filter(sample=sample).values_list('lab', flat=True)
 
     if request.method == 'POST':
-        sample_form = SampleForm(request.POST, instance=sample)
+        sample_form = SampleForm(request.POST, instance=sample,user=request.user)
         assignment_form = AssignmentForm(request.POST)
 
-        if sample_form.is_valid() and assignment_form.is_valid():
+        if sample_form.is_valid():
             # Save the updated sample
             sample = sample_form.save()
 
             # Get the selected labs from the form
-            new_labs = assignment_form.cleaned_data['labs']
+            if assignment_form.is_valid():
+                new_labs = assignment_form.cleaned_data['labs']
 
             # Handle adding/removing assignments
-            current_assignments = Assignment.objects.filter(sample=sample)
-            current_labs = current_assignments.values_list('lab', flat=True)
+                current_assignments = Assignment.objects.filter(sample=sample)
+                current_labs = current_assignments.values_list('lab', flat=True)
 
-            labs_to_remove = current_assignments.exclude(lab__in=new_labs)
-            labs_to_remove.delete()
+                labs_to_remove = current_assignments.exclude(lab__in=new_labs)
+                labs_to_remove.delete()
 
-            for lab in new_labs:
-                if lab.id not in current_labs:
-                    Assignment.objects.create(sample=sample, lab=lab)
+                for lab in new_labs:
+                    if lab.id not in current_labs:
+                        Assignment.objects.create(sample=sample, lab=lab)
 
             return redirect('sample:all_samples')
     else:
-        sample_form = SampleForm(instance=sample)
+        sample_form = SampleForm(instance=sample,user=request.user)
         # Initialize assignment form with current labs
         assignment_form = AssignmentForm(initial={'labs': current_labs})
 
@@ -331,7 +320,15 @@ def all_samples(request):
     samples = paginator.get_page(page_number)
 
     labs = Lab.objects.all()  # To populate the dropdown
-    return render(request, 'sample/all_samples.html', {'samples': samples, 'labs': labs})
+    if request.user.profile.user_role in 'Manager':
+
+        return render(request, 'sample/all_samples.html', {'samples': samples, 'labs': labs})
+    elif request.user.profile.user_role in 'Altarmiz':
+        return render(request, 'sample/altarmiz_all_samples.html', {'samples': samples, 'labs': labs})
+    else :
+        return render(request, 'sample/applicant_all_samples.html', {'samples': samples, 'labs': labs})
+
+
 
 
 class SampleDetailView(DetailView):

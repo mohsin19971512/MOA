@@ -50,7 +50,7 @@ def lab_assigned_samples(request):
 
         return render(request, 'laboratory/lab_assigned_samples.html', {'assignments': assignments_page})
 
-    elif user_role in ['Manager', 'Applicant']:
+    elif user_role in ['Manager', 'Applicant','Altarmiz']:
         # Redirect to a page that shows all assignments with options for Manager and Applicant roles
         return redirect('sample:all_samples')  # Make sure to define this view and URL pattern
     else:

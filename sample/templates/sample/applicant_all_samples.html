@@ -65,17 +65,7 @@
     </form>
 
 
-    {% if user.profile.user_role == "Altarmiz" %}
 
-    <a href="{% url 'sample:add_sample' %}"
-        class="inline-flex items-center px-4 py-2 bg-[#2a9d8f] text-white font-semibold text-lg rounded-md shadow-sm hover:bg-[#006d77]">
-        إضافة عينة جديدة
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 text-white" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-        </svg>
-    </a>
-    {% endif %}
 
 
     <!-- Modal section should be outside the table structure -->
@@ -117,6 +107,8 @@
         <thead>
         {% if user.profile.user_role in " Applicant Manager Altarmiz"  %}
             <tr class="bg-gray-100 text-gray-600 border-b border-gray-300">
+                <th class="px-6 py-3 text-right text-lg font-semibold">رقم الأرسالية</th>
+
                 <th class="px-6 py-3 text-right text-lg font-semibold">رقم العينة</th>
                 <th class="px-6 py-3 text-right text-lg font-semibold">المحصول والصنف</th>
                 <th class="px-6 py-3 text-right text-lg font-semibold">نوع العينة</th>
@@ -130,6 +122,7 @@
         <tbody>
             {% for sample in samples %}
             <tr class="hover:bg-gray-400 hover:bg-opacity-25 transition duration-300 ease-in-out">
+                <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.distinguishing_marks }}</td>
                 <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.sample_id }}</td>
                 <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.crop_name }}</td>
                 <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.sample_type }}</td>
@@ -155,19 +148,27 @@
                 </td>
                 <td class="px-6 py-4 text-lg border-b border-gray-200">
                     <div class="inline-flex items-center space-x-4">
-                        {% if user.profile.user_role in " Applicant Altarmiz" %}
+                        {% if sample.sample_id  %}
                         <a href="{% url 'sample:update_sample' sample.id %}"
                             class="text-[#E8B86D] hover:text-[#b28845] flex items-center space-x-2 ml-1 transition-colors duration-200 ease-in-out">
                             <i class="fas fa-edit text-md ml-2"></i>
                             <span class="text-[#E8B86D] hover:text-[#b28845]">تعديل</span>
                         </a>
 
-                        {% endif %}
+
                         <a href="{% url 'sample:sample_detail' sample.id %}"
                             class="text-[#2a9d8f] hover:text-[#247d73] flex items-center space-x-1 transition-colors duration-200 ease-in-out">
                             <i class="fas fa-eye text-lg ml-1"></i>
                             <span class="text-[#2a9d8f] hover:text-[#247d73]">عرض</span>
                         </a>
+                            {% else %}
+                        <a href="{% url 'sample:update_sample' sample.id %}"
+                            class="text-[#2a9d8f] hover:text-[#247d73] flex items-center space-x-1 transition-colors text-center duration-200 ease-in-out">
+                            <i class="fas fa-hand-pointer text-lg ml-1"></i>
+                            <span class="text-[#2a9d8f] hover:text-[#247d73]">أستلام العينة</span>
+                        </a>
+                        {% endif %}
+
                     </div>
                 </td>
             </tr>

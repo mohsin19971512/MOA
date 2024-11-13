@@ -65,7 +65,7 @@
     </form>
 
 
-    {% if user.profile.user_role == "Altarmiz" %}
+    {% if user.profile.user_role in " Applicant Altarmiz" %}
 
     <a href="{% url 'sample:add_sample' %}"
         class="inline-flex items-center px-4 py-2 bg-[#2a9d8f] text-white font-semibold text-lg rounded-md shadow-sm hover:bg-[#006d77]">
@@ -117,11 +117,11 @@
         <thead>
         {% if user.profile.user_role in " Applicant Manager Altarmiz"  %}
             <tr class="bg-gray-100 text-gray-600 border-b border-gray-300">
-                <th class="px-6 py-3 text-right text-lg font-semibold">رقم العينة</th>
-                <th class="px-6 py-3 text-right text-lg font-semibold">المحصول والصنف</th>
-                <th class="px-6 py-3 text-right text-lg font-semibold">نوع العينة</th>
-                <th class="px-6 py-3 text-right text-lg font-semibold">تاريخ الاستلام</th>
-                <th class="px-6 py-3 text-right text-lg font-semibold">حالة الفحص</th>
+                <th class="px-6 py-3 text-right text-lg font-semibold">رقم الأرسالية</th>
+                <th class="px-6 py-3 text-right text-lg font-semibold"> عائدية البذور</th>
+                <th class="px-6 py-3 text-right text-lg font-semibold">الشركة المنتجة </th>
+                <th class="px-6 py-3 text-right text-lg font-semibold">القائم بالسحب </th>
+                <th class="px-6 py-3 text-right text-lg font-semibold">تاريخ السحب </th>
                 <th class="px-6 py-3 text-right text-lg font-semibold">الإجراء</th>
             </tr>
             {% else %}
@@ -130,29 +130,12 @@
         <tbody>
             {% for sample in samples %}
             <tr class="hover:bg-gray-400 hover:bg-opacity-25 transition duration-300 ease-in-out">
-                <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.sample_id }}</td>
-                <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.crop_name }}</td>
-                <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.sample_type }}</td>
-                <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.received_date|date:"Y-m-d" }}</td>
-                <td class="px-6 py-4 text-md border-b border-gray-200">
-                    {% if sample.lab_status == 'منجزة' %}
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800 shadow-sm w-24">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-green-800" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                        </svg>
-                        {{ sample.lab_status }}
-                    </span>
-                    {% else %}
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800 shadow-sm w-24">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-red-800" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                        {{ sample.lab_status }}
-                    </span>
-                    {% endif %}
-                </td>
+                <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.distinguishing_marks }}</td>
+                <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.location }}</td>
+                <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.sender_name }}</td>
+                <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.the_draw }}</td>
+                <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.withdrawal_date|date:"Y-m-d" }}</td>
+
                 <td class="px-6 py-4 text-lg border-b border-gray-200">
                     <div class="inline-flex items-center space-x-4">
                         {% if user.profile.user_role in " Applicant Altarmiz" %}

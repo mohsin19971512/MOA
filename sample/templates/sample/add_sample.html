@@ -4,7 +4,7 @@
 {% load widget_tweaks %}
 
 {% block title %}إضافة عينة{% endblock %}
-{% block header %}شعبة التقسيم والخزن {% endblock %}
+{% block header %} {{ user.profile.name }} {% endblock %}
 
 {% block content %}
 <div class="container mx-auto p-6">
@@ -35,6 +35,8 @@
 
     </div>
 
+
+{% if user.profile.user_role in " Applicant" %}
     <!-- Assignment Form Section -->
     <h2 class="text-xl font-semibold mb-4">تحديد المختبرات</h2>
     <div class="mb-8">
@@ -52,6 +54,7 @@
             </div>
         {% endfor %}
     </div>
+{% endif %}
 
     <!-- Submit Button Section -->
     <div class="flex items-center justify-between">
