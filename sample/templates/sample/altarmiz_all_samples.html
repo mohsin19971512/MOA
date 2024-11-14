@@ -21,6 +21,11 @@
                 class="mt-1 p-2 border border-gray-300 rounded-md w-full">
         </div>
         <div>
+            <label for="sample_id" class="block text-lg font-medium text-gray-700">رقم الأرسالية</label>
+            <input type="text" name="distinguishing_marks" id="distinguishing_marks" value="{{ request.GET.distinguishing_marks }}"
+                class="mt-1 p-2 border border-gray-300 rounded-md w-full">
+        </div>
+        <div>
             <label for="crop_name" class="block text-lg font-medium text-gray-700"> المحصول والصنف</label>
             <input type="text" name="crop_name" id="crop_name" value="{{ request.GET.crop_name }}"
                 class="mt-1 p-2 border border-gray-300 rounded-md w-full">
@@ -118,6 +123,8 @@
         {% if user.profile.user_role in " Applicant Manager Altarmiz"  %}
             <tr class="bg-gray-100 text-gray-600 border-b border-gray-300">
                 <th class="px-6 py-3 text-right text-lg font-semibold">رقم الأرسالية</th>
+                <th class="px-6 py-3 text-right text-lg font-semibold">رقم العينة</th>
+
                 <th class="px-6 py-3 text-right text-lg font-semibold"> عائدية البذور</th>
                 <th class="px-6 py-3 text-right text-lg font-semibold">الشركة المنتجة </th>
                 <th class="px-6 py-3 text-right text-lg font-semibold">القائم بالسحب </th>
@@ -131,6 +138,7 @@
             {% for sample in samples %}
             <tr class="hover:bg-gray-400 hover:bg-opacity-25 transition duration-300 ease-in-out">
                 <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.distinguishing_marks }}</td>
+                <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.sample_id }}</td>
                 <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.location }}</td>
                 <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.sender_name }}</td>
                 <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.the_draw }}</td>

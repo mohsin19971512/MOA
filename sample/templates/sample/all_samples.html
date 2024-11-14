@@ -21,6 +21,11 @@
                 class="mt-1 p-2 border border-gray-300 rounded-md w-full">
         </div>
         <div>
+            <label for="sample_id" class="block text-lg font-medium text-gray-700">رقم الأرسالية</label>
+            <input type="text" name="distinguishing_marks" id="distinguishing_marks" value="{{ request.GET.distinguishing_marks }}"
+                class="mt-1 p-2 border border-gray-300 rounded-md w-full">
+        </div>
+        <div>
             <label for="crop_name" class="block text-lg font-medium text-gray-700"> المحصول والصنف</label>
             <input type="text" name="crop_name" id="crop_name" value="{{ request.GET.crop_name }}"
                 class="mt-1 p-2 border border-gray-300 rounded-md w-full">

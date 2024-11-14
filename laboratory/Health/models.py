@@ -56,7 +56,7 @@ class InsectExamination(models.Model):
 class FungalExamination(models.Model):
     health_test = models.ForeignKey(HealthTest, related_name='fungal_examinations', on_delete=models.CASCADE, null=True,blank=True,verbose_name='اختبار الصحة')
     infection_percentage = models.DecimalField(null=True,blank=True,max_digits=5, decimal_places=2, verbose_name='نسبة الأصابة')
-    cause = models.ForeignKey(Cause, on_delete=models.CASCADE,null=True,blank=True, verbose_name='المسبب ')
+    cause = models.ForeignKey(Cause, on_delete=models.CASCADE,null=True,blank=True, verbose_name='المسبب ') #text field
 
     class Meta:
         verbose_name = 'فحص الفطريات'

@@ -287,10 +287,14 @@ def all_samples(request):
     completed = request.GET.get('completed')
     lab = request.GET.get('lab')
     assigned_date = request.GET.get('assigned_date')
+    distinguishing_marks = request.GET.get('distinguishing_marks')
 
     # Build query based on filters
     if sample_id:
         query &= Q(sample_id__icontains=sample_id)
+
+    if distinguishing_marks:
+        query &= Q(distinguishing_marks__icontains=distinguishing_marks)
     if crop_name:
         query &= Q(crop_name__icontains=crop_name)
     if variety:
@@ -312,7 +316,7 @@ def all_samples(request):
         query &= Q(assignment__assigned_date=assigned_date)
 
     # Fetch samples
-    samples_list = Sample.objects.filter(query).distinct()
+    samples_list = Sample.objects.filter(query).distinct().order_by('-created_date')
 
     # Pagination
     paginator = Paginator(samples_list, 10)  # Show 10 samples per page

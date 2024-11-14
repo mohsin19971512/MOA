@@ -29,19 +29,19 @@ class SampleForm(forms.ModelForm):
         if user and user.profile.user_role == 'Applicant':
             # Include only specific fields for role1
             self.fields = {key: self.fields[key] for key in [
-                'distinguishing_marks','crop_name', 'sample_id', 'treatment_type', 'the_divider','received_date','test_type',
+                'distinguishing_marks','sample_id','crop_name',  'treatment_type', 'the_divider','received_date','test_type',
                 'sample_type'
             ]}
         elif user and user.profile.user_role == 'Altarmiz':
             # Exclude certain fields for role2
-            exclude_fields = ['crop_name', 'sample_id', 'treatment_type', 'the_divider','received_date','test_type','sample_type']
+            exclude_fields = ['crop_name',  'treatment_type', 'the_divider','received_date','test_type','sample_type']
             for field in exclude_fields:
                 self.fields.pop(field, None)
 
         # Conditionally make fields read-only
         readonly_fields = []
         if user and user.profile.user_role == 'Applicant':
-            readonly_fields = ['distinguishing_marks']
+            readonly_fields = ['distinguishing_marks','sample_id',]
         # elif user and user.profile.user_role == 'Altarmiz':
         #     readonly_fields = ['received_date', 'location']
 

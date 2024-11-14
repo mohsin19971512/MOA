@@ -26,8 +26,8 @@ class Sample(models.Model):
         ('gram', 'غرام'),
     ]
     crop_name = models.CharField(max_length=100, verbose_name="اسم المحصول والصنف", null=True, blank=True)
-    distinguishing_marks = models.CharField(max_length=200,null=True, blank=True, verbose_name="رقم الأرسالية ")
-    sample_id = models.CharField(max_length=100, unique=True, verbose_name="رقم العينة (الرقم المختبري)" , null=True, blank=True)
+    distinguishing_marks = models.CharField(max_length=200,null=True, blank=True, verbose_name="رقم الأرسالية " ) # unique
+    sample_id = models.CharField(max_length=100, unique=True, verbose_name="رقم العينة (الرقم المختبري)" , null=True, blank=True ) #tarmiz unique and search on distinguishing_marks
     shipment_weight = models.FloatField(verbose_name="وزن الأرسالية")
     unit_of_measure = models.CharField(max_length=10, choices=UNIT_CHOICES, verbose_name="وحدة القياس" , null=True, blank=True)
     location = models.CharField(max_length=100, null=True,blank=True,verbose_name="الموقع (عائدية البذور) ")
@@ -50,6 +50,7 @@ class Sample(models.Model):
         verbose_name="نوع المعاملة",
         null=True,blank=True,
     )
+    created_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.crop_name
