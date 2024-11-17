@@ -408,7 +408,7 @@
 
         <!-- Fungal Examination values -->
         {% if fungal %}
-            <td>{{ fungal.cause.name }}</td>
+            <td>{{ fungal.cause }}</td>
             <td>{{ fungal.infection_percentage|floatformat:1 }}</td>
         {% else %}
             <td>No fungal examination</td>

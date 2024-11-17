@@ -112,7 +112,7 @@
         <thead>
         {% if user.profile.user_role in " Applicant Manager Altarmiz"  %}
             <tr class="bg-gray-100 text-gray-600 border-b border-gray-300">
-                <th class="px-6 py-3 text-right text-lg font-semibold">رقم الأرسالية</th>
+{#                <th class="px-6 py-3 text-right text-lg font-semibold">رقم الأرسالية</th>#}
 
                 <th class="px-6 py-3 text-right text-lg font-semibold">رقم العينة</th>
                 <th class="px-6 py-3 text-right text-lg font-semibold">المحصول والصنف</th>
@@ -127,7 +127,7 @@
         <tbody>
             {% for sample in samples %}
             <tr class="hover:bg-gray-400 hover:bg-opacity-25 transition duration-300 ease-in-out">
-                <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.distinguishing_marks }}</td>
+{#                <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.distinguishing_marks }}</td>#}
                 <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.sample_id }}</td>
                 <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.crop_name }}</td>
                 <td class="px-6 py-4 text-md border-b border-gray-200">{{ sample.sample_type }}</td>

@@ -51,7 +51,7 @@
                 <tr class="bg-gray-100 text-gray-600 border-b border-gray-300">
                     <th class="px-6 py-3 text-right text-lg font-semibold">رقم العينة</th>
                     <th class="px-6 py-3 text-right text-lg font-semibold"> المحصول والصنف</th>
-                    <th class="px-6 py-3 text-right text-lg font-semibold">نوع العينة</th>
+{#                    <th class="px-6 py-3 text-right text-lg font-semibold">نوع العينة</th>#}
                     <th class="px-6 py-3 text-right text-lg font-semibold">تاريخ الأستلام</th>
                     <th class="px-6 py-3 text-right text-lg font-semibold">حالة الفحص</th>
                     <th class="px-6 py-3  text-lg font-semibold text-center">الإجراء</th>
@@ -62,7 +62,7 @@
                     <tr class="hover:bg-gray-400 hover:bg-opacity-25 transition duration-300 ease-in-out">
                         <td class="px-6 py-4 text-lg border-b border-gray-200">{{ assignment.sample.sample_id }}</td>
                         <td class="px-6 py-4 text-lg border-b border-gray-200">{{ assignment.sample.crop_name }}</td>
-                        <td class="px-6 py-4 text-lg border-b border-gray-200">{{ assignment.sample.sample_type }}</td>
+{#                        <td class="px-6 py-4 text-lg border-b border-gray-200">{{ assignment.sample.sample_type }}</td>#}
                         <td class="px-6 py-4 text-lg border-b border-gray-200">{{ assignment.sample.received_date|date:"Y-m-d" }}</td>
                         <td class="px-6 py-4 text-lg border-b border-gray-200">
                             {% if assignment.completed == True %}

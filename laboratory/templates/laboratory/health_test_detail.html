@@ -26,10 +26,10 @@
                     <label class="text-gray-600 text-lg">نوع المعاملة</label>
                     <input type="text" value="{{ sample.treatment_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
-                <div class="input-container-read mt-3">
-                    <label class="text-gray-600 text-lg">نوع العينة</label>
-                    <input type="text" value="{{ sample.sample_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
-                </div>
+{#                <div class="input-container-read mt-3">#}
+{#                    <label class="text-gray-600 text-lg">نوع العينة</label>#}
+{#                    <input type="text" value="{{ sample.sample_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />#}
+{#                </div>#}
 
 
             </div>       
@@ -52,7 +52,7 @@
             <div class="bg-white input-container-read  border border-gray-200 rounded-lg p-4 mb-4">
                 <div class="input-container-read mt-3">
                     <label class="text-gray-600 text-lg">المسبب </label>
-                    <input type="text" value="{{ i.cause.name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                    <input type="text" value="{{ i.get_cause_display }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
                             <div class="input-container-read mt-3">
                     <label class="text-gray-600 text-lg">نسبة الأصابة </label>
