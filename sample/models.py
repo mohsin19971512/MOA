@@ -52,8 +52,7 @@ class Sample(models.Model):
     )
     created_date = models.DateField(auto_now_add=True)
 
-    def __str__(self):
-        return self.crop_name
+
 
     class Meta:
         verbose_name = "العينة"  # Singular name

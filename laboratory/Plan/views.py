@@ -73,11 +73,11 @@ def create_plant_test(request, assignment_id):
 
                     # Adjust calculation based on duplicates (4x100 or 8x50)
                     if duplicates == '4x100':
-                        plant_test.hard_percentage = hard_sum / 4
-                        plant_test.natural_percentage = natural_sum / 4
+                        plant_test.hard_percentage = round(hard_sum / 4)
+                        plant_test.natural_percentage = round(natural_sum / 4)
                     elif duplicates == '8x50':
-                        plant_test.hard_percentage = hard_sum / 8
-                        plant_test.natural_percentage = natural_sum / 8
+                        plant_test.hard_percentage = round(hard_sum / 8)
+                        plant_test.natural_percentage = round(natural_sum / 8)
 
                     # Save the updated PlantTest with percentages
                     plant_test.save()
@@ -195,11 +195,11 @@ def update_plant_test(request, assignment_id):
 
             # Adjust calculation based on duplicates (4x100 or 8x50)
             if plant_test.duplicates == '4x100':
-                plant_test.hard_percentage = hard_sum / 4
-                plant_test.natural_percentage = natural_sum / 4
+                plant_test.hard_percentage = round(hard_sum / 4)
+                plant_test.natural_percentage = round(natural_sum / 4)
             elif plant_test.duplicates == '8x50':
-                plant_test.hard_percentage = hard_sum / 8
-                plant_test.natural_percentage = natural_sum / 8
+                plant_test.hard_percentage = round(hard_sum / 8)
+                plant_test.natural_percentage = round(natural_sum / 8)
 
             # Save the updated PlantTest with percentages
             plant_test.save()
