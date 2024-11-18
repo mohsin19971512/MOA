@@ -19,15 +19,16 @@
                     <input type="text" value="{{ sample.crop_name }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
                 </div>
 
-
-{#                <div class="input-container-read mt-3">#}
-{#                    <label class="text-gray-600 text-lg">نوع العينة</label>#}
-{#                    <input type="text" value="{{ sample.sample_type }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />#}
-{#                </div>#}
+                
 
                 <div class="input-container-read mt-3">
                     <label class="text-gray-600 text-lg">تاريخ التبليغ</label>
                     <input type="text" value="{{ sample.result_date }}" class="read-only-input rounded-md shadow-sm text-lg" readonly />
+                </div>
+                
+                <div class="input-container-read mt-3">
+                        <label class="text-gray-900 text-lg">نوع الفحص</label>
+                        <textarea class="read-only-input rounded-md shadow-sm text-lg" readonly>{{ sample.test_type }}</textarea>
                 </div>
             </div>
         </div>

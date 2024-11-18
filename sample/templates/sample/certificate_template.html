@@ -9,7 +9,6 @@
     <style>
 
 
-
         {% if font_base64 %}
         @font-face {
             font-family: 'Cairo';
@@ -39,8 +38,9 @@
             justify-content: space-between;
             align-items: center;
             text-align: center;
-            margin-bottom: 10px; /* Reduced margin */
             margin-top: -60px;
+            margin-bottom: -38px;
+
         }
 
         .header img {
@@ -67,7 +67,8 @@
             font-family: "Cairo", sans-serif;
             width: 100%;
             border-collapse: collapse;
-            margin: 10px -8px; /* Reduced margin */
+            {#margin: 10px -8px; /* Reduced margin */#}
+            margin-right: -10px;
             text-align: center;
             border-radius: 5px;
             overflow: hidden;
@@ -107,20 +108,21 @@
         }
 
         .notes {
-            font-size: 10pt;
-            {#margin-top: 2px; /* Reduced margin */#}
+            font-family: "Cairo", sans-serif;
+            width: 100%;
+            border-collapse: collapse;
+            {#margin: 10px -8px; /* Reduced margin */#}
             margin-right: -10px;
-            background-color: #FF9874;
-            padding: 5px; /* Reduced padding */
-            border-radius: 4px;
-            width: 99%;
+            text-align: right;
+            overflow: hidden;
+            align-content: center;
         }
 
         .signature {
             display: flex;
             justify-content: space-between; /* Aligns the items at the start of the flex container */
             align-items: center; /* Vertically align them in the center */
-            margin-top: 20px; /* Add some space at the top */
+            margin-top: 10px; /* Add some space at the top */
             margin-left: 10px;
             direction: rtl; /* Ensure content flows from right to left */
         }
@@ -132,7 +134,7 @@
         .signature-info p,
         .signature-date p {
             margin: 0; /* Remove default margins */
-            font-size: 16px;
+            font-size: 10px;
         }
 
         .signature-info p {
@@ -150,11 +152,11 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 12pt; /* Reduced footer font size */
-            margin-top: 40px; /* Reduced margin */
+            font-size: 10px; /* Reduced footer font size */
+            margin-top: 14px; /* Reduced margin */
             color: #090808;
             background-color: #f1f1f1; /* Optional: background color for footer */
-            padding: 10px; /* Optional: padding inside footer */
+            padding: 8px; /* Optional: padding inside footer */
             margin-left: 10px;
         }
 
@@ -168,6 +170,7 @@
         }
 
         .logo-title {
+            margin-top: -4px;
             font-size: 12px; /* Adjust font size */
             font-weight: bold;
         }
@@ -249,6 +252,7 @@
         }
 
     </style>
+    <title>شهادة فحص البذور</title>
 </head>
 <body class="{% if sample.sample_type.name == 'مسحوب' %}blue-background{% else %}pink-background{% endif %}">
 
@@ -326,7 +330,7 @@
             <th>رقم العينة</th>
             <td>{{ sample.sample_id }}</td>
             <th>تاريخ سحب العينات</th>
-            <td>{{ sample.sample_date|date:"d/m/Y" }}</td>
+            <td>{{ sample.withdrawal_date|date:"d/m/Y" }}</td>
             <th>تاريخ الاستلام</th>
             <td>{{ sample.received_date|date:"d/m/Y" }}</td>
 
@@ -337,13 +341,13 @@
             <td>{{ sample.test_date|date:"d/m/Y" }}</td>
             <th> المحصول والصنف و الرتبة</th>
             <td>{{ sample.crop_name }}</td>
-            <th>رقم الإرسالية</th>
-            <td>{{ sample.distinguishing_marks }}</td>
-        </tr>
-        <tr>
-
             <th>وزن الأرسالية </th>
             <td>{{ sample.shipment_weight }} {{ sample.get_unit_of_measure_display }} </td>
+        </tr>
+        <tr>
+            <th>رقم الإرسالية</th>
+            <td>{{ sample.distinguishing_marks }}</td>
+
         </tr>
     </table>
 
@@ -460,9 +464,7 @@
 </div>
 
 
-
-</div>
-        <footer>
+    <footer>
             <p>بغداد، ساحة ابو جعفر المنصور</p>
             <p>E-mail: sbstc@moagr.org</p>
         </footer>

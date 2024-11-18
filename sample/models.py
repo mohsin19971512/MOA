@@ -40,7 +40,7 @@ class Sample(models.Model):
 
     the_divider = models.CharField(max_length=100, verbose_name=" القائم بالتقسيم " , null=True,blank=True)
     test_date = models.DateField(verbose_name="تاريخ الفحص" , null=True, blank=True)
-    test_type = models.ForeignKey(TestType, on_delete=models.CASCADE, verbose_name= "نوع الفحص" , null=True, blank=True)
+    test_type = models.TextField(max_length=1000, verbose_name= "نوع الفحص" , null=True, blank=True)
     purification_lab = models.CharField(max_length=200, verbose_name="معمل التنقية")
     result_date = models.DateField(verbose_name="تاريخ التبليغ ",null=True, blank=True,auto_now_add=True)
     lab_status = models.CharField(choices=LAB_STATUS, default='غير منجزة',max_length=100,null=True,blank=True,verbose_name="حالة المختبرات من الفحص")

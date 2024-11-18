@@ -1,6 +1,4 @@
 from django import forms
-from django.core.exceptions import ValidationError
-from django.contrib.auth.models import User
 from laboratory.Health.models import HealthTest
 from .models import Sample
 
@@ -13,13 +11,14 @@ class SampleForm(forms.ModelForm):
         fields = [
             'crop_name', 'distinguishing_marks', 'sample_id', 'shipment_weight', 'unit_of_measure',
             'location', 'sender_name', 'sample_type', 'the_draw','withdrawal_date', 'batch_number', 'received_date',
-            'the_divider', 'test_type', 'treatment_type'
+            'the_divider', 'test_type', 'treatment_type', 'test_type'
         ]
         widgets = {
             'received_date': forms.DateInput(attrs={'type': 'date'}),
             'test_date': forms.DateInput(attrs={'type': 'date'}),
             'result_date': forms.DateInput(attrs={'type': 'date'}),
             'withdrawal_date' : forms.DateInput(attrs={'type': 'date'}),
+            'test_type' : forms.Textarea(attrs={'type': 'text'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -29,12 +28,12 @@ class SampleForm(forms.ModelForm):
         if user and user.profile.user_role == 'Applicant':
             # Include only specific fields for role1
             self.fields = {key: self.fields[key] for key in [
-                'sample_id','crop_name',  'treatment_type', 'the_divider','received_date','test_type',
-                'sample_type'
+                'sample_id','crop_name',  'treatment_type', 'the_divider','received_date',
+                'sample_type','test_type'
             ]}
         elif user and user.profile.user_role == 'Altarmiz':
             # Exclude certain fields for role2
-            exclude_fields = ['crop_name',  'treatment_type', 'the_divider','received_date','test_type','sample_type']
+            exclude_fields = ['crop_name',  'treatment_type', 'the_divider','received_date','sample_type','test_type']
             for field in exclude_fields:
                 self.fields.pop(field, None)
 
