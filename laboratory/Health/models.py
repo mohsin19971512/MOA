@@ -60,6 +60,8 @@ class FungalExamination(models.Model):
         ('HelminthosporiumSp', 'Helminthosporium sp'),
         ('CladosporiumSpp', 'Cladosporium spp'),
         ('RhizoctoniaSpp', 'Rhizoctonia spp'),
+        ('Aspergillusflavus', 'Aspergillus Flavus'),
+        ('Aspergillusniger', 'Aspergillus niger'),
 
     ]
     health_test = models.ForeignKey(HealthTest, related_name='fungal_examinations', on_delete=models.CASCADE, null=True,blank=True,verbose_name='اختبار الصحة')
