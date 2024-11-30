@@ -9,17 +9,16 @@
     <style>
 
 
-        {% if font_base64 %}
         @font-face {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Arial';
             src: url(data:font/truetype;base64,{{ font_base64 }}) format('truetype');
-
+            font-weight: normal;
+            font-style: normal;
         }
-        {% endif %}
 
         body {
-            font-family: {% if font_base64 %}'Arial',sans-serif{% endif %}'Arial', sans-serif;
-            font-size: 14px; /* Decreased font size */
+            font-family: 'Arial',sans-serif;
+            font-size: 14px;
             width: 100%;
 
         }

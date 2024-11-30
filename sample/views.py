@@ -98,7 +98,7 @@ def generate_certificate(request, sample_id):
             font_base64 = base64.b64encode(font_content).decode('utf-8')
         else:
             font_base64 = None
-            logger.warning("Failed to load Cairo font")
+            logger.warning("Failed to load arial font")
 
         # Load images
         logo_content = get_file_content('images/cert-logo.png')
