@@ -1,6 +1,8 @@
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from jet_bridge_base.fields.field import empty
+
 from laboratory.Health.models import HealthTest
 from laboratory.Moisture.models import MoistureTest
 from laboratory.Plan.models import PlantTest
@@ -89,7 +91,9 @@ def generate_certificate(request, sample_id):
             print("health_tests is None")
 
         combined_examinations = zip_longest(insect_examinations, fungal_examinations, fillvalue=None)
+        # font_content = get_file_content('fonts/Cairo-VariableFont_slnt,wght.ttf')
         font_content = get_file_content('fonts/Cairo-VariableFont_slnt,wght.ttf')
+
         if font_content:
             font_base64 = base64.b64encode(font_content).decode('utf-8')
         else:
@@ -363,14 +367,16 @@ class SampleDetailView(DetailView):
                 fungal_examinations = health_tests.fungal_examinations.all()
             if health_tests.nematode_tests.exists():
                 nematode_tests = health_tests.nematode_tests.all().first()
+            if sample.note is None:
+                sample.note = health_tests.note
 
         combined_examinations = zip_longest(insect_examinations, fungal_examinations, fillvalue=None)
 
         # Add the form for editing HealthTest notes
         if self.request.method == 'POST':
-            context['notes_form'] = HealthTestNotesForm(self.request.POST, instance=health_tests)
+            context['notes_form'] = HealthTestNotesForm(self.request.POST, instance=sample).save(commit=False)
         else:
-            context['notes_form'] = HealthTestNotesForm(instance=health_tests)
+            context['notes_form'] = HealthTestNotesForm(instance=sample)
 
         context.update({
             'assignments': assignments,
@@ -388,13 +394,7 @@ class SampleDetailView(DetailView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()  # Get the current Sample object
 
-        # Fetch assignments related to this sample
-        assignments = Assignment.objects.filter(sample=self.object)
-
-        # Fetch the related health tests based on the assignments
-        health_tests = HealthTest.objects.filter(assignment__in=assignments).first()
-
-        form = HealthTestNotesForm(request.POST, instance=health_tests)
+        form = HealthTestNotesForm(request.POST, instance=self.object)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(self.request.path_info)  # Redirect to the same page after saving

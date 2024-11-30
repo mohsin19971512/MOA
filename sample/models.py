@@ -50,6 +50,8 @@ class Sample(models.Model):
         verbose_name="نوع المعاملة",
         null=True,blank=True,
     )
+    note = models.TextField(verbose_name='ملاحظة', blank=True, null=True)
+
     created_date = models.DateField(auto_now_add=True)
 
 

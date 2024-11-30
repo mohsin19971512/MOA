@@ -50,7 +50,7 @@ class SampleForm(forms.ModelForm):
 
 class HealthTestNotesForm(forms.ModelForm):
     class Meta:
-        model = HealthTest
+        model = Sample
         fields = ['note']
         widgets = {
             'note': forms.Textarea(attrs={'class': 'w-full border border-gray-300 rounded-md p-2'}),
