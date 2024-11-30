@@ -92,7 +92,7 @@ def generate_certificate(request, sample_id):
 
         combined_examinations = zip_longest(insect_examinations, fungal_examinations, fillvalue=None)
         # font_content = get_file_content('fonts/Cairo-VariableFont_slnt,wght.ttf')
-        font_content = get_file_content('fonts/Cairo-VariableFont_slnt,wght.ttf')
+        font_content = get_file_content('fonts/arial.ttf')
 
         if font_content:
             font_base64 = base64.b64encode(font_content).decode('utf-8')
