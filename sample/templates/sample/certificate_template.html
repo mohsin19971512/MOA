@@ -11,7 +11,7 @@
 
         {% if font_base64 %}
         @font-face {
-            font-family: 'Arial';
+            font-family: 'Arial', sans-serif;
             src: url(data:font/truetype;base64,{{ font_base64 }}) format('truetype');
             font-weight: normal;
             font-style: normal;
@@ -73,7 +73,7 @@
         }
 
         table {
-            font-family: "Cairo", sans-serif;
+            font-family: "Arial";
             width: 100%;
             border-collapse: collapse;
             {#margin: 10px -8px; /* Reduced margin */#}
@@ -118,7 +118,7 @@
         }
 
         .notes {
-            font-family: "Cairo", sans-serif;
+            font-family: "Arial", sans-serif;
             width: 100%;
             {#border-collapse: collapse;#}
             {#margin: 10px -8px; /* Reduced margin */#}
