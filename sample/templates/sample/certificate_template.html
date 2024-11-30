@@ -13,13 +13,12 @@
         @font-face {
             font-family: 'Arial', sans-serif;
             src: url(data:font/truetype;base64,{{ font_base64 }}) format('truetype');
-            font-weight: normal;
-            font-style: normal;
+
         }
         {% endif %}
 
         body {
-            font-family: {% if font_base64 %}'Arial',{% endif %}Arial, sans-serif;
+            font-family: {% if font_base64 %}'Arial',sans-serif{% endif %}'Arial', sans-serif;
             font-size: 14px; /* Decreased font size */
             width: 100%;
 
