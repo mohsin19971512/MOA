@@ -125,6 +125,7 @@ def create_plant_test(request, assignment_id):
         print(seed_type_sums)
 
     return render(request, 'laboratory/create_plant_test.html', {
+        'assignment':assignment,
         'plant_test_form': plant_test_form,
         'plant_test': plant_test,
         'seed_entry_form': seed_entry_form,
